@@ -1,9 +1,19 @@
 import React, { useEffect, useRef } from "react";
+import { Engine } from "@babylonjs/core/Engines/engine";
+import { Scene } from "@babylonjs/core/scene";
+import { Vector3 } from "@babylonjs/core/Maths/math.vector";
+import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
+import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
+import { Color4, Color3 } from "@babylonjs/core/Maths/math.color";
+import "@babylonjs/core/Materials/standardMaterial";
+
+import getDice from "../renderer/diceRenderer";
+import { findDice } from "../dice/find";
 
 interface BabylonCanvasProps {
-  foregroundColor?: string;
-  backgroundColor?: string;
-  diceType?: string;
+  foregroundColor: string;
+  backgroundColor: string;
+  diceType: string;
 }
 
 const BabylonCanvas: React.FC<BabylonCanvasProps> = ({
@@ -12,172 +22,120 @@ const BabylonCanvas: React.FC<BabylonCanvasProps> = ({
   diceType,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const workerRef = useRef<Worker | null>(null);
-
-  const isDraggingRef = useRef<boolean>(false);
-  const previousPointerPositionRef = useRef<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
-
-  const activePointersRef = useRef<PointerEvent[]>([]);
-  const previousPinchDistanceRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (workerRef.current) {
-      workerRef.current.postMessage({
-        type: "UPDATE_SETTINGS",
-        payload: {
-          foregroundColor,
-          backgroundColor,
-          diceType,
-        },
-      });
-    }
-  }, [foregroundColor, backgroundColor, diceType]);
-
-  const handleWheel = (e: React.WheelEvent) => {
-    if (!workerRef.current) return;
-    workerRef.current.postMessage({
-      type: "MOUSE_WHEEL",
-      deltaY: e.deltaY,
-    });
-  };
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    activePointersRef.current.push(e.nativeEvent);
-
-    if (activePointersRef.current.length === 1) {
-      isDraggingRef.current = true;
-      previousPointerPositionRef.current = { x: e.clientX, y: e.clientY };
-    } else if (activePointersRef.current.length === 2) {
-      isDraggingRef.current = false;
-      previousPinchDistanceRef.current = getDistance(
-        activePointersRef.current[0],
-        activePointersRef.current[1],
-      );
-    }
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-  };
-
-  const getDistance = (p1: PointerEvent, p2: PointerEvent) => {
-    const dx = p1.clientX - p2.clientX;
-    const dy = p1.clientY - p2.clientY;
-    return Math.sqrt(dx * dx + dy * dy);
-  };
 
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    const worker = new Worker(
-      new URL("../worker/babylon.worker.ts", import.meta.url),
-      { type: "module" },
-    );
-    workerRef.current = worker;
+    let engine: Engine | null = null;
+    let scene: Scene | null = null;
+    let camera: ArcRotateCamera | null = null;
 
-    const htmlCanvas = canvasRef.current;
-    const offscreenCanvas = htmlCanvas.transferControlToOffscreen();
+    const initBabylon = async (canvasElement: HTMLCanvasElement) => {
+      engine = new Engine(canvasElement, true, {
+        disableWebGL2Support: false,
+        preserveDrawingBuffer: false,
+      });
 
-    worker.postMessage(
-      {
-        type: "INIT",
-        canvas: offscreenCanvas,
-        width: htmlCanvas.clientWidth,
-        height: htmlCanvas.clientHeight,
-        devicePixelRatio: window.devicePixelRatio,
-      },
-      [offscreenCanvas],
-    );
+      scene = new Scene(engine);
+      scene.clearColor = new Color4(0, 0, 0, 0);
 
-    const handleResize = () => {
-      workerRef.current?.postMessage({
-        type: "RESIZE",
-        width: window.innerWidth,
-        height: window.innerHeight,
+      camera = new ArcRotateCamera(
+        "mainCam",
+        0,
+        Math.PI / 3,
+        5,
+        Vector3.Zero(),
+        scene,
+      );
+
+      const light = new HemisphericLight(
+        "mainLight",
+        new Vector3(0, 1, 0),
+        scene,
+      );
+
+      light.diffuse = new Color3(1, 1, 1);
+      light.groundColor = new Color3(0.4, 0.4, 0.4);
+
+      const dice = findDice(diceType);
+      if (dice === undefined) {
+        throw new Error(
+          `The dice "${diceType}" is not in collection this should never happen`,
+        );
+      }
+
+      const renderer = await getDice(dice);
+
+      // TableTop Build pulled this model from the database, form was how we kept settings
+      // I don't want this defating to musch from original source code
+      await renderer(scene, {
+        ...dice,
+        form: {
+          ...dice.form,
+          foregroundColor,
+          backgroundColor,
+        },
+      });
+
+      engine.runRenderLoop(() => {
+        scene?.render();
       });
     };
 
+    initBabylon(canvasRef.current).catch(console.error);
+
+    const handleResize = () => {
+      engine?.resize();
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      if (!camera) return;
+      camera.radius += e.deltaY * 0.01;
+      camera.radius = Math.max(3, Math.min(25, camera.radius));
+    };
+
+    let isPointerDown = false;
+    const handlePointerDown = () => {
+      isPointerDown = true;
+    };
+    const handlePointerUp = () => {
+      isPointerDown = false;
+    };
+
     const handlePointerMove = (e: PointerEvent) => {
-      if (!workerRef.current) return;
-
-      const index = activePointersRef.current.findIndex(
-        (p) => p.pointerId === e.pointerId,
-      );
-      if (index !== -1) activePointersRef.current[index] = e;
-
-      if (
-        activePointersRef.current.length === 2 &&
-        previousPinchDistanceRef.current !== null
-      ) {
-        const currentDistance = getDistance(
-          activePointersRef.current[0],
-          activePointersRef.current[1],
-        );
-        const distanceDelta =
-          currentDistance - previousPinchDistanceRef.current;
-
-        workerRef.current.postMessage({
-          type: "MOUSE_WHEEL",
-          deltaY: distanceDelta * -5,
-        });
-
-        previousPinchDistanceRef.current = currentDistance;
-      } else if (
-        isDraggingRef.current &&
-        activePointersRef.current.length === 1
-      ) {
-        const deltaX = e.clientX - previousPointerPositionRef.current.x;
-        const deltaY = e.clientY - previousPointerPositionRef.current.y;
-
-        previousPointerPositionRef.current = { x: e.clientX, y: e.clientY };
-
-        workerRef.current.postMessage({
-          type: "MOUSE_MOVE",
-          deltaX,
-          deltaY,
-        });
-      }
+      if (!isPointerDown || !camera) return;
+      camera.alpha -= e.movementX * 0.005;
+      camera.beta -= e.movementY * 0.005;
+      camera.beta = Math.max(0.05, Math.min(Math.PI - 0.05, camera.beta));
     };
 
-    const handlePointerUp = (e: PointerEvent) => {
-      activePointersRef.current = activePointersRef.current.filter(
-        (p) => p.pointerId !== e.pointerId,
-      );
-
-      if (activePointersRef.current.length < 2) {
-        previousPinchDistanceRef.current = null;
-      }
-      if (activePointersRef.current.length === 0) {
-        isDraggingRef.current = false;
-      } else if (activePointersRef.current.length === 1) {
-        isDraggingRef.current = true;
-        previousPointerPositionRef.current = {
-          x: activePointersRef.current[0].clientX,
-          y: activePointersRef.current[0].clientY,
-        };
-      }
-    };
-
+    const canvas = canvasRef.current;
     window.addEventListener("resize", handleResize);
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerup", handlePointerUp);
-    window.addEventListener("pointercancel", handlePointerUp);
+    canvas.addEventListener("wheel", handleWheel, { passive: true });
+    canvas.addEventListener("pointerdown", handlePointerDown);
+    canvas.addEventListener("pointerup", handlePointerUp);
+    canvas.addEventListener("pointermove", handlePointerMove);
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerup", handlePointerUp);
-      window.removeEventListener("pointercancel", handlePointerUp);
-      worker.terminate();
+      canvas.removeEventListener("wheel", handleWheel);
+      canvas.removeEventListener("pointerdown", handlePointerDown);
+      canvas.removeEventListener("pointerup", handlePointerUp);
+      canvas.removeEventListener("pointermove", handlePointerMove);
+      scene?.dispose();
+      engine?.dispose();
     };
-  }, []);
+  }, [foregroundColor, backgroundColor, diceType]);
 
   return (
     <canvas
       ref={canvasRef}
-      onWheel={handleWheel}
-      onPointerDown={handlePointerDown}
-      className="my-babylon-canvas"
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "block",
+        touchAction: "none",
+      }}
     />
   );
 };

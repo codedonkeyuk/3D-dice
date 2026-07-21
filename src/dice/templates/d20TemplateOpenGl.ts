@@ -1,0 +1,381 @@
+import { Tools } from "@babylonjs/core/Misc/tools";
+import { type TemplateOpenGl } from "../../types";
+
+const d20TemplateOpenGl: TemplateOpenGl = {
+  numberPositions: [
+    { x: 2.879841009982684, y: 0.026316557830601956, z: -0.8401328442608732 },
+    { x: -2.4418444574411375, y: -1.6995492556462515, z: -0.3859118724479323 },
+    { x: 0.5638275449914366, y: 2.8612210479593054, z: -0.7039265687723284 },
+    { x: -0.2786711538481836, y: -1.7120307973342994, z: 2.4477117757186617 },
+    { x: 0.875574414194062, y: -2.8132577708565285, z: -0.5647567263203517 },
+    { x: -0.4779057448152838, y: 1.6480941501464654, z: 2.4607705645438687 },
+    { x: 1.7309077335028573, y: -0.17827637537573207, z: -2.4438035829589277 },
+    { x: -2.2563801563076256, y: 1.9042533111293285, z: -0.5315711779942225 },
+    { x: 1.412775744067091, y: 1.3694679762873672, z: 2.2646461443013695 },
+    { x: -1.4820790827823782, y: 1.0700018308778774, z: -2.378768100151197 },
+    { x: 1.631647645790788, y: -1.2120927340192689, z: 2.340332498587264 },
+    { x: -1.394831586304367, y: -1.2203081053591602, z: -2.359087317977522 },
+    { x: 2.283423237673793, y: -1.805022179915455, z: 0.7265488611680502 },
+    { x: -1.8391391977088816, y: -0.0756624696036281, z: 2.368932713722408 },
+    { x: 0.5088731633063887, y: -1.4190816076227954, z: -2.5936953357272423 },
+    { x: -0.8645450450094283, y: 2.817226024261129, z: 0.5619603129896971 },
+    { x: 0.36743274208045823, y: 2.025339479059224, z: -2.182428274791945 },
+    { x: -1.1223208550252775, y: -2.7042859266382644, z: 0.653631031516676 },
+    { x: 2.3169280821399405, y: 1.8625906507225845, z: 0.40323731230152543 },
+    { x: -2.9586009472893995, y: 0.05385770884237519, z: 0.49374060183107804 },
+  ],
+  mesh: {
+    vertex: [
+      [0, 0, 1.175571],
+      [1.051462, 0, 0.5257311],
+      [0.3249197, 1, 0.5257311],
+      [-0.8506508, 0.618034, 0.5257311],
+      [-0.8506508, -0.618034, 0.5257311],
+      [0.3249197, -1, 0.5257311],
+      [0.8506508, 0.618034, -0.5257311],
+      [0.8506508, -0.618034, -0.5257311],
+      [-0.3249197, 1, -0.5257311],
+      [-1.051462, 0, -0.5257311],
+      [-0.3249197, -1, -0.5257311],
+      [0, 0, -1.175571],
+    ],
+    face: [
+      [0, 1, 2],
+      [0, 2, 3],
+      [0, 3, 4],
+      [0, 4, 5],
+      [0, 5, 1],
+      [1, 5, 7],
+      [1, 7, 6],
+      [1, 6, 2],
+      [2, 6, 8],
+      [2, 8, 3],
+      [3, 8, 9],
+      [3, 9, 4],
+      [4, 9, 10],
+      [4, 10, 5],
+      [5, 10, 7],
+      [6, 7, 11],
+      [6, 11, 8],
+      [7, 10, 11],
+      [8, 11, 9],
+      [9, 11, 10],
+    ],
+    sideSlots: [
+      {
+        sidePosition: {
+          x: Tools.ToRadians(27),
+          y: Tools.ToRadians(-2),
+          z: Tools.ToRadians(-4),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(0),
+          y: Tools.ToRadians(-80),
+          z: Tools.ToRadians(30),
+        },
+        sideIndex: 0,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(-23),
+          y: Tools.ToRadians(-14),
+          z: Tools.ToRadians(-4),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(-35),
+          y: Tools.ToRadians(75),
+          z: Tools.ToRadians(218),
+        },
+        sideIndex: 1,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(10),
+          y: Tools.ToRadians(25),
+          z: Tools.ToRadians(-4),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(70),
+          y: Tools.ToRadians(-60),
+          z: Tools.ToRadians(59),
+        },
+        sideIndex: 2,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(-7),
+          y: Tools.ToRadians(-14),
+          z: Tools.ToRadians(22),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(215),
+          y: Tools.ToRadians(-13),
+          z: Tools.ToRadians(-40),
+        },
+        sideIndex: 3,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(10),
+          y: Tools.ToRadians(-25),
+          z: Tools.ToRadians(-4),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(-110),
+          y: Tools.ToRadians(120),
+          z: Tools.ToRadians(-58),
+        },
+        sideIndex: 4,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(-7),
+          y: Tools.ToRadians(14),
+          z: Tools.ToRadians(22),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(145),
+          y: Tools.ToRadians(-13),
+          z: Tools.ToRadians(-141),
+        },
+        sideIndex: 5,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(19),
+          y: Tools.ToRadians(0),
+          z: Tools.ToRadians(-20),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(0),
+          y: Tools.ToRadians(-38),
+          z: Tools.ToRadians(90),
+        },
+        sideIndex: 6,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(-23),
+          y: Tools.ToRadians(14),
+          z: Tools.ToRadians(-4),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(36),
+          y: Tools.ToRadians(78),
+          z: Tools.ToRadians(-36),
+        },
+        sideIndex: 7,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(14),
+          y: Tools.ToRadians(10),
+          z: Tools.ToRadians(21),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(20),
+          y: Tools.ToRadians(-149),
+          z: Tools.ToRadians(-122),
+        },
+        sideIndex: 8,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(-14),
+          y: Tools.ToRadians(10),
+          z: Tools.ToRadians(-21),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(20),
+          y: Tools.ToRadians(30),
+          z: Tools.ToRadians(-120),
+        },
+        sideIndex: 9,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(14),
+          y: Tools.ToRadians(-10),
+          z: Tools.ToRadians(21),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(-20),
+          y: Tools.ToRadians(-149),
+          z: Tools.ToRadians(-62),
+        },
+        sideIndex: 10,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(-14),
+          y: Tools.ToRadians(-10),
+          z: Tools.ToRadians(-21),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(-20),
+          y: Tools.ToRadians(30),
+          z: Tools.ToRadians(-60),
+        },
+        sideIndex: 11,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(23),
+          y: Tools.ToRadians(-14),
+          z: Tools.ToRadians(5),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(-35),
+          y: Tools.ToRadians(-100),
+          z: Tools.ToRadians(-144),
+        },
+        sideIndex: 12,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(-18),
+          y: Tools.ToRadians(0),
+          z: Tools.ToRadians(20),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(0),
+          y: Tools.ToRadians(143),
+          z: Tools.ToRadians(90),
+        },
+        sideIndex: 13,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(6),
+          y: Tools.ToRadians(-14),
+          z: Tools.ToRadians(-23),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(-35),
+          y: Tools.ToRadians(-13),
+          z: Tools.ToRadians(142),
+        },
+        sideIndex: 14,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(-10),
+          y: Tools.ToRadians(25),
+          z: Tools.ToRadians(4),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(110),
+          y: Tools.ToRadians(-60),
+          z: Tools.ToRadians(-120),
+        },
+        sideIndex: 15,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(7),
+          y: Tools.ToRadians(15),
+          z: Tools.ToRadians(-22),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(37),
+          y: Tools.ToRadians(-17),
+          z: Tools.ToRadians(37),
+        },
+        sideIndex: 16,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(-10),
+          y: Tools.ToRadians(-25),
+          z: Tools.ToRadians(5),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(-110),
+          y: Tools.ToRadians(-50),
+          z: Tools.ToRadians(-67),
+        },
+        sideIndex: 17,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(23),
+          y: Tools.ToRadians(14),
+          z: Tools.ToRadians(5),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(35),
+          y: Tools.ToRadians(-100),
+          z: Tools.ToRadians(-37),
+        },
+        sideIndex: 18,
+        width: 0.27,
+        height: 0.27,
+      },
+      {
+        sidePosition: {
+          x: Tools.ToRadians(-26),
+          y: Tools.ToRadians(0),
+          z: Tools.ToRadians(7),
+        },
+        sideRotation: {
+          x: Tools.ToRadians(0),
+          y: Tools.ToRadians(100),
+          z: Tools.ToRadians(-90),
+        },
+        sideIndex: 19,
+        width: 0.27,
+        height: 0.27,
+      },
+    ],
+    material: {
+      prism: {
+        html: `<rect class="side" x="0" y="0" width="1024" height="1024"></rect>`,
+        width: 1024,
+        height: 1024,
+      },
+      side: {
+        html: `<rect class="side" x="0" y="0" width="512" height="512" />`,
+        width: 512,
+        height: 512,
+      },
+    },
+  },
+};
+
+export default d20TemplateOpenGl;
