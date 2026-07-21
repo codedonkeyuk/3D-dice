@@ -53,6 +53,8 @@
     "fsevents@2.3.3": true
   },
   "dependencies": {
+    "@babylonjs/core": "^9.17.0",
+    "@babylonjs/loaders": "^9.17.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   }

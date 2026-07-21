@@ -1,9 +1,6 @@
 import "./main.css";
 import { createRoot } from "react-dom/client";
-
-const App = () => {
-  return <h1>Hello, React + TypeScript + Webpack!</h1>;
-};
+import App from "./components/App";
 
 const container = document.getElementById("root");
 

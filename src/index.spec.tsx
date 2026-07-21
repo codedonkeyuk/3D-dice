@@ -1,28 +1,23 @@
-import { screen, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { waitFor, act } from "@testing-library/react";
 
-describe("Application Root Entry", () => {
-  let rootElement: HTMLDivElement;
+jest.mock("./components/App", () => () => <div data-testid="mocked-app" />);
+jest.mock("./main.css", () => ({}));
 
-  beforeEach(() => {
-    rootElement = document.createElement("div");
-    rootElement.id = "root";
-    document.body.appendChild(rootElement);
-  });
+describe("Application Root Mounting", () => {
+  test("should mount the application into the DOM without throwing", async () => {
+    const container = document.createElement("div");
+    container.id = "root";
+    document.body.appendChild(container);
 
-  afterEach(() => {
-    document.body.removeChild(rootElement);
-  });
-
-  it("renders the App component into the root DOM element", async () => {
     await act(async () => {
-      await import("./index.tsx");
+      await import("./Index");
     });
 
-    const headingElement = await screen.findByRole("heading", {
-      name: /hello, react \+ typescript \+ webpack!/i,
+    await waitFor(() => {
+      expect(container).not.toBeEmptyDOMElement();
     });
 
-    expect(headingElement).toBeInTheDocument();
+    container.remove();
   });
 });
