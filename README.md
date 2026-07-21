@@ -18,6 +18,18 @@ I update this project everytime I use it, not everytime there is a new update to
 | `nvm run validate` | validate code with typescript compiler                                     |
 | `nvm run build`    | validate with prettier and TSC && build bundled site                       |
 
+## Run in Mac container
+
+```bash
+container system start
+container run -it --rm --name dice \
+  --volume "$(pwd)/dist:/usr/local/apache2/htdocs/" \
+  --volume "$(pwd)/httpd-override.conf:/usr/local/apache2/conf/extra/httpd-override.conf" \
+  httpd:2.4 \
+  sh -c "httpd -D FOREGROUND -C 'Include conf/extra/httpd-override.conf'"
+
+```
+
 ## General Instructions
 
 ### Update libraries

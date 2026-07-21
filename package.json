@@ -21,7 +21,8 @@
   "scripts": {
     "clean": "prettier . --write",
     "validate": "tsc --noEmit",
-    "serve": "webpack serve --mode development",
+    "serveDev": "webpack serve --mode development",
+    "serveProd": "npx webpack serve --mode production",
     "prebuild": "prettier . --check && tsc --noEmit",
     "build": "webpack",
     "test": "jest"
