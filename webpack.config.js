@@ -6,13 +6,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default {
-  entry: "./src/index.ts",
+  entry: "./src/index.tsx",
   mode: "production",
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        loader: "babel-loader",
+        test: /\.(ts|js)x?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        },
       },
       {
         test: /\.css$/i,
