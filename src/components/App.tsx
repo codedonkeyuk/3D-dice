@@ -7,13 +7,9 @@ const App = () => {
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
   const [diceType, setDiceType] = useState("d6");
 
-  const updateDice = () => {
-    console.log("Update me please");
-  };
-
   return (
     <>
-      <SettingsDialog onClose={updateDice}>
+      <SettingsDialog>
         <h2>Settings</h2>
         <form
           style={{
@@ -57,7 +53,11 @@ const App = () => {
           </div>
         </form>
       </SettingsDialog>
-      <BabylonCanvas />
+      <BabylonCanvas
+        foregroundColor={foregroundColor}
+        backgroundColor={backgroundColor}
+        diceType={diceType}
+      />
     </>
   );
 };

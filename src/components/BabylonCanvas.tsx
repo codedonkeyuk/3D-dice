@@ -1,6 +1,16 @@
 import React, { useEffect, useRef } from "react";
 
-const BabylonCanvas: React.FC = () => {
+interface BabylonCanvasProps {
+  foregroundColor?: string;
+  backgroundColor?: string;
+  diceType?: string;
+}
+
+const BabylonCanvas: React.FC<BabylonCanvasProps> = ({
+  foregroundColor,
+  backgroundColor,
+  diceType,
+}) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const workerRef = useRef<Worker | null>(null);
 
@@ -12,6 +22,19 @@ const BabylonCanvas: React.FC = () => {
 
   const activePointersRef = useRef<PointerEvent[]>([]);
   const previousPinchDistanceRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (workerRef.current) {
+      workerRef.current.postMessage({
+        type: "UPDATE_SETTINGS",
+        payload: {
+          foregroundColor,
+          backgroundColor,
+          diceType,
+        },
+      });
+    }
+  }, [foregroundColor, backgroundColor, diceType]);
 
   const handleWheel = (e: React.WheelEvent) => {
     if (!workerRef.current) return;

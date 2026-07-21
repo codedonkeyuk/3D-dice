@@ -2,13 +2,9 @@ import { useRef } from "react";
 
 interface SettingsDialogProps {
   children?: React.ReactNode;
-  onClose: () => void;
 }
 
-const SettingsDialog: React.FC<SettingsDialogProps> = ({
-  children,
-  onClose,
-}) => {
+const SettingsDialog: React.FC<SettingsDialogProps> = ({ children }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const openDialog = () => {
@@ -20,7 +16,6 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
   const closeDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (dialogRef.current) {
       dialogRef.current.close();
-      onClose();
     }
   };
 

@@ -14,7 +14,7 @@ let camera: ArcRotateCamera | null = null;
 let storedCanvas: OffscreenCanvas | null = null;
 
 self.onmessage = (event: MessageEvent) => {
-  const { type, canvas, width, height, deltaY, deltaX } = event.data;
+  const { type, canvas, width, height, deltaY, deltaX, payload } = event.data;
 
   if (type === "INIT") {
     storedCanvas = canvas;
@@ -34,10 +34,9 @@ self.onmessage = (event: MessageEvent) => {
     camera.alpha -= deltaX * 0.005;
     camera.beta -= deltaY * 0.005;
 
-    // FIXED: Expanded the limits to allow viewing the bottom of the cube
-    // 0.05 prevents flipping upside down over the north pole
-    // Math.PI - 0.05 prevents flipping upside down over the south pole
     camera.beta = Math.max(0.05, Math.min(Math.PI - 0.05, camera.beta));
+  } else if (type === "UPDATE_SETTINGS") {
+    const { foregroundColor, backgroundColor, diceType } = payload;
   }
 };
 
