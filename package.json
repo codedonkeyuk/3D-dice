@@ -14,6 +14,10 @@
   "author": "Leigh G",
   "type": "module",
   "private": true,
+  "sideEffects": [
+    "*.css",
+    "src/worker/babylon.worker.ts"
+  ],
   "scripts": {
     "clean": "prettier . --write",
     "validate": "tsc --noEmit",
