@@ -12,14 +12,16 @@ describe("SettingsDialog", () => {
     };
   });
 
-  it("opens and closes the dialog when the button is clicked", async () => {
+  it("opens and closes the dialog and triggers onClose when button is clicked", async () => {
+    const mockOnClose = jest.fn();
+
     render(
-      <SettingsDialog>
+      <SettingsDialog onClose={mockOnClose}>
         <div>Test Content</div>
       </SettingsDialog>,
     );
 
-    const openButton = screen.getByRole("button", { name: "Open Settings" });
+    const openButton = screen.getByRole("button", { name: /open settings/i });
     const content = screen.getByText("Test Content");
 
     expect(content).not.toBeVisible();
@@ -27,9 +29,12 @@ describe("SettingsDialog", () => {
     fireEvent.click(openButton);
     expect(content).toBeVisible();
 
-    const closeButton = screen.getByRole("button", { name: "Close" });
+    const closeButton = screen.getByRole("button", { name: /close/i });
 
     fireEvent.click(closeButton);
+
     expect(content).not.toBeVisible();
+
+    expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 });
