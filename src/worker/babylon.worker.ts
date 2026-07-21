@@ -10,22 +10,33 @@ import { Color4 } from "@babylonjs/core/Maths/math.color";
 let engine: Engine | null = null;
 let scene: Scene | null = null;
 let camera: ArcRotateCamera | null = null;
+// 🟢 Keep track of the offscreen canvas globally so resize events can update it
+let storedCanvas: OffscreenCanvas | null = null;
 
 self.onmessage = (event: MessageEvent) => {
-  const { type, canvas, width, height, deltaY } = event.data;
+  const { type, canvas, width, height, deltaY, deltaX } = event.data;
 
   if (type === "INIT") {
+    storedCanvas = canvas; // 🟢 Save canvas reference on initialization
     initBabylon(canvas, width, height);
   } else if (type === "RESIZE" && engine) {
-    if (canvas) {
-      canvas.width = width;
-      canvas.height = height;
+    if (storedCanvas) {
+      storedCanvas.width = width;
+      storedCanvas.height = height;
     }
+    // 1. Recalculate camera projection and viewport matrices
     engine.resize();
+
+    // 2. 🟢 FIX: Force an immediate render call right here!
+    // This draws the new frame instantly so the canvas never has a blank frame visible.
+    scene?.render();
   } else if (type === "MOUSE_WHEEL" && camera) {
     camera.radius += deltaY * 0.01;
-
     camera.radius = Math.max(3, Math.min(25, camera.radius));
+  } else if (type === "MOUSE_MOVE" && camera) {
+    camera.alpha -= deltaX * 0.005;
+    camera.beta -= deltaY * 0.005;
+    camera.beta = Math.max(0.1, Math.min(Math.PI / 2 - 0.1, camera.beta));
   }
 };
 
@@ -43,7 +54,7 @@ function initBabylon(
   });
 
   scene = new Scene(engine);
-  scene.clearColor = new Color4(0, 0, 0, 0); // 🟢 Set Alpha to 0 (Fully transparent)
+  scene.clearColor = new Color4(0, 0, 0, 0);
 
   camera = new ArcRotateCamera(
     "workerCam",
@@ -62,10 +73,6 @@ function initBabylon(
   const box = MeshBuilder.CreateBox("backgroundBox", { size: 2 }, scene);
 
   engine.runRenderLoop(() => {
-    if (box) {
-      box.rotation.y += 0.01;
-      box.rotation.x += 0.005;
-    }
     scene?.render();
   });
 }

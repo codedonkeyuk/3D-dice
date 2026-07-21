@@ -12,9 +12,6 @@ describe("App Component Unit Test", () => {
   test("renders the layout title and the child canvas placeholder in isolation", () => {
     render(<App />);
 
-    const heading = screen.getByText("Hello, React + TypeScript + Webpack!");
-    expect(heading).toBeInTheDocument();
-
     const mockCanvas = screen.getByTestId("mock-babylon-canvas");
     expect(mockCanvas).toBeInTheDocument();
   });

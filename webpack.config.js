@@ -49,9 +49,6 @@ export default {
       template: "./assets/index.html",
       favicon: "./assets/favicon.gif",
     }),
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify("production"),
-    }),
   ],
   devServer: {
     open: true,
