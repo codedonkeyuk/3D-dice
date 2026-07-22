@@ -1,0 +1,102 @@
+import { useSearchParams } from "react-router";
+import SettingsDialog from "./SettingsDialog";
+
+type DiceConfigKey = "foreground-color" | "background-color" | "dice-type";
+
+type DiceType =
+  | "poker-dice-d6"
+  | "number-dice-d2"
+  | "number-dice-d4"
+  | "number-dice-d6"
+  | "number-dice-d8"
+  | "number-dice-d10"
+  | "number-dice-d12"
+  | "number-dice-d20"
+  | "blank-dice-d2"
+  | "blank-dice-d4"
+  | "blank-dice-d6"
+  | "blank-dice-d8"
+  | "blank-dice-d10"
+  | "blank-dice-d12"
+  | "blank-dice-d20";
+
+const SettingsForm: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const foregroundColor: string =
+    searchParams.get("foreground-color") || "#FFFFFF";
+  const backgroundColor: string =
+    searchParams.get("background-color") || "#FF0000";
+  const diceType = (searchParams.get("dice-type") ||
+    "poker-dice-d6") as DiceType;
+
+  const updateUrlParam = (key: DiceConfigKey, value: string): void => {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.set(key, value);
+    setSearchParams(nextParams);
+  };
+
+  return (
+    <SettingsDialog>
+      <h2>Settings</h2>
+      <form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+          padding: "10px",
+        }}
+      >
+        <div>
+          <label>Foreground Color:</label>
+          <input
+            type="color"
+            value={foregroundColor}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              updateUrlParam("foreground-color", e.target.value)
+            }
+          />
+        </div>
+
+        <div>
+          <label>Background Color:</label>
+          <input
+            type="color"
+            value={backgroundColor}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              updateUrlParam("background-color", e.target.value)
+            }
+          />
+        </div>
+
+        <div>
+          <label>Dice Type:</label>
+          <select
+            value={diceType}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              updateUrlParam("dice-type", e.target.value)
+            }
+          >
+            <option value="poker-dice-d6">Poker D6</option>
+            <option value="number-dice-d2">Number Dice D2</option>
+            <option value="number-dice-d4">Number Dice D4</option>
+            <option value="number-dice-d6">Number Dice D6</option>
+            <option value="number-dice-d8">Number Dice D8</option>
+            <option value="number-dice-d10">Number Dice D10</option>
+            <option value="number-dice-d12">Number Dice D12</option>
+            <option value="number-dice-d20">Number Dice D20</option>
+            <option value="blank-dice-d2">Blank Dice D2</option>
+            <option value="blank-dice-d4">Blank Dice D4</option>
+            <option value="blank-dice-d6">Blank Dice D6</option>
+            <option value="blank-dice-d8">Blank Dice D8</option>
+            <option value="blank-dice-d10">Blank Dice D10</option>
+            <option value="blank-dice-d12">Blank Dice D12</option>
+            <option value="blank-dice-d20">Blank Dice D20</option>
+          </select>
+        </div>
+      </form>
+    </SettingsDialog>
+  );
+};
+
+export default SettingsForm;

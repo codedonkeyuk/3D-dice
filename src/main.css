@@ -22,40 +22,33 @@ body,
 }
 
 .dice-settings-button {
-  /* Dimensions of the button */
   width: 40px;
   height: 30px;
 
-  /* Your exact positioning */
   position: absolute;
   top: 2vh;
   right: 2vw;
 
-  /* Reset button styles + INVERT BACKGROUND COLOR */
   background: black;
   border: none;
   padding: 0;
   cursor: pointer;
 
-  /* Centers the inner pseudo-element perfectly */
   display: flex;
   align-items: center;
   justify-content: center;
 
-  /* Creates the 3 physical bars via box-shadow cloning */
   &::before {
     content: "";
-    width: 24px; /* Width of the hamburger lines */
-    height: 4px; /* Thickness of the middle line */
-    background: #fff; /* INVERT TO WHITE */
+    width: 24px;
+    height: 4px;
+    background: #fff;
 
-    /* Clones the middle line to make top and bottom lines in WHITE */
     box-shadow:
       0 -9px 0 0 #fff,
-      /* Top line */ 0 9px 0 0 #fff; /* Bottom line */
+      0 9px 0 0 #fff;
   }
 
-  /* Inline accessibility helper */
   .sr-only {
     position: absolute;
     width: 1px;

@@ -7,91 +7,65 @@ import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
 import { Color4, Color3 } from "@babylonjs/core/Maths/math.color";
 import "@babylonjs/core/Materials/standardMaterial";
 
-import getDice from "../renderer/diceRenderer";
-import { findDice } from "../dice/find";
+import { useDiceEngine } from "../context/DiceContextProvider";
 
-interface BabylonCanvasProps {
-  foregroundColor: string;
-  backgroundColor: string;
-  diceType: string;
-}
-
-const BabylonCanvas: React.FC<BabylonCanvasProps> = ({
-  foregroundColor,
-  backgroundColor,
-  diceType,
-}) => {
+const BabylonCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  // Persistent engine instances
+  const engineRef = useRef<Engine | null>(null);
+  const sceneRef = useRef<Scene | null>(null);
+  const cameraRef = useRef<ArcRotateCamera | null>(null);
+
+  const { renderModel, error } = useDiceEngine();
+
+  // Phase 1: Initialize Babylon Shell Environment ONCE
   useEffect(() => {
     if (!canvasRef.current) return;
+    const canvasElement = canvasRef.current;
 
-    let engine: Engine | null = null;
-    let scene: Scene | null = null;
-    let camera: ArcRotateCamera | null = null;
+    const engine = new Engine(canvasElement, true, {
+      disableWebGL2Support: false,
+      preserveDrawingBuffer: false,
+    });
+    engineRef.current = engine;
 
-    const initBabylon = async (canvasElement: HTMLCanvasElement) => {
-      engine = new Engine(canvasElement, true, {
-        disableWebGL2Support: false,
-        preserveDrawingBuffer: false,
-      });
+    const scene = new Scene(engine);
+    scene.clearColor = new Color4(0, 0, 0, 0);
+    sceneRef.current = scene;
 
-      scene = new Scene(engine);
-      scene.clearColor = new Color4(0, 0, 0, 0);
+    const camera = new ArcRotateCamera(
+      "mainCam",
+      0,
+      Math.PI / 3,
+      5,
+      Vector3.Zero(),
+      scene,
+    );
+    cameraRef.current = camera;
 
-      camera = new ArcRotateCamera(
-        "mainCam",
-        0,
-        Math.PI / 3,
-        5,
-        Vector3.Zero(),
-        scene,
-      );
+    const light = new HemisphericLight(
+      "mainLight",
+      new Vector3(0, 1, 0),
+      scene,
+    );
+    light.diffuse = new Color3(1, 1, 1);
+    light.groundColor = new Color3(0.4, 0.4, 0.4);
 
-      const light = new HemisphericLight(
-        "mainLight",
-        new Vector3(0, 1, 0),
-        scene,
-      );
+    engine.runRenderLoop(() => {
+      scene.render();
+    });
 
-      light.diffuse = new Color3(1, 1, 1);
-      light.groundColor = new Color3(0.4, 0.4, 0.4);
-
-      const dice = findDice(diceType);
-      if (dice === undefined) {
-        throw new Error(
-          `The dice "${diceType}" is not in collection this should never happen`,
-        );
-      }
-
-      const renderer = await getDice(dice);
-
-      // TableTop Build pulled this model from the database, form was how we kept settings
-      // I don't want this defating to musch from original source code
-      await renderer(scene, {
-        ...dice,
-        form: {
-          ...dice.form,
-          foregroundColor,
-          backgroundColor,
-        },
-      });
-
-      engine.runRenderLoop(() => {
-        scene?.render();
-      });
-    };
-
-    initBabylon(canvasRef.current).catch(console.error);
-
-    const handleResize = () => {
-      engine?.resize();
-    };
+    // --- YOUR ORIGINAL WORKING INTERACTION LISTENERS ---
+    const handleResize = () => engine.resize();
 
     const handleWheel = (e: WheelEvent) => {
-      if (!camera) return;
-      camera.radius += e.deltaY * 0.01;
-      camera.radius = Math.max(3, Math.min(25, camera.radius));
+      if (!cameraRef.current) return;
+      cameraRef.current.radius += e.deltaY * 0.01;
+      cameraRef.current.radius = Math.max(
+        3,
+        Math.min(25, cameraRef.current.radius),
+      );
     };
 
     let isPointerDown = false;
@@ -103,41 +77,54 @@ const BabylonCanvas: React.FC<BabylonCanvasProps> = ({
     };
 
     const handlePointerMove = (e: PointerEvent) => {
-      if (!isPointerDown || !camera) return;
-      camera.alpha -= e.movementX * 0.005;
-      camera.beta -= e.movementY * 0.005;
-      camera.beta = Math.max(0.05, Math.min(Math.PI - 0.05, camera.beta));
+      if (!isPointerDown || !cameraRef.current) return;
+      cameraRef.current.alpha -= e.movementX * 0.005;
+      cameraRef.current.beta -= e.movementY * 0.005;
+      cameraRef.current.beta = Math.max(
+        0.05,
+        Math.min(Math.PI - 0.05, cameraRef.current.beta),
+      );
     };
 
-    const canvas = canvasRef.current;
     window.addEventListener("resize", handleResize);
-    canvas.addEventListener("wheel", handleWheel, { passive: true });
-    canvas.addEventListener("pointerdown", handlePointerDown);
-    canvas.addEventListener("pointerup", handlePointerUp);
-    canvas.addEventListener("pointermove", handlePointerMove);
+    canvasElement.addEventListener("wheel", handleWheel, { passive: true });
+    canvasElement.addEventListener("pointerdown", handlePointerDown);
+    canvasElement.addEventListener("pointerup", handlePointerUp);
+    canvasElement.addEventListener("pointermove", handlePointerMove);
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      canvas.removeEventListener("wheel", handleWheel);
-      canvas.removeEventListener("pointerdown", handlePointerDown);
-      canvas.removeEventListener("pointerup", handlePointerUp);
-      canvas.removeEventListener("pointermove", handlePointerMove);
-      scene?.dispose();
-      engine?.dispose();
+      canvasElement.removeEventListener("wheel", handleWheel);
+      canvasElement.removeEventListener("pointerdown", handlePointerDown);
+      canvasElement.removeEventListener("pointerup", handlePointerUp);
+      canvasElement.removeEventListener("pointermove", handlePointerMove);
+      scene.dispose();
+      engine.dispose();
     };
-  }, [foregroundColor, backgroundColor, diceType]);
+  }, []);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "block",
-        touchAction: "none",
-      }}
-    />
-  );
+  // Phase 2: Execute asset builder routine safely
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene || !renderModel) return;
+
+    // SAFE CLEANUP: Only dispose of top-level root meshes (the dice)
+    // and ignore invisible utility/camera meshes created by Babylon.
+    const currentMeshes = scene.meshes.slice();
+    currentMeshes.forEach((mesh) => {
+      // Do not delete camera behaviors or target nodes accidentally
+      if (mesh.name !== "mainCam_target") {
+        mesh.dispose();
+      }
+    });
+
+    renderModel(scene).catch(console.error);
+  }, [renderModel]);
+
+  if (error)
+    return <div style={{ color: "red", padding: "20px" }}>Error: {error}</div>;
+
+  return <canvas className="my-babylon-canvas" ref={canvasRef} />;
 };
 
 export default BabylonCanvas;
