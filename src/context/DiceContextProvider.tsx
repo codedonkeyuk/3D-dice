@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from "react";
 import { useLocation } from "react-router";
-import { findDice } from "../dice/find";
+import { findDice } from "../models/find";
 
 interface DiceContextType {
   model: any;

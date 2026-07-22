@@ -1,4 +1,4 @@
-import { type GraphicElement } from "../types";
+import { type GraphicElement } from "../../types";
 
 const applyShapeDefaults = (props: GraphicElement): GraphicElement => ({
   ...{ x: 0, y: 0 },

@@ -1,6 +1,6 @@
-import arrayBufferToBlob from "./arrayBufferToBlob";
-import blobToDataURL from "./blobToDataURL";
-import { type Side, type SideGraphics, type SideImageFile } from "../types";
+import arrayBufferToBlob from "../image/arrayBufferToBlob";
+import blobToDataURL from "../image/blobToDataURL";
+import { type Side, type SideGraphics, type SideImageFile } from "../../types";
 import generateGraphicsSideSvg from "./generateGraphicsSideSvg";
 
 export default async function injectSideIntoSvg(

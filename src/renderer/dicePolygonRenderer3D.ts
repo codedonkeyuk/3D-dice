@@ -20,13 +20,13 @@ import {
   type SideGraphics,
 } from "../types";
 
-import generateSvg from "./generateSvg";
-import { get3dTemplate } from "./castPiece";
-import stringToBlob from "./stringToBlob";
-import { diceStyle } from "./diceMethods";
+import generateSvg from "./svg/generateSvg";
+import { get3dTemplate } from "./shape/castPiece";
+import stringToBlob from "./image/stringToBlob";
+import { diceStyle } from "./svg/diceMethods";
 
-import { generateFaceUV } from "./canvasCommon";
-import injectSideIntoSvg from "./injectSideIntoSvg";
+import { generateFaceUV } from "./canvas/canvasCommon";
+import injectSideIntoSvg from "./svg/injectSideIntoSvg";
 
 export function generateD10MeshMaterial(
   template3dD2: TemplateOpenGl,

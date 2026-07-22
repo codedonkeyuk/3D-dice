@@ -18,12 +18,12 @@ import {
   type CategoryRecord,
 } from "../types";
 
-import generateSvg from "./generateSvg";
-import svgGraphicElementsRenderer from "./svgGraphicElementsRenderer";
-import { get3dTemplate } from "./castPiece";
+import generateSvg from "./svg/generateSvg";
+import svgGraphicElementsRenderer from "./svg/svgGraphicElementsRenderer";
+import { get3dTemplate } from "./shape/castPiece";
 
-import stringToBlob from "./stringToBlob";
-import { diceSlot, diceStyle } from "./diceMethods";
+import stringToBlob from "./image/stringToBlob";
+import { diceSlot, diceStyle } from "./svg/diceMethods";
 
 export function generateD2MeshMaterial(
   mesh: PlaneMesh,

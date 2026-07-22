@@ -1,11 +1,11 @@
-import { type GraphicElement } from "../types";
-import applyShapeDefaults from "./shapeProps";
+import { type GraphicElement } from "../../types";
+import applyShapeDefaults from "../shape/shapeProps";
 import {
   hexagonCoordinates,
   pentagonCoordinates,
   type PolygonPoint,
   triangleCoordinates,
-} from "./Polygons";
+} from "../shape/Polygons";
 
 type ShapeElement = "rect";
 type CssAttribute = "fill" | "stroke" | "stroke-width";

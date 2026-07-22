@@ -2,9 +2,9 @@ import React from "react";
 import { render, renderHook } from "@testing-library/react";
 import { useLocation } from "react-router"; // We will mock this hook
 import { DiceContextProvider, useDiceEngine } from "./DiceContextProvider";
-import * as diceFindModule from "../dice/find";
+import * as diceFindModule from "../models/find";
 
-jest.mock("../dice/find", () => ({
+jest.mock("../models/find", () => ({
   findDice: jest.fn((type: string) => {
     if (type === "poker-dice-d6") return { form: {}, base_val: 10 };
     return null;
