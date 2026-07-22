@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Engine } from "@babylonjs/core/Engines/engine";
 import { Scene } from "@babylonjs/core/scene";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
@@ -17,19 +17,25 @@ const BabylonCanvas: React.FC = () => {
   const sceneRef = useRef<Scene | null>(null);
   const cameraRef = useRef<ArcRotateCamera | null>(null);
 
+  const [rollResult, setRollResult] = useState<number | null>(null);
+  const toastTimeoutRef = useRef<number | null>(null);
+
   const { model } = useDiceEngine();
-  console.log(model);
 
   const rollDice = () => {
     const scene = sceneRef.current;
     const camera = cameraRef.current;
     if (!scene || !camera) return;
 
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
+    setRollResult(null);
+
     const randomSpinAlpha =
       (Math.random() * 0.3 + 0.2) * (Math.random() > 0.5 ? 1 : -1);
-
-    let betaVelocity =
-      (Math.random() * 0.15 + 0.1) * (Math.random() > 0.5 ? 1 : -1);
+      
+    let betaVelocity = (Math.random() * 0.15 + 0.1) * (Math.random() > 0.5 ? 1 : -1);
 
     let speedModifier = 1.0;
 
@@ -39,19 +45,49 @@ const BabylonCanvas: React.FC = () => {
 
       if (camera.beta <= 0.15) {
         camera.beta = 0.15;
-        betaVelocity = -betaVelocity;
+        betaVelocity = -betaVelocity; 
       } else if (camera.beta >= Math.PI - 0.15) {
         camera.beta = Math.PI - 0.15;
-        betaVelocity = -betaVelocity;
+        betaVelocity = -betaVelocity; 
       }
 
       speedModifier -= 0.005;
 
       if (speedModifier <= 0) {
         scene.onBeforeRenderObservable.remove(animationObserver);
+
+        const sidePositions = model?.piece?.template?.OpenGl?.numberPositions;
+
+        if (sidePositions) {
+          const camDirection = camera.position.clone().normalize();
+
+          let bestMatchIndex = -1;
+          let highestDotProduct = -Infinity;
+
+          sidePositions.forEach((side: any, index: number) => {
+            const sideVector = new Vector3(side.x, side.y, side.z).normalize();
+
+            const dotProduct = Vector3.Dot(camDirection, sideVector);
+
+            if (dotProduct > highestDotProduct) {
+              highestDotProduct = dotProduct;
+              bestMatchIndex = index;
+            }
+          });
+
+          const rolledValue = bestMatchIndex + 1;
+          console.log(`You rolled a : ${rolledValue}`);
+
+          setRollResult(rolledValue);
+
+          toastTimeoutRef.current = window.setTimeout(() => {
+            setRollResult(null);
+          }, 4000);
+        }
       }
     });
   };
+
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -132,6 +168,11 @@ const BabylonCanvas: React.FC = () => {
       canvasElement.removeEventListener("pointerdown", handlePointerDown);
       canvasElement.removeEventListener("pointerup", handlePointerUp);
       canvasElement.removeEventListener("pointermove", handlePointerMove);
+      
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+      
       scene.dispose();
       engine.dispose();
     };
@@ -158,6 +199,12 @@ const BabylonCanvas: React.FC = () => {
 
   return (
     <>
+      {rollResult !== null && (
+        <div className="roll-toast-container">
+          You rolled a {rollResult}!
+        </div>
+      )}
+
       <canvas className="my-babylon-canvas" ref={canvasRef} />
       <button onClick={rollDice} className="roll-dice">
         Roll Dice
