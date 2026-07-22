@@ -47,6 +47,10 @@ export default {
   resolve: {
     extensions: [".js", ".jsx", ".tsx", ".ts", ".json"],
   },
+  performance: {
+    maxAssetSize: 2000000,
+    maxEntrypointSize: 2500000,
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].bundle.js",
@@ -54,10 +58,18 @@ export default {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./assets/index.html",
-      favicon: "./assets/favicon.gif",
+      favicon: "./assets/favicon-32x32.png",
     }),
     new CopyPlugin({
-      patterns: [{ from: "./assets/manifest.json", to: "." }],
+      patterns: [
+        { from: "./assets/manifest.json", to: "." },
+        { from: "./assets/.htaccess", to: "." },
+        { from: "./assets/404.html", to: "." },
+        {
+          from: path.resolve(__dirname, "assets/favicon-*.png"),
+          to: "[name][ext]",
+        },
+      ],
     }),
     injectServiceWorkerPlugin(__dirname),
   ],
@@ -77,15 +89,25 @@ export default {
   optimization: {
     splitChunks: {
       chunks: "all",
-      maxInitialRequests: Infinity,
-      minSize: 20000,
+      maxInitialRequests: 25,
+      minSize: 30000,
       cacheGroups: {
+        babylon: {
+          test: /[\\/]node_modules[\\/]@babylonjs/,
+          name: "npm.babylonjs-core",
+          priority: 20,
+          reuseExistingChunk: true,
+        },
+
         vendor: {
           test: /[\\/]node_modules[\\/]/,
+          priority: 10,
           name(module) {
-            const packageName = module.context.match(
+            if (!module.context) return "vendor";
+            const match = module.context.match(
               /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
-            )[1];
+            );
+            const packageName = match ? match[1] : "vendor";
             return `npm.${packageName.replace("@", "")}`;
           },
         },

@@ -1,4 +1,6 @@
-import { ArcRotateCamera, Scene } from "@babylonjs/core";
+import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
+import { Scene } from "@babylonjs/core/scene";
+
 import { Mesh } from "@babylonjs/core/Meshes/mesh";
 
 export type GraphicElementTypes =
