@@ -20,12 +20,18 @@ const BabylonCanvas: React.FC = () => {
   const [rollResult, setRollResult] = useState<number | null>(null);
   const toastTimeoutRef = useRef<number | null>(null);
 
+  const [isRolling, setIsRolling] = useState<boolean>(false);
+
   const { model } = useDiceEngine();
 
   const rollDice = () => {
+    if (isRolling) return;
+
     const scene = sceneRef.current;
     const camera = cameraRef.current;
     if (!scene || !camera) return;
+
+    setIsRolling(true);
 
     if (toastTimeoutRef.current) {
       clearTimeout(toastTimeoutRef.current);
@@ -34,8 +40,9 @@ const BabylonCanvas: React.FC = () => {
 
     const randomSpinAlpha =
       (Math.random() * 0.3 + 0.2) * (Math.random() > 0.5 ? 1 : -1);
-      
-    let betaVelocity = (Math.random() * 0.15 + 0.1) * (Math.random() > 0.5 ? 1 : -1);
+
+    let betaVelocity =
+      (Math.random() * 0.15 + 0.1) * (Math.random() > 0.5 ? 1 : -1);
 
     let speedModifier = 1.0;
 
@@ -45,10 +52,10 @@ const BabylonCanvas: React.FC = () => {
 
       if (camera.beta <= 0.15) {
         camera.beta = 0.15;
-        betaVelocity = -betaVelocity; 
+        betaVelocity = -betaVelocity;
       } else if (camera.beta >= Math.PI - 0.15) {
         camera.beta = Math.PI - 0.15;
-        betaVelocity = -betaVelocity; 
+        betaVelocity = -betaVelocity;
       }
 
       speedModifier -= 0.005;
@@ -80,14 +87,28 @@ const BabylonCanvas: React.FC = () => {
 
           setRollResult(rolledValue);
 
+          const baseRadius = 5;
+          camera.radius = 6.2;
+
+          const joltObserver = scene.onBeforeRenderObservable.add(() => {
+            camera.radius += (baseRadius - camera.radius) * 0.15;
+
+            if (Math.abs(camera.radius - baseRadius) < 0.01) {
+              camera.radius = baseRadius;
+              scene.onBeforeRenderObservable.remove(joltObserver);
+              setIsRolling(false);
+            }
+          });
+
           toastTimeoutRef.current = window.setTimeout(() => {
             setRollResult(null);
           }, 4000);
+        } else {
+          setIsRolling(false);
         }
       }
     });
   };
-
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -168,11 +189,11 @@ const BabylonCanvas: React.FC = () => {
       canvasElement.removeEventListener("pointerdown", handlePointerDown);
       canvasElement.removeEventListener("pointerup", handlePointerUp);
       canvasElement.removeEventListener("pointermove", handlePointerMove);
-      
+
       if (toastTimeoutRef.current) {
         clearTimeout(toastTimeoutRef.current);
       }
-      
+
       scene.dispose();
       engine.dispose();
     };
@@ -200,14 +221,13 @@ const BabylonCanvas: React.FC = () => {
   return (
     <>
       {rollResult !== null && (
-        <div className="roll-toast-container">
-          You rolled a {rollResult}!
-        </div>
+        <div className="roll-toast-container">You rolled a {rollResult}!</div>
       )}
 
       <canvas className="my-babylon-canvas" ref={canvasRef} />
-      <button onClick={rollDice} className="roll-dice">
-        Roll Dice
+
+      <button onClick={rollDice} disabled={isRolling} className="roll-dice">
+        {isRolling ? "Rolling..." : "Roll Dice"}
       </button>
     </>
   );

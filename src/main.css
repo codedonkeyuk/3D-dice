@@ -75,6 +75,11 @@ body,
   border-radius: 6px;
   cursor: pointer;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .roll-toast-container {
@@ -103,4 +108,3 @@ body,
     opacity: 1;
   }
 }
-
