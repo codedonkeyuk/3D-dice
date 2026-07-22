@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import SettingsDialog from './SettingsDialog';
+import { render, screen, fireEvent } from "@testing-library/react";
+import SettingsDialog from "./SettingsDialog";
 
 const mockShowModal = jest.fn();
 const mockClose = jest.fn();
@@ -9,28 +9,28 @@ beforeAll(() => {
   (HTMLDialogElement.prototype as any).close = mockClose;
 });
 
-describe('SettingsDialog Component', () => {
+describe("SettingsDialog Component", () => {
   beforeEach(() => {
     mockShowModal.mockClear();
     mockClose.mockClear();
   });
 
-  it('renders the opening button and the content inside the dialog', () => {
+  it("renders the opening button and the content inside the dialog", () => {
     render(
       <SettingsDialog>
         <div data-testid="content">Custom Content</div>
-      </SettingsDialog>
+      </SettingsDialog>,
     );
 
     const openButton = screen.getByLabelText(/Open Settings/i);
     expect(openButton).toBeInTheDocument();
-    
-    expect(screen.getByTestId('content')).toBeInTheDocument();
+
+    expect(screen.getByTestId("content")).toBeInTheDocument();
   });
 
   it('calls showModal when the "Open Settings" button is clicked', () => {
     render(<SettingsDialog>Content</SettingsDialog>);
-    
+
     const openButton = screen.getByLabelText(/Open Settings/i);
     fireEvent.click(openButton);
 
@@ -46,10 +46,10 @@ describe('SettingsDialog Component', () => {
     expect(mockClose).toHaveBeenCalledTimes(1);
   });
 
-  it('verifies the button has the correct accessibility attributes', () => {
+  it("verifies the button has the correct accessibility attributes", () => {
     render(<SettingsDialog />);
     const openButton = screen.getByLabelText(/Open Settings/i);
 
-    expect(openButton).toHaveAttribute('aria-label', 'Open Settings');
+    expect(openButton).toHaveAttribute("aria-label", "Open Settings");
   });
 });

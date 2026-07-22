@@ -2,7 +2,6 @@ import dice from "./index";
 import {
   type CategoryRecord,
   type ModelPiece,
-  type Side,
   type SideGraphics,
 } from "../types.ts";
 
