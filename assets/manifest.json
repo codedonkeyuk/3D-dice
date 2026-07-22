@@ -1,0 +1,16 @@
+{
+  "short_name": "Dice",
+  "name": "Code Donkey Dice roller",
+  "icons": [
+    {
+      "src": "/favicon.gif",
+      "type": "image/gif",
+      "sizes": "64x64"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "display": "standalone",
+  "orientation": "portrait"
+}

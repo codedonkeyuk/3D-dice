@@ -2,6 +2,8 @@ import "./main.css";
 import { createRoot } from "react-dom/client";
 import App from "./components/App";
 
+import "./LoadSW";
+
 const container = document.getElementById("root");
 
 if (!container) {

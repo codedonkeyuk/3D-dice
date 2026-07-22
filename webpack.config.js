@@ -2,6 +2,9 @@ import webpack from "webpack";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import CopyPlugin from "copy-webpack-plugin";
+import fs from "fs";
+import injectServiceWorkerPlugin from "./plugins/inject-sw.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,7 +16,7 @@ export default {
     rules: [
       {
         test: /\.(ts|js)x?$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/],
         use: {
           loader: "babel-loader",
           options: {
@@ -53,6 +56,10 @@ export default {
       template: "./assets/index.html",
       favicon: "./assets/favicon.gif",
     }),
+    new CopyPlugin({
+      patterns: [{ from: "./assets/manifest.json", to: "." }],
+    }),
+    injectServiceWorkerPlugin(__dirname),
   ],
   devServer: {
     open: true,

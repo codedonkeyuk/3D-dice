@@ -61,6 +61,7 @@
     "@babel/runtime": "^8.0.0",
     "@babylonjs/core": "^9.17.0",
     "@babylonjs/loaders": "^9.17.0",
+    "copy-webpack-plugin": "^14.0.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router": "^8.2.0"
