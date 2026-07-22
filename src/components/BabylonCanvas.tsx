@@ -12,14 +12,43 @@ import { useDiceEngine } from "../context/DiceContextProvider";
 const BabylonCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Persistent engine instances
   const engineRef = useRef<Engine | null>(null);
   const sceneRef = useRef<Scene | null>(null);
   const cameraRef = useRef<ArcRotateCamera | null>(null);
 
   const { renderModel, error } = useDiceEngine();
 
-  // Phase 1: Initialize Babylon Shell Environment ONCE
+  const rollDice = () => {
+    const scene = sceneRef.current;
+    const camera = cameraRef.current;
+    if (!scene || !camera) return;
+
+    // Generate random velocities for orbital speed (alpha) and vertical tilt (beta)
+    const randomSpinAlpha =
+      (Math.random() * 0.3 + 0.2) * (Math.random() > 0.5 ? 1 : -1);
+    const randomSpinBeta =
+      (Math.random() * 0.15 + 0.1) * (Math.random() > 0.5 ? 1 : -1);
+
+    let speedModifier = 1.0;
+
+    // Attach to the core render cycle frame observer
+    const animationObserver = scene.onBeforeRenderObservable.add(() => {
+      // Modify camera target angles directly
+      camera.alpha += randomSpinAlpha * speedModifier;
+      camera.beta += randomSpinBeta * speedModifier;
+
+      // Restrict camera from flipping upside down during the wild spin
+      camera.beta = Math.max(0.1, Math.min(Math.PI - 0.1, camera.beta));
+
+      // 🌟 CHANGED: Smaller subtraction makes the roll last much longer
+      speedModifier -= 0.005;
+
+      if (speedModifier <= 0) {
+        scene.onBeforeRenderObservable.remove(animationObserver);
+      }
+    });
+  };
+
   useEffect(() => {
     if (!canvasRef.current) return;
     const canvasElement = canvasRef.current;
@@ -50,13 +79,12 @@ const BabylonCanvas: React.FC = () => {
       scene,
     );
     light.diffuse = new Color3(1, 1, 1);
-    light.groundColor = new Color3(0.4, 0.4, 0.4);
+    light.groundColor = new Color3(1, 1, 1);
 
     engine.runRenderLoop(() => {
       scene.render();
     });
 
-    // --- YOUR ORIGINAL WORKING INTERACTION LISTENERS ---
     const handleResize = () => engine.resize();
 
     const handleWheel = (e: WheelEvent) => {
@@ -103,16 +131,12 @@ const BabylonCanvas: React.FC = () => {
     };
   }, []);
 
-  // Phase 2: Execute asset builder routine safely
   useEffect(() => {
     const scene = sceneRef.current;
     if (!scene || !renderModel) return;
 
-    // SAFE CLEANUP: Only dispose of top-level root meshes (the dice)
-    // and ignore invisible utility/camera meshes created by Babylon.
     const currentMeshes = scene.meshes.slice();
     currentMeshes.forEach((mesh) => {
-      // Do not delete camera behaviors or target nodes accidentally
       if (mesh.name !== "mainCam_target") {
         mesh.dispose();
       }
@@ -124,7 +148,14 @@ const BabylonCanvas: React.FC = () => {
   if (error)
     return <div style={{ color: "red", padding: "20px" }}>Error: {error}</div>;
 
-  return <canvas className="my-babylon-canvas" ref={canvasRef} />;
+  return (
+    <>
+      <canvas className="my-babylon-canvas" ref={canvasRef} />
+      <button onClick={rollDice} className="roll-dice">
+        Roll Dice
+      </button>
+    </>
+  );
 };
 
 export default BabylonCanvas;
