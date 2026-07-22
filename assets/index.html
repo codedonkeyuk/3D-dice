@@ -2,7 +2,163 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="256x256" href="/favicon-256x256.png" />
+    <link rel="apple-touch-icon" sizes="384x384" href="/favicon-384x384.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/favicon-512x512.png" />
+    <link rel="manifest" href="/manifest.json" crossorigin="anonymous" />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text-main: #111827;
+        --text-muted: #4b5563;
+        --border: #e5e7eb;
+        --btn-bg: #1f2937;
+        --btn-text: #ffffff;
+        --btn-hover: #111827;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0f19;
+          --text-main: #f9fafb;
+          --text-muted: #9ca3af;
+          --border: #1f2937;
+          --btn-bg: #f3f4f6;
+          --btn-text: #111827;
+          --btn-hover: #ffffff;
+        }
+      }
+
+      html,
+      body,
+      #root,
+      #app {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+        background-color: var(--bg);
+        color: var(--text-main);
+      }
+
+      .my-babylon-canvas {
+        width: 100% !important;
+        height: 100% !important;
+        display: block;
+        touch-action: none;
+        aspect-ratio: unset !important;
+      }
+
+      .dice-settings-button {
+        width: 40px;
+        height: 30px;
+
+        position: absolute;
+        top: 2vh;
+        right: 2vw;
+
+        background: black;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &::before {
+          content: "";
+          width: 24px;
+          height: 4px;
+          background: #fff;
+
+          box-shadow:
+            0 -9px 0 0 #fff,
+            0 9px 0 0 #fff;
+        }
+
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          border: 0;
+        }
+      }
+
+      .roll-dice {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #ff0000;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+        @media (max-width: 600px) {
+          width: 98%;
+        }
+      }
+
+      .roll-toast-container {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.85);
+        color: #ffffff;
+        padding: 12px 28px;
+        border-radius: 30px;
+        font-size: 1.25rem;
+        font-weight: bold;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        pointer-events: none;
+        animation: slideInDown 0.2s ease-out;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        @media (max-width: 480px) {
+          flex-direction: column;
+        }
+      }
+
+      @keyframes slideInDown {
+        from {
+          transform: translate(-50%, -20px);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+    </style>
   </head>
   <body>
     <main id="root"></main>
