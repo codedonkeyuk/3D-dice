@@ -30,9 +30,15 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({ children }) => {
       </button>
       <dialog ref={dialogRef}>
         {children}
-        <button data-command="close" onClick={(e) => closeDialog(e)}>
-          Close
-        </button>
+        <div className="actions">
+          <button
+            className="btn btn-secondary"
+            data-command="close"
+            onClick={(e) => closeDialog(e)}
+          >
+            Close
+          </button>
+        </div>
       </dialog>
     </div>
   );

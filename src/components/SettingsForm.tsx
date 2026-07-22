@@ -1,3 +1,4 @@
+import React from "react";
 import { useSearchParams } from "react-router";
 import SettingsDialog from "./SettingsDialog";
 
@@ -38,44 +39,57 @@ const SettingsForm: React.FC = () => {
 
   return (
     <SettingsDialog>
-      <h2>Settings</h2>
-      <form
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-          padding: "10px",
-        }}
-      >
-        <div>
-          <label>Foreground Color:</label>
-          <input
-            type="color"
-            value={foregroundColor}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              updateUrlParam("foreground-color", e.target.value)
-            }
-          />
+      <h2 className="dialog-title">Settings</h2>
+
+      <form className="settings-form">
+        {/* Foreground Color Picker Row */}
+        <div className="form-group row-group">
+          <label htmlFor="fgColorInput" className="form-label">
+            Foreground Color:
+          </label>
+          <div className="color-picker-wrapper">
+            <input
+              id="fgColorInput"
+              type="color"
+              value={foregroundColor}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                updateUrlParam("foreground-color", e.target.value)
+              }
+              className="accessible-color-picker"
+            />
+          </div>
         </div>
 
-        <div>
-          <label>Background Color:</label>
-          <input
-            type="color"
-            value={backgroundColor}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              updateUrlParam("background-color", e.target.value)
-            }
-          />
+        {/* Background Color Picker Row */}
+        <div className="form-group row-group">
+          <label htmlFor="bgColorInput" className="form-label">
+            Background Color:
+          </label>
+          <div className="color-picker-wrapper">
+            <input
+              id="bgColorInput"
+              type="color"
+              value={backgroundColor}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                updateUrlParam("background-color", e.target.value)
+              }
+              className="accessible-color-picker"
+            />
+          </div>
         </div>
 
-        <div>
-          <label>Dice Type:</label>
+        {/* Dice Type Dropdown Field Block */}
+        <div className="form-group column-group">
+          <label htmlFor="diceTypeSelect" className="form-label">
+            Dice Type:
+          </label>
           <select
+            id="diceTypeSelect"
             value={diceType}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
               updateUrlParam("dice-type", e.target.value)
             }
+            className="accessible-select"
           >
             <option value="poker-dice-d6">Poker D6</option>
             <option value="number-dice-d2">Number Dice D2</option>
