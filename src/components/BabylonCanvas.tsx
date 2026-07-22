@@ -83,7 +83,6 @@ const BabylonCanvas: React.FC = () => {
           });
 
           const rolledValue = bestMatchIndex + 1;
-          console.log(`You rolled a : ${rolledValue}`);
 
           setRollResult(rolledValue);
 

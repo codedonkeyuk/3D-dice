@@ -2,8 +2,46 @@ import "@testing-library/jest-dom";
 jest.mock("@babylonjs/core/Cameras/arcRotateCamera", () => ({}), {
   virtual: true,
 });
-jest.mock("@babylonjs/core/scene", () => ({}), { virtual: true });
+const mockObserverCallbacks = new Set<() => void>();
+const mockSceneDispose = jest.fn();
+
+// Cleanly isolate module overrides using explicit local inline factory parameters
+jest.mock("@babylonjs/core/scene", () => {
+  return {
+    Scene: class {
+      clearColor = null;
+      meshes = [];
+      dispose = mockSceneDispose;
+      onBeforeRenderObservable = {
+        add: (cb: () => void) => {
+          mockObserverCallbacks.add(cb);
+          return cb;
+        },
+        remove: (cb: () => void) => {
+          mockObserverCallbacks.delete(cb);
+        },
+      };
+      render = jest.fn();
+    },
+  };
+});
 jest.mock("@babylonjs/core/Meshes/mesh", () => ({}), { virtual: true });
+jest.mock(
+  "@babylonjs/core/Engines/engine",
+  () => ({
+    Engine: class {
+      runRenderLoop(cb: any) {}
+      dispose() {}
+      resize() {}
+    },
+  }),
+  { virtual: true },
+);
+jest.mock(
+  "@babylonjs/core/Lights/hemisphericLight",
+  () => ({ HemisphericLight: class {} }),
+  { virtual: true },
+);
 jest.mock(
   "@babylonjs/core/Misc/tools",
   () => ({
