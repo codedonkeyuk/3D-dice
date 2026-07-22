@@ -85,13 +85,6 @@ const SettingsForm: React.FC = () => {
             <option value="number-dice-d10">Number Dice D10</option>
             <option value="number-dice-d12">Number Dice D12</option>
             <option value="number-dice-d20">Number Dice D20</option>
-            <option value="blank-dice-d2">Blank Dice D2</option>
-            <option value="blank-dice-d4">Blank Dice D4</option>
-            <option value="blank-dice-d6">Blank Dice D6</option>
-            <option value="blank-dice-d8">Blank Dice D8</option>
-            <option value="blank-dice-d10">Blank Dice D10</option>
-            <option value="blank-dice-d12">Blank Dice D12</option>
-            <option value="blank-dice-d20">Blank Dice D20</option>
           </select>
         </div>
       </form>
