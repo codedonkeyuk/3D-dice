@@ -121,7 +121,7 @@ export type Piece = {
 };
 
 export type BasicElement = {
-  id: string;
+  id: number | string;
   description: string;
   type: ShapeElements;
   x: number;

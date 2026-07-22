@@ -8,6 +8,7 @@ import { Color4, Color3 } from "@babylonjs/core/Maths/math.color";
 import "@babylonjs/core/Materials/standardMaterial";
 
 import { useDiceEngine } from "../context/DiceContextProvider";
+import getDice from "../renderer/diceRenderer";
 
 const BabylonCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -16,31 +17,34 @@ const BabylonCanvas: React.FC = () => {
   const sceneRef = useRef<Scene | null>(null);
   const cameraRef = useRef<ArcRotateCamera | null>(null);
 
-  const { renderModel, error } = useDiceEngine();
+  const { model } = useDiceEngine();
+  console.log(model);
 
   const rollDice = () => {
     const scene = sceneRef.current;
     const camera = cameraRef.current;
     if (!scene || !camera) return;
 
-    // Generate random velocities for orbital speed (alpha) and vertical tilt (beta)
     const randomSpinAlpha =
       (Math.random() * 0.3 + 0.2) * (Math.random() > 0.5 ? 1 : -1);
-    const randomSpinBeta =
+
+    let betaVelocity =
       (Math.random() * 0.15 + 0.1) * (Math.random() > 0.5 ? 1 : -1);
 
     let speedModifier = 1.0;
 
-    // Attach to the core render cycle frame observer
     const animationObserver = scene.onBeforeRenderObservable.add(() => {
-      // Modify camera target angles directly
       camera.alpha += randomSpinAlpha * speedModifier;
-      camera.beta += randomSpinBeta * speedModifier;
+      camera.beta += betaVelocity * speedModifier;
 
-      // Restrict camera from flipping upside down during the wild spin
-      camera.beta = Math.max(0.1, Math.min(Math.PI - 0.1, camera.beta));
+      if (camera.beta <= 0.15) {
+        camera.beta = 0.15;
+        betaVelocity = -betaVelocity;
+      } else if (camera.beta >= Math.PI - 0.15) {
+        camera.beta = Math.PI - 0.15;
+        betaVelocity = -betaVelocity;
+      }
 
-      // 🌟 CHANGED: Smaller subtraction makes the roll last much longer
       speedModifier -= 0.005;
 
       if (speedModifier <= 0) {
@@ -80,6 +84,8 @@ const BabylonCanvas: React.FC = () => {
     );
     light.diffuse = new Color3(1, 1, 1);
     light.groundColor = new Color3(1, 1, 1);
+
+    light.specular = new Color3(0, 0, 0);
 
     engine.runRenderLoop(() => {
       scene.render();
@@ -133,7 +139,7 @@ const BabylonCanvas: React.FC = () => {
 
   useEffect(() => {
     const scene = sceneRef.current;
-    if (!scene || !renderModel) return;
+    if (!scene || !model) return;
 
     const currentMeshes = scene.meshes.slice();
     currentMeshes.forEach((mesh) => {
@@ -142,11 +148,13 @@ const BabylonCanvas: React.FC = () => {
       }
     });
 
-    renderModel(scene).catch(console.error);
-  }, [renderModel]);
+    const renderAsyncModel = async () => {
+      const renderer = await getDice(model);
+      await renderer(scene, model);
+    };
 
-  if (error)
-    return <div style={{ color: "red", padding: "20px" }}>Error: {error}</div>;
+    renderAsyncModel().catch(console.error);
+  }, [model]);
 
   return (
     <>
