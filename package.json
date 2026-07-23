@@ -1,17 +1,17 @@
 {
-  "name": "spa-template",
+  "name": "3d-dice",
   "version": "0.0.1",
-  "description": "Basic webapp template using jest, babel and webpack. Used as a starting point for other projects",
-  "homepage": "https://github.com/leighgordy/spa-template#readme",
+  "description": "A 3D dice generator that allows you to customise dice. You can then bookmark, and roll it whenever you like.",
+  "homepage": "https://github.com/codedonkeyuk/3d-dice#readme",
   "bugs": {
-    "url": "https://github.com/leighgordy/spa-template/issues"
+    "url": "https://github.com/codedonkeyuk/3d-dice/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leighgordy/spa-template.git"
+    "url": "git+https://github.comcodedonkeyuk/3d-dice.git"
   },
   "license": "MIT",
-  "author": "Leigh G",
+  "author": "Leigh",
   "type": "module",
   "private": true,
   "sideEffects": [
@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "clean": "prettier . --write",
-    "validate": "tsc --noEmit",
+    "validate": "prettier . --check && tsc --noEmit",
     "serveDev": "webpack serve --mode development",
     "serveProd": "npx webpack serve --mode production",
     "prebuild": "prettier . --check && tsc --noEmit",

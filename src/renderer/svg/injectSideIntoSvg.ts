@@ -1,6 +1,6 @@
 import arrayBufferToBlob from "../image/arrayBufferToBlob";
 import blobToDataURL from "../image/blobToDataURL";
-import { type Side, type SideGraphics, type SideImageFile } from "../../types";
+import type { Side, SideGraphics, SideImageFile } from "../../types";
 import generateGraphicsSideSvg from "./generateGraphicsSideSvg";
 
 export default async function injectSideIntoSvg(
@@ -13,7 +13,6 @@ export default async function injectSideIntoSvg(
     const graphicsSide = side as SideGraphics;
     if (
       graphicsSide.elements.length !== 0 ||
-      graphicsSide.backgroundColor != null ||
       graphicsSide.backgroundColor != null ||
       graphicsSide.borderColor != null ||
       graphicsSide.borderWidth != null
