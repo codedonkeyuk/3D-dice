@@ -12,19 +12,19 @@ Unfortunately it was a troubled project from the beginning, and the collective c
 
 Issues faced
 
-- A 3rd party React component based UI library becoming commercial requiring a massive rewrite. Having to replace UI components thoughout your application does not make a fun time!
+- A 3rd party React component based UI library becoming commercial requiring a massive rewrite. Having to replace UI components throughout your application does not make a fun time!
 
-- SVG Security restrictions imposed by browsers causing constant failures with various browser update. SVGs are a major security hole. This project currently can't use WebGPU because it considers my generated SVGs insecure. A never ending drama!
+- SVG Security restrictions imposed by browsers causing constant failures with various browser updates. SVGs are a major security hole. This project currently can't use WebGPU because it considers my generated SVGs insecure. A never ending drama!
 
 - My last employment agency asking me to sign an agreement not to distribute my project for the duration of my 2 year contract! Blood still boils over that one.
 
 - Ultimately AI being able to generate images, models, and online games off simple instructions. This totally killed the project. My heart was broken when I asked a visual model to produce a Baywatch themed snakes and ladders game, and out came an awesome image. Not even David Hasslehoffs tanned chiseled middle age physique could make me feel happy! I can't make a tool as good as that.
 
-Anyway I have 3 years worth of code that is doing nothing, and I am looking for a job in a highly competitive market. So I am resurrecting some old projects. This project is represents about 10% of Tabletop Build functionality.
+Anyway I have 3 years worth of code that is doing nothing, and I am looking for a job in a highly competitive market. So I am resurrecting some old projects. This project represents about 10% of Tabletop Build functionality.
 
 ## Is this it?
 
-Nope, ill be updating this site with the ability to draw on the dice surface probably next week. I need a break, I built 6 projects in 3 weeks. Including [https://codedonkey.uk](https://codedonkey.uk), I need a couple of days to rest the brain.
+Nope, I'll be updating this site with the ability to draw on the dice surface probably next week. I need a break, I built 6 projects in 3 weeks. Including [https://codedonkey.uk](https://codedonkey.uk), I need a couple of days to rest the brain.
 
 ## instructions
 
@@ -63,7 +63,7 @@ npm install
 
 ### Update node
 
-This project has been set up to use a specific version of node via `.nvmrc` file. Run this command to update to you local version.
+This project has been set up to use a specific version of node via `.nvmrc` file. Run this command to update to your local version.
 
 ```bash
 nvm ls-remote --lts # see latest build
