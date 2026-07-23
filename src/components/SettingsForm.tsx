@@ -1,6 +1,5 @@
 import React from "react";
 import { useSearchParams } from "react-router";
-import SettingsDialog from "./SettingsDialog";
 
 type DiceConfigKey = "foreground-color" | "background-color" | "dice-type";
 
