@@ -29,7 +29,11 @@ jest.mock("./SettingsForm", () => {
 });
 
 jest.mock("./SettingsDialog", () => {
-  return function MockSettingsDialog({ children }: { children: React.ReactNode }) {
+  return function MockSettingsDialog({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
     return <div data-testid="settings-dialog">{children}</div>;
   };
 });
@@ -41,7 +45,7 @@ jest.mock("./BabylonCanvas", () => {
 });
 
 describe("App Component Unit Test", () => {
-  it("should render and include all child components", async () => { 
+  it("should render and include all child components", async () => {
     render(<App />);
 
     expect(screen.getByTestId("browser-router")).toBeInTheDocument();
