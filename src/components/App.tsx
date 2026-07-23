@@ -3,6 +3,8 @@ import { BrowserRouter } from "react-router";
 import DiceContextProvider from "../context/DiceContextProvider";
 import BabylonCanvas from "./BabylonCanvas";
 import SettingsDialog from "./SettingsDialog";
+import "./main.css";
+import Loading from "./Loading";
 
 const SettingsForm = lazy(() => import("./SettingsForm"));
 
@@ -12,7 +14,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <DiceContextProvider>
           <SettingsDialog>
-            <Suspense fallback={null}>
+            <Suspense fallback={<Loading />}>
               <SettingsForm />
             </Suspense>
           </SettingsDialog>

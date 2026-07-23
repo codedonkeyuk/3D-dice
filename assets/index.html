@@ -40,6 +40,8 @@
         --btn-primary-bg: #e60000;
         --poker-felt: radial-gradient(circle, #247543 0%, #124224 100%);
         --box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        --pane-bdr-radius: 16px;
+        --pane-bdr-padding: 24px;
         --accessibility-bdr: 3px solid #3b82f6;
       }
 
@@ -57,56 +59,6 @@
         }
       }
 
-      dialog {
-        background: var(--pane);
-        color: var(--text-main);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 24px;
-        width: 90%;
-        max-width: 480px;
-        box-shadow: var(--dialog-shadow);
-
-        opacity: 0;
-        transform: scale(0.95);
-        transition:
-          opacity 0.2s ease,
-          transform 0.2s ease,
-          display 0.2s allow-discrete;
-      }
-
-      dialog[open] {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      dialog *:focus-visible {
-        outline: 3px solid #3b82f6;
-        outline-offset: 2px;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        dialog {
-          transform: none !important;
-          transition:
-            opacity 0.1s linear,
-            display 0.1s allow-discrete !important;
-        }
-      }
-
-      dialog::backdrop {
-        background-color: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(4px);
-        opacity: 0;
-        transition:
-          opacity 0.2s ease,
-          display 0.2s allow-discrete;
-      }
-
-      dialog[open]::backdrop {
-        opacity: 1;
-      }
-
       html,
       body,
       #root,
@@ -118,247 +70,80 @@
         overflow: hidden;
       }
 
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.875rem;
-        font-weight: 500;
-        text-decoration: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        transition:
-          background-color 0.15s ease,
-          border-color 0.15s ease;
-      }
-
-      .btn-primary {
-        background-color: var(--btn-bg);
-        color: var(--btn-text);
-      }
-
-      .btn-primary:hover {
-        background-color: var(--btn-hover);
-      }
-
-      .btn-secondary {
-        border: 1px solid var(--border);
-        color: var(--text-main);
-        background-color: transparent;
-      }
-
-      .btn-secondary:hover {
-        background-color: var(--border);
-      }
-
       body {
         font-family: Helvetica, Arial, sans-serif;
         background: var(--poker-felt, var(--bg));
         color: var(--text-main);
       }
 
-      .my-babylon-canvas {
-        width: 100% !important;
-        height: 100% !important;
-        display: block;
-        touch-action: none;
-        aspect-ratio: unset !important;
-      }
-
-      .dice-settings-button {
-        width: 40px;
-        height: 30px;
-
-        position: absolute;
-        top: 2vh;
-        right: 2vw;
-
-        background: var(--btn-primary-bg);
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        border: none;
-        border-radius: 6px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &::before {
-          content: "";
-          width: 24px;
-          height: 4px;
-          background: #fff;
-
-          box-shadow:
-            0 -9px 0 0 #fff,
-            0 9px 0 0 #fff;
-        }
-
-        .sr-only {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          padding: 0;
-          margin: -1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-          border: 0;
-        }
-      }
-
-      .roll-dice {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 12px 24px;
-        font-size: 16px;
-        font-weight: bold;
-        background-color: var(--btn-primary-bg);
-        color: #ffffff;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        box-shadow: var(--box-shadow);
-
-        &:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-        @media (max-width: 600px) {
-          width: 98%;
-        }
-      }
-
-      .roll-toast-container {
+      .loader-background {
         position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: var(--pane);
-        color: var(--text-main);
-        padding: 12px 28px;
-        border-radius: 30px;
-        font-size: 1.25rem;
-        font-weight: bold;
-        box-shadow: var(--box-shadow);
-        pointer-events: none;
-        animation: slideInDown 0.2s ease-out;
-      }
-
-      .actions {
-        display: flex;
-        gap: 12px;
-        @media (max-width: 600px) {
-          flex-direction: column;
-        }
-      }
-
-      @keyframes slideInDown {
-        from {
-          transform: translate(-50%, -20px);
-          opacity: 0;
-        }
-        to {
-          transform: translate(-50%, 0);
-          opacity: 1;
-        }
-      }
-
-      .dialog-title {
-        margin-top: 0;
-        margin-bottom: 8px;
-        padding: 0 24px;
-        font-size: 1.5rem;
-        letter-spacing: -0.025em;
-      }
-
-      .settings-form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        padding: 24px;
-        width: 100%;
-        box-sizing: border-box;
-      }
-
-      .form-group {
-        display: flex;
-        gap: 16px;
-      }
-
-      .form-group.row-group {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .form-group.column-group {
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .form-label {
-        font-weight: 500;
-        font-size: 0.95rem;
-      }
-
-      .color-picker-wrapper {
-        position: relative;
-        width: 64px;
-        height: 36px;
-      }
-
-      .accessible-color-picker {
-        position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        cursor: pointer;
-        background: none;
-        padding: 0;
-        box-sizing: border-box;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        pointer-events: all;
+        z-index: 99999;
       }
 
-      .accessible-color-picker::-webkit-color-swatch-wrapper {
-        padding: 0;
-      }
-
-      .accessible-color-picker::-webkit-color-swatch {
-        border: none;
-        border-radius: 7px;
-      }
-
-      .accessible-select {
-        width: 100%;
-        min-height: 44px;
-        padding: 10px 14px;
-        font-size: 1rem;
-        background-color: transparent;
+      .loader-message {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: var(--pane);
         color: var(--text-main);
         border: 1px solid var(--border);
-        border-radius: 8px;
-        cursor: pointer;
-        box-sizing: border-box;
-        appearance: none;
-        background-repeat: no-repeat;
-        background-position: right 14px center;
-        background-size: 16px;
+        border-radius: var(--pane-bdr-radius);
+        padding: var(--pane-bdr-padding);
       }
 
-      .accessible-select:focus-visible,
-      .accessible-color-picker:focus-visible {
-        outline: var(--accessibility-bdr);
-        outline-offset: 1px;
+      .spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-left-color: #3b82f6; /* Modern blue accent */
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .loading-text {
+        margin-top: 16px;
+        color: #e5e7eb;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .spinner {
+          animation: none;
+          border-left-color: rgba(255, 255, 255, 0.4);
+        }
       }
     </style>
     <title>Code Donkey - Dice</title>
   </head>
   <body>
-    <main id="root"></main>
+    <main id="root">
+      <div class="loader-background">
+        <div class="loader-message">
+          <div class="spinner"></div>
+          <div class="loading-text">Loading Feature...</div>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
