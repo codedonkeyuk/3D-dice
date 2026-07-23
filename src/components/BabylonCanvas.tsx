@@ -117,6 +117,7 @@ const BabylonCanvas: React.FC = () => {
       disableWebGL2Support: false,
       preserveDrawingBuffer: false,
     });
+    engine.canvasTabIndex = 0;
     engineRef.current = engine;
 
     const scene = new Scene(engine);
