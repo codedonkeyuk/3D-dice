@@ -1,8 +1,4 @@
-import {
-  type SideGraphics,
-  type ModelPiece,
-  type CategoryRecord,
-} from "../types";
+import type { SideGraphics, ModelPiece, CategoryRecord } from "../types";
 import d2TemplateOpenGl from "./templates/d2TemplateOpenGl";
 import { diceForm } from "./templates/diceForm";
 

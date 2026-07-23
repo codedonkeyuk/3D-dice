@@ -1,4 +1,4 @@
-import { type MimeType } from "../../types";
+import type { MimeType } from "../../types";
 
 export default function stringToBlob(
   contents: string,

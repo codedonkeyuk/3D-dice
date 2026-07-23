@@ -1,6 +1,5 @@
-import React from "react";
 import { render, renderHook } from "@testing-library/react";
-import { useLocation } from "react-router"; // We will mock this hook
+import { useLocation } from "react-router";
 import { DiceContextProvider, useDiceEngine } from "./DiceContextProvider";
 import * as diceFindModule from "../models/find";
 

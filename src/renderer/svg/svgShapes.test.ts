@@ -15,7 +15,7 @@ import {
   pentagonCoordinates,
   hexagonCoordinates,
 } from "../shape/Polygons";
-import { type GraphicElement } from "../../types";
+import type { GraphicElement } from "../../types";
 
 jest.mock("../shape/shapeProps", () =>
   jest.fn((props) => ({ ...props, x: props.x ?? 0, y: props.y ?? 0 })),

@@ -1,5 +1,5 @@
 import applyShapeDefaults from "./shapeProps";
-import { type GraphicElement } from "../../types";
+import type { GraphicElement } from "../../types";
 
 describe("applyShapeDefaults", () => {
   it("should apply default values when x and y are missing", () => {

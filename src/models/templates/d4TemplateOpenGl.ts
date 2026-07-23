@@ -1,5 +1,5 @@
 import { Tools } from "@babylonjs/core/Misc/tools";
-import { type TemplateOpenGl } from "../../types";
+import type { TemplateOpenGl } from "../../types";
 
 const d4TemplateOpenGl: TemplateOpenGl = {
   numberPositions: [

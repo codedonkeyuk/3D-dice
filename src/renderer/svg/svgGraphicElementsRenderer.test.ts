@@ -1,4 +1,4 @@
-import svgGraphicElementsRenderer from "./svgGraphicElementsRenderer"; // Adjust path as needed
+import svgGraphicElementsRenderer from "./svgGraphicElementsRenderer";
 import applyShapeDefaults from "../shape/shapeProps";
 import {
   drawSvgCircle,
@@ -6,7 +6,7 @@ import {
   drawSvgTriangle,
   drawSvgText,
 } from "./svgShapes";
-import { type GraphicElement } from "../../types";
+import type { GraphicElement } from "../../types";
 
 jest.mock("../shape/shapeProps", () =>
   jest.fn((el) => ({ ...el, x: el.x ?? 0, y: el.y ?? 0 })),

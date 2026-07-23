@@ -42,7 +42,6 @@ const SettingsForm: React.FC = () => {
       <h2 className="dialog-title">Settings</h2>
 
       <form className="settings-form">
-        {/* Foreground Color Picker Row */}
         <div className="form-group row-group">
           <label htmlFor="fgColorInput" className="form-label">
             Foreground Color:
@@ -60,7 +59,6 @@ const SettingsForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Background Color Picker Row */}
         <div className="form-group row-group">
           <label htmlFor="bgColorInput" className="form-label">
             Background Color:
@@ -78,7 +76,6 @@ const SettingsForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Dice Type Dropdown Field Block */}
         <div className="form-group column-group">
           <label htmlFor="diceTypeSelect" className="form-label">
             Dice Type:

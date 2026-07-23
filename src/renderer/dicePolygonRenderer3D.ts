@@ -9,15 +9,15 @@ import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
 import { Scene } from "@babylonjs/core/scene";
 import { Color4 } from "@babylonjs/core/Maths/math.color";
 
-import {
-  type ModelPiece,
-  type Form,
-  type TemplateOpenGl,
-  type SceneResult,
-  type Side,
-  type PrismMesh,
-  type CategoryRecord,
-  type SideGraphics,
+import type {
+  ModelPiece,
+  Form,
+  TemplateOpenGl,
+  SceneResult,
+  Side,
+  PrismMesh,
+  CategoryRecord,
+  SideGraphics,
 } from "../types";
 
 import generateSvg from "./svg/generateSvg";
@@ -142,9 +142,8 @@ async function dicePolygonRenderer3D(
         mesh,
         form.backgroundColor as string,
         form.foregroundColor as string,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        form.sides[sideIndex],
+
+        form.sides![sideIndex],
         new Vector3(sidePosition.x, sidePosition.y, sidePosition.z),
         new Vector3(sideRotation.x, sideRotation.y, sideRotation.z),
         width,

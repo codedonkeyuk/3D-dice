@@ -1,4 +1,4 @@
-import { type FormAttribute } from "../../types";
+import type { FormAttribute } from "../../types";
 
 type DiceSlotType = {
   x: number;

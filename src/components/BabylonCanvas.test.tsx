@@ -72,7 +72,6 @@ jest.mock("@babylonjs/core/Cameras/arcRotateCamera", () => {
         this.beta = beta || 0;
         this.radius = radius || 5;
 
-        // Fix: Use an inline self-returning literal shape to bypass the out-of-scope check
         this.position = {
           x: 0,
           y: 0,
@@ -95,7 +94,6 @@ jest.mock("../context/DiceContextProvider", () => ({
 
 jest.mock("../renderer/diceRenderer", () => jest.fn());
 
-// Core Instance Vector prototype overrides
 Vector3.prototype.normalize = function () {
   return this;
 };
@@ -103,7 +101,6 @@ Vector3.prototype.clone = function () {
   return this;
 };
 
-// Explicitly assign properties to handle constructor clones safely
 Vector3.Dot = jest.fn(() => 1);
 Vector3.Zero = jest.fn(() => new Vector3(0, 0, 0));
 
@@ -172,7 +169,6 @@ describe("<BabylonCanvas /> Component Suite", () => {
     expect(rollButton).toBeDisabled();
     expect(rollButton).toHaveTextContent("Rolling...");
 
-    // 1. Flush out the spinning physics frames completely
     await act(async () => {
       for (let i = 0; i < 205; i++) {
         mockObserverCallbacks.forEach((cb) => cb());
@@ -181,14 +177,12 @@ describe("<BabylonCanvas /> Component Suite", () => {
 
     expect(screen.getByText("You rolled a 1!")).toBeInTheDocument();
 
-    // 2. Drive the secondary camera snap jolt sequence to an absolute zero threshold termination state
     await act(async () => {
       for (let i = 0; i < 50; i++) {
         mockObserverCallbacks.forEach((cb) => cb());
       }
     });
 
-    // 3. Speed up system clock states to flush out your notification banners
     act(() => {
       jest.advanceTimersByTime(4000);
     });

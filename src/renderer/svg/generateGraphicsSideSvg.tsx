@@ -1,6 +1,6 @@
 import { drawSvgCircle, drawSvgSquare, drawSvgTriangle } from "./svgShapes";
 import svgGraphicElementsRenderer from "./svgGraphicElementsRenderer";
-import { type SideGraphics } from "../../types";
+import type { SideGraphics } from "../../types";
 
 function drawSquareBackground(
   side: SideGraphics,

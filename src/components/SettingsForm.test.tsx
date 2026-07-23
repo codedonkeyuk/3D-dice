@@ -40,7 +40,7 @@ describe("SettingsForm Unit Tests", () => {
 
   it("renders values correctly from URL parameters", () => {
     mockSearchParams = new URLSearchParams({
-      "foreground-color": "#00ff00", // Normalised to lowercase hex values
+      "foreground-color": "#00ff00",
       "background-color": "#0000ff",
       "dice-type": "number-dice-d20",
     });
@@ -69,7 +69,6 @@ describe("SettingsForm Unit Tests", () => {
   it("calls setSearchParams when the dice type is changed", () => {
     render(<SettingsForm />);
 
-    // Removed the broken '40549863' label element lookup
     const select = screen.getByLabelText(/Dice Type:/i) as HTMLSelectElement;
     fireEvent.change(select, { target: { value: "number-dice-d20" } });
 

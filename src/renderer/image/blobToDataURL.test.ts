@@ -1,5 +1,5 @@
-import blobToDataURL from "./blobToDataURL"; // Adjust path as needed
-import { type MimeType } from "../../types";
+import blobToDataURL from "./blobToDataURL";
+import type { MimeType } from "../../types";
 
 describe("blobToDataURL", () => {
   let mockContext: { drawImage: jest.Mock };

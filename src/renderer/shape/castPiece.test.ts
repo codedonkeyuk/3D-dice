@@ -1,5 +1,5 @@
-import { get3dTemplate } from "./castPiece"; // Adjust path as needed
-import { type ModelPiece, type TemplateOpenGl } from "../../types";
+import { get3dTemplate } from "./castPiece";
+import type { ModelPiece, TemplateOpenGl } from "../../types";
 
 describe("get3dTemplate", () => {
   it("should return the OpenGL template when it exists on the piece", () => {
@@ -11,10 +11,8 @@ describe("get3dTemplate", () => {
       },
     } as unknown as ModelPiece;
 
-    // Act
     const result = get3dTemplate(mockPiece);
 
-    // Assert
     expect(result).toBe(mockOpenGlTemplate);
   });
 

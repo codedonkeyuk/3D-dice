@@ -1,5 +1,5 @@
-import { diceSlot, diceStyle } from "./diceMethods"; // Adjust path as needed
-import { type FormAttribute } from "../../types";
+import { diceSlot, diceStyle } from "./diceMethods";
+import type { FormAttribute } from "../../types";
 
 describe("diceSlot", () => {
   const baseSlot = {

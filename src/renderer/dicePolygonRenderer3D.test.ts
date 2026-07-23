@@ -2,7 +2,6 @@ import dicePolygonRenderer3D, {
   generateD10MeshMaterial,
 } from "./dicePolygonRenderer3D";
 import { MeshBuilder } from "@babylonjs/core/Meshes/meshBuilder";
-import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 
 jest.mock("./svg/generateSvg", () => jest.fn(() => "<svg>mock</svg>"));
 jest.mock("./shape/castPiece", () => ({
@@ -46,7 +45,7 @@ describe("3D Dice Polygon Renderer Utilities", () => {
 
     globalThis.URL.createObjectURL = jest.fn(() => "blob:mock-url");
 
-    mockScene = {}; // Simple token mock object for scene references
+    mockScene = {};
 
     mockMeshInstance = {
       enableEdgesRendering: jest.fn(),

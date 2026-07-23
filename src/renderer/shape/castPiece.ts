@@ -1,4 +1,4 @@
-import { type ModelPiece, type TemplateOpenGl } from "../../types";
+import type { ModelPiece, TemplateOpenGl } from "../../types";
 
 export function get3dTemplate(piece: ModelPiece): TemplateOpenGl {
   const template = piece.template?.OpenGl;

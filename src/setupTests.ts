@@ -5,7 +5,6 @@ jest.mock("@babylonjs/core/Cameras/arcRotateCamera", () => ({}), {
 const mockObserverCallbacks = new Set<() => void>();
 const mockSceneDispose = jest.fn();
 
-// Cleanly isolate module overrides using explicit local inline factory parameters
 jest.mock("@babylonjs/core/scene", () => {
   return {
     Scene: class {

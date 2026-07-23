@@ -1,5 +1,5 @@
 import stringToBlob from "./stringToBlob";
-import { type MimeType } from "../../types";
+import type { MimeType } from "../../types";
 
 describe("stringToBlob", () => {
   it("should create a Blob with default mime type if none is provided", () => {

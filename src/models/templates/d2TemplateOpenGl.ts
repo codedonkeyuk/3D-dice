@@ -1,4 +1,4 @@
-import { type TemplateOpenGl } from "../../types";
+import type { TemplateOpenGl } from "../../types";
 
 const d2TemplateOpenGl: TemplateOpenGl = {
   numberPositions: [

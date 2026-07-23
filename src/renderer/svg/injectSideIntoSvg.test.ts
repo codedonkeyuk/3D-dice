@@ -2,7 +2,7 @@ import injectSideIntoSvg from "./injectSideIntoSvg";
 import arrayBufferToBlob from "../image/arrayBufferToBlob";
 import blobToDataURL from "../image/blobToDataURL";
 import generateGraphicsSideSvg from "./generateGraphicsSideSvg";
-import { type Side } from "../../types";
+import type { Side } from "../../types";
 
 jest.mock("../image/arrayBufferToBlob", () => jest.fn());
 jest.mock("../image/blobToDataURL", () => jest.fn());

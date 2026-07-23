@@ -1,4 +1,4 @@
-import { type GraphicElement, type DrawMethods } from "../../types";
+import type { GraphicElement, DrawMethods } from "../../types";
 import applyShapeDefaults from "../shape/shapeProps";
 import {
   drawSvgCircle,

@@ -1,8 +1,8 @@
-import {
-  type CategoryRecord,
-  type ModelPiece,
-  type SideGraphics,
-  type SavedPieceRenderer3d,
+import type {
+  CategoryRecord,
+  ModelPiece,
+  SideGraphics,
+  SavedPieceRenderer3d,
 } from "../types";
 import dicePlaneRenderer3D from "./dicePlaneRenderer3D";
 import dicePolygonRenderer3D from "./dicePolygonRenderer3D";

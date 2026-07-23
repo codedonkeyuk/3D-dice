@@ -1,4 +1,4 @@
-import { type GraphicElement } from "../../types";
+import type { GraphicElement } from "../../types";
 import applyShapeDefaults from "../shape/shapeProps";
 import {
   hexagonCoordinates,

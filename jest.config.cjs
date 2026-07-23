@@ -6,7 +6,6 @@ module.exports = {
   moduleNameMapper: {
     "\\.css$": "identity-obj-proxy",
   },
-  // In native Node ESM, you must treat your TypeScript extensions as ESM modules
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   transform: {
     "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",

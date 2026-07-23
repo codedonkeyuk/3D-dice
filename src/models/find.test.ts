@@ -52,7 +52,7 @@ jest.mock("./index", () => {
             face: [[0, 1, 2, 3]],
             sideSlots: [
               {
-                sidePosition: { x: 0.5, y: 0, z: 0 }, // Mimics radian output
+                sidePosition: { x: 0.5, y: 0, z: 0 },
                 sideRotation: { x: 0, y: -1.57, z: 0 },
                 sideIndex: 0,
                 width: 1,

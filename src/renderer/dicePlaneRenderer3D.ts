@@ -8,14 +8,14 @@ import { Texture } from "@babylonjs/core/Materials/Textures/texture";
 import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
 import { Scene } from "@babylonjs/core/scene";
 
-import {
-  type ModelPiece,
-  type SideGraphics,
-  type Form,
-  type TemplateOpenGl,
-  type PlaneMesh,
-  type SceneResult,
-  type CategoryRecord,
+import type {
+  ModelPiece,
+  SideGraphics,
+  Form,
+  TemplateOpenGl,
+  PlaneMesh,
+  SceneResult,
+  CategoryRecord,
 } from "../types";
 
 import generateSvg from "./svg/generateSvg";
@@ -31,27 +31,36 @@ export function generateD2MeshMaterial(
 ): string {
   let slots: string = "";
 
+  // Guard Clause: Return empty SVG template early if sides array is missing
+  if (!form.sides) {
+    const content = `
+      ${diceStyle(form.foregroundColor, form.backgroundColor)}
+      ${mesh.html}
+    `;
+    return generateSvg(content, mesh.width, mesh.height);
+  }
+
   for (let i = 0; i < mesh.sideSlots.length; i++) {
     const { x, y, rotate, width, height, scaleX, scaleY, translateX } =
       mesh.sideSlots[i];
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     const side = form.sides[i];
 
-    slots += `
-      ${diceSlot({
-        x,
-        y,
-        content: svgGraphicElementsRenderer((side as SideGraphics).elements),
-        rotate,
-        width,
-        height,
-        scaleX,
-        scaleY,
-        translateX,
-      })}
-    `;
+    if (side) {
+      slots += `
+        ${diceSlot({
+          x,
+          y,
+          content: svgGraphicElementsRenderer((side as SideGraphics).elements),
+          rotate,
+          width,
+          height,
+          scaleX,
+          scaleY,
+          translateX,
+        })}
+      `;
+    }
   }
 
   const content = `

@@ -19,7 +19,7 @@ describe("arrayBufferToBlob", () => {
   });
 
   it("should create a Blob with the correct size", () => {
-    const largeBuffer = new ArrayBuffer(1024); // 1KB
+    const largeBuffer = new ArrayBuffer(1024);
     const blob = arrayBufferToBlob(largeBuffer);
 
     expect(blob.size).toBe(1024);

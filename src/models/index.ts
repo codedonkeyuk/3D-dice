@@ -1,8 +1,4 @@
-import {
-  type SideGraphics,
-  type ModelPiece,
-  type CategoryRecord,
-} from "../types";
+import type { SideGraphics, ModelPiece, CategoryRecord } from "../types";
 import blankDiceD10 from "./blank-dice-d10";
 import blankDiceD12 from "./blank-dice-d12";
 import blankDiceD2 from "./blank-dice-d2";

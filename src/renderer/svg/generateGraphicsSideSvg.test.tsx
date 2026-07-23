@@ -1,7 +1,7 @@
 import generateGraphicsSideSvg from "./generateGraphicsSideSvg";
 import { drawSvgCircle, drawSvgSquare, drawSvgTriangle } from "./svgShapes";
 import svgGraphicElementsRenderer from "./svgGraphicElementsRenderer";
-import { type SideGraphics } from "../../types";
+import type { SideGraphics } from "../../types";
 
 jest.mock("./svgShapes", () => ({
   drawSvgSquare: jest.fn(
