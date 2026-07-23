@@ -38,7 +38,7 @@ const SettingsForm: React.FC = () => {
   };
 
   return (
-    <SettingsDialog>
+    <>
       <h2 className="dialog-title">Settings</h2>
 
       <form className="settings-form">
@@ -99,7 +99,7 @@ const SettingsForm: React.FC = () => {
           </select>
         </div>
       </form>
-    </SettingsDialog>
+    </>
   );
 };
 

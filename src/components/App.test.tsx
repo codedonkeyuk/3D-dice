@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react"; // 1. Added screen and waitFor
 import App from "./App";
 
 jest.mock("react-router", () => ({
@@ -28,6 +28,12 @@ jest.mock("./SettingsForm", () => {
   };
 });
 
+jest.mock("./SettingsDialog", () => {
+  return function MockSettingsDialog({ children }: { children: React.ReactNode }) {
+    return <div data-testid="settings-dialog">{children}</div>;
+  };
+});
+
 jest.mock("./BabylonCanvas", () => {
   return function MockBabylonCanvas() {
     return <div data-testid="babylon-canvas">Babylon Canvas</div>;
@@ -35,21 +41,16 @@ jest.mock("./BabylonCanvas", () => {
 });
 
 describe("App Component Unit Test", () => {
-  it("should render and include all child components", () => {
+  it("should render and include all child components", async () => { 
     render(<App />);
 
-    expect(
-      document.querySelector('[data-testid="browser-router"]'),
-    ).not.toBeNull();
-    expect(
-      document.querySelector('[data-testid="dice-context"]'),
-    ).not.toBeNull();
-    expect(
-      document.querySelector('[data-testid="settings-form"]'),
-    ).not.toBeNull();
-    expect(
-      document.querySelector('[data-testid="babylon-canvas"]'),
-    ).not.toBeNull();
+    expect(screen.getByTestId("browser-router")).toBeInTheDocument();
+    expect(screen.getByTestId("dice-context")).toBeInTheDocument();
+    expect(screen.getByTestId("babylon-canvas")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("settings-form")).toBeInTheDocument();
+    });
   });
 
   it("renders the root structure", () => {
