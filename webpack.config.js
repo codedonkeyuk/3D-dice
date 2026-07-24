@@ -4,114 +4,143 @@ import { fileURLToPath } from "node:url";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
 import fs from "fs";
-import injectServiceWorkerPlugin from "./plugins/inject-sw.js";
+import generateFavicons from "./plugins/generate-favicons.js";
+import injectServiceWorker from "./plugins/inject-service-worker.js";
+import siteConfig from "./assets/site-config.json" with { type: "json" };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default {
-  entry: "./src/Index.tsx",
-  mode: "production",
-  module: {
-    rules: [
-      {
-        test: /\.(ts|js)x?$/,
-        exclude: [/node_modules/],
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-env",
-              [
-                "@babel/preset-react",
-                {
-                  runtime: "automatic",
-                  development: false,
-                },
+const getMinifyOptions = (isProd) =>
+  isProd && {
+    collapseWhitespace: true,
+    removeComments: true,
+    removeRedundantAttributes: true,
+    useShortDoctype: true,
+    minifyCSS: true,
+    minifyJS: true,
+  };
+
+export default (env, argv) => {
+  const webpackMode = argv.mode || "production";
+  const isProd = webpackMode === "production";
+
+  return {
+    mode: webpackMode,
+    module: {
+      rules: [
+        {
+          test: /\.(ts|js)x?$/,
+          exclude: [/node_modules/],
+          use: {
+            loader: "babel-loader",
+            options: {
+              presets: [
+                "@babel/preset-env",
+                [
+                  "@babel/preset-react",
+                  {
+                    runtime: "automatic",
+                    development: false,
+                  },
+                ],
+                "@babel/preset-typescript",
               ],
-              "@babel/preset-typescript",
-            ],
+            },
           },
         },
-      },
-      {
-        test: /\.svg$/i,
-        type: "asset/resource",
-      },
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-    ],
-  },
-  resolve: {
-    extensions: [".js", ".jsx", ".tsx", ".ts", ".json"],
-  },
-  performance: {
-    maxAssetSize: 2000000,
-    maxEntrypointSize: 2500000,
-  },
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].bundle.js",
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./assets/index.html",
-      favicon: "./assets/favicon-32x32.png",
-    }),
-    new CopyPlugin({
-      patterns: [
-        { from: "./assets/manifest.json", to: "." },
-        { from: "./assets/.htaccess", to: "." },
-        { from: "./assets/404.html", to: "." },
         {
-          from: path.resolve(__dirname, "assets/favicon-*.png"),
-          to: "[name][ext]",
+          test: /\.svg$/i,
+          type: "asset/resource",
+        },
+        {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader"],
         },
       ],
-    }),
-    injectServiceWorkerPlugin(__dirname),
-  ],
-  devServer: {
-    open: true,
-    static: {
-      directory: path.join(__dirname, "dist"),
     },
-    compress: true,
-    client: {
-      overlay: {
-        errors: true,
-        warnings: false,
+    resolve: {
+      extensions: [".js", ".jsx", ".tsx", ".ts", ".json"],
+    },
+    performance: {
+      maxAssetSize: 2000000,
+      maxEntrypointSize: 2500000,
+    },
+    output: {
+      path: path.resolve(__dirname, "dist"),
+      filename: "[name].bundle.js",
+      clean: true,
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: "./assets/index.html",
+        filename: "index.html",
+        title: siteConfig.appName,
+        metaDescription: siteConfig.metaDescription,
+        publicSiteAddress: siteConfig.publicSiteAddress,
+        isProduction: isProd,
+        minify: getMinifyOptions(isProd),
+      }),
+      new HtmlWebpackPlugin({
+        template: "./assets/404.html",
+        filename: "404.html",
+        title: `${siteConfig.appName} | Page Not Found `,
+        metaDescription: "Sorry, the page you are looking for does not exist.",
+        publicSiteAddress: siteConfig.publicSiteAddress,
+        isProduction: isProd,
+        minify: getMinifyOptions(isProd),
+        inject: false,
+      }),
+      ...(isProd
+        ? [
+            new CopyPlugin({
+              patterns: [{ from: "./assets/.htaccess", to: "." }],
+            }),
+            injectServiceWorker(__dirname),
+            generateFavicons(__dirname, siteConfig),
+          ]
+        : []),
+    ],
+    devServer: {
+      open: true,
+      static: {
+        directory: path.join(__dirname, "dist"),
+      },
+      compress: true,
+      client: {
+        overlay: {
+          errors: true,
+          warnings: false,
+        },
       },
     },
-  },
-  optimization: {
-    splitChunks: {
-      chunks: "all",
-      maxInitialRequests: 25,
-      minSize: 30000,
-      cacheGroups: {
-        babylon: {
-          test: /[\\/]node_modules[\\/]@babylonjs/,
-          name: "npm.babylonjs-core",
-          priority: 20,
-          reuseExistingChunk: true,
-        },
+    optimization: {
+      splitChunks: {
+        chunks: "all",
+        maxInitialRequests: 25,
+        minSize: 30000,
+        cacheGroups: {
+          babylon: {
+            test: /[\\/]node_modules[\\/]@babylonjs/,
+            name: "npm.babylonjs-core",
+            priority: 20,
+            reuseExistingChunk: true,
+          },
 
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: 10,
-          name(module) {
-            if (!module.context) return "vendor";
-            const match = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
-            );
-            const packageName = match ? match[1] : "vendor";
-            return `npm.${packageName.replace("@", "")}`;
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: 10,
+            name(module) {
+              if (!module.context) return "vendor";
+              const match = module.context.match(
+                /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
+              );
+              const packageName = match ? match[1] : "vendor";
+              return `npm.${packageName.replace("@", "")}`;
+            },
           },
         },
       },
     },
-  },
+  };
 };

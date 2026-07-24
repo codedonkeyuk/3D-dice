@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const injectServiceWorkerPlugin = (__dirname) => {
+const injectServiceWorker = (__dirname) => {
   return {
     apply(compiler) {
       compiler.hooks.afterEmit.tapAsync(
@@ -46,4 +46,4 @@ const injectServiceWorkerPlugin = (__dirname) => {
   };
 };
 
-export default injectServiceWorkerPlugin;
+export default injectServiceWorker;
