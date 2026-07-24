@@ -27,6 +27,12 @@ const injectServiceWorkerPlugin = (__dirname) => {
             JSON.stringify(finalManifest),
           );
 
+          const buildHash = compilation.fullHash || Date.now().toString();
+          swContent = swContent.replace(
+            "__BUILD_HASH_PLACEHOLDER__",
+            buildHash,
+          );
+
           const outputPath = path.resolve(
             compiler.options.output.path,
             "sw.js",
