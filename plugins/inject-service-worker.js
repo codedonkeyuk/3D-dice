@@ -9,9 +9,13 @@ const injectServiceWorker = (__dirname) => {
         (compilation, callback) => {
           const generatedFiles = Object.keys(compilation.assets);
 
-          const filteredFiles = generatedFiles.filter(
-            (file) => file !== "sw.js" && !file.endsWith(".txt"),
-          );
+          const filteredFiles = generatedFiles.filter((file) => {
+            if (file === "sw.js") return false;
+            if (file.endsWith(".txt")) return false;
+            if (file.startsWith(".") || file.includes("/.")) return false;
+
+            return true;
+          });
 
           const absoluteFiles = filteredFiles.map((file) =>
             file.startsWith("/") ? file : `/${file}`,
