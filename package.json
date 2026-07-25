@@ -53,7 +53,8 @@
     "webpack-dev-server": "^6.0.0"
   },
   "overrides": {
-    "@babel/core": "^8.0.1"
+    "@babel/core": "^8.0.1",
+    "glob": "^13.0.6"
   },
   "allowScripts": {
     "unrs-resolver@1.12.2": true,

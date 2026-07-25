@@ -17,7 +17,7 @@ const getMinifyOptions = (isProd) =>
     removeComments: true,
     removeRedundantAttributes: true,
     useShortDoctype: true,
-    minifyCSS: true,
+    minifyCSS: false,
     minifyJS: true,
   };
 
