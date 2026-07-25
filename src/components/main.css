@@ -1,9 +1,9 @@
 dialog {
-  background: var(--pane);
+  background: var(--card);
   color: var(--text-main);
   border: 1px solid var(--border);
-  border-radius: var(--pane-bdr-radius);
-  padding: var(--pane-bdr-padding);
+  border-radius: var(--card-bdr-radius);
+  padding: var(--card-bdr-padding);
   width: 90%;
   max-width: 480px;
   box-shadow: var(--dialog-shadow);
@@ -191,7 +191,7 @@ body,
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--pane);
+  background-color: var(--card);
   color: var(--text-main);
   padding: 12px 28px;
   border-radius: 30px;

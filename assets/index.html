@@ -76,7 +76,7 @@
     <style>
       :root {
         --bg: #1c6036;
-        --pane: #ffffff;
+        --card: #ffffff;
         --text-main: #111827;
         --text-muted: #4b5563;
         --border: #d4d4d8;
@@ -88,15 +88,15 @@
         --btn-primary-bdr: #ffffff;
         --poker-felt: radial-gradient(circle, #247543 0%, #124224 100%);
         --box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-        --pane-bdr-radius: 16px;
-        --pane-bdr-padding: 24px;
+        --card-bdr-radius: 16px;
+        --card-bdr-padding: 24px;
         --accessibility-bdr: 3px solid #3b82f6;
       }
 
       @media (prefers-color-scheme: dark) {
         :root {
           --bg: #1c2d5a;
-          --pane: #000000;
+          --card: #000000;
           --border: #e5e7eb;
           --text-main: #f9fafb;
           --text-muted: #9ca3af;
@@ -145,11 +145,11 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: var(--pane);
+        background: var(--card);
         color: var(--text-main);
         border: 1px solid var(--border);
-        border-radius: var(--pane-bdr-radius);
-        padding: var(--pane-bdr-padding);
+        border-radius: var(--card-bdr-radius);
+        padding: var(--card-bdr-padding);
       }
 
       .spinner {

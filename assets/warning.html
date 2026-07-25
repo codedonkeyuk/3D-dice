@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en-gb">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Modern PNG & Apple Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Canonical URL Link -->
+    <link
+      rel="canonical"
+      href="<%= htmlWebpackPlugin.options.publicSiteAddress %>"
+    />
+
+    <!-- Core SEO -->
+    <meta
+      name="description"
+      content="<%= htmlWebpackPlugin.options.metaDescription %>"
+    />
+
+    <!-- Open Graph Protocol (Facebook, LinkedIn, Discord) -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="<%= htmlWebpackPlugin.options.publicSiteAddress %>"
+    />
+    <meta
+      property="og:title"
+      content="<%= htmlWebpackPlugin.options.title %>"
+    />
+    <meta
+      property="og:description"
+      content="<%= htmlWebpackPlugin.options.warningMessage %>"
+    />
+    <meta
+      property="og:image"
+      content="<%= htmlWebpackPlugin.options.publicSiteAddress %>/og-image.png"
+    />
+
+    <!-- Twitter / X Cards Optimization -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="<%= htmlWebpackPlugin.options.title %>"
+    />
+    <meta
+      name="twitter:description"
+      content="<%= htmlWebpackPlugin.options.warningMessage %>"
+    />
+    <meta
+      name="twitter:image"
+      content="<%= htmlWebpackPlugin.options.publicSiteAddress %>/og-image.png"
+    />
+
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <% if (htmlWebpackPlugin.options.isProduction) { %>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/sw.js")
+            .then((reg) => console.log("SW registered: ", reg))
+            .catch((err) => console.error("SW registration failed: ", err));
+        });
+      }
+    </script>
+    <% } else { %>
+    <script>
+      console.log("🛠️ Development Mode: Service Worker injection skipped.");
+    </script>
+    <% } %>
+    <style>
+      :root {
+        --bg: <%= htmlWebpackPlugin.options.warningCss.light.backgroundColor %>;
+        --text-main: <%= htmlWebpackPlugin.options.warningCss.light.textColor %>;
+        --card: <%= htmlWebpackPlugin.options.warningCss.light.cardColor %>;
+        --border: <%= htmlWebpackPlugin.options.warningCss.light.borderColor %>;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: <%= htmlWebpackPlugin.options.warningCss.dark.backgroundColor %>;
+          --text-main: <%= htmlWebpackPlugin.options.warningCss.dark.textColor
+            %>;
+          --card: <%= htmlWebpackPlugin.options.warningCss.dark.cardColor %>;
+          --border: <%= htmlWebpackPlugin.options.warningCss.dark.borderColor %>;
+        }
+      }
+      body {
+        background-color: var(--bg);
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .card {
+        background-color: var(--card);
+        border: 2px solid var(--border);
+        padding: 40px;
+        text-align: center;
+        max-width: 400px;
+        box-shadow: none;
+        @media screen and (max-width: 600px) {
+          border-left: none;
+          border-right: none;
+          padding: 40px 20px;
+        }
+      }
+      h1 {
+        color: var(--text-main);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 10px;
+      }
+      p {
+        color: var(--text-main);
+        line-height: 1.6;
+      }
+      a {
+        color: var(--text-main);
+        display: inline-block;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+
+      a.button-link {
+        padding: 10px 20px;
+        background: var(--text-main);
+        color: var(--card);
+        text-decoration: none;
+        transition: all 0.2s ease-in-out;
+
+        @media screen and (max-width: 600px) {
+          display: block;
+          width: 100%;
+          box-sizing: border-box;
+          text-align: center;
+        }
+      }
+
+      a.button-link:focus-visible {
+        outline: 3px solid var(--text-main);
+        outline-offset: 2px;
+      }
+      a.button-link:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="card">
+        <h1><%= htmlWebpackPlugin.options.warningHeader %></h1>
+        <p><%= htmlWebpackPlugin.options.warningMessage %></p>
+        <a class="button-link" href="/index.html">Return to Main Page</a>
+      </div>
+    </main>
+  </body>
+</html>
