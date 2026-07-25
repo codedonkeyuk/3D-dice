@@ -7,6 +7,7 @@ import fs from "fs";
 import generateFavicons from "./plugins/generate-favicons.js";
 import injectServiceWorker from "./plugins/inject-service-worker.js";
 import siteConfig from "./assets/site-config.json" with { type: "json" };
+import minifyCSS from "./plugins/minify-css.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,7 +18,7 @@ const getMinifyOptions = (isProd) =>
     removeComments: true,
     removeRedundantAttributes: true,
     useShortDoctype: true,
-    minifyCSS: false,
+    minifyCSS,
     minifyJS: true,
   };
 
