@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useParams } from "react-router"; // Imported useParams
 import { findDice } from "../models/find";
 
 interface DiceContextType {
@@ -13,12 +13,15 @@ export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const location = useLocation();
 
+  const { diceId } = useParams<{ diceId: string }>();
+
   const params = new URLSearchParams(location.search);
-  const diceType = params.get("dice-type") || "poker-dice-d6";
   const backgroundColor = params.get("background-color") || "#FF0000";
   const foregroundColor = params.get("foreground-color") || "#FFFFFF";
 
-  const dice = findDice(diceType);
+  const activeDiceType = diceId || "poker-dice-d6";
+
+  const dice = findDice(activeDiceType);
 
   const model = dice
     ? {

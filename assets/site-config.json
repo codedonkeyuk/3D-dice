@@ -4,19 +4,5 @@
   "themeColor": "#e60000",
   "backgroundColor": "#000000",
   "publicSiteAddress": "https//dice.codedonkey.uk",
-  "metaDescription": "A 3D dice generator that allows you to customise dice. You can then bookmark, and roll it whenever you like.",
-  "warningCss": {
-    "light": {
-      "backgroundColor": "#124224",
-      "textColor": "#111827",
-      "cardColor": "#ffffff",
-      "borderColor": "#d4d4d8"
-    },
-    "dark": {
-      "backgroundColor": "#0b132b",
-      "textColor": "#f9fafb",
-      "cardColor": "#000000",
-      "borderColor": "#9ca3af"
-    }
-  }
+  "metaDescription": "A 3D dice generator that allows you to customise dice. You can then bookmark, and roll it whenever you like."
 }

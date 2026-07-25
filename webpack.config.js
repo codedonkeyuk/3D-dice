@@ -68,6 +68,7 @@ export default (env, argv) => {
       maxEntrypointSize: 2500000,
     },
     output: {
+      publicPath: "/",
       path: path.resolve(__dirname, "dist"),
       filename: "[name].bundle.js",
       clean: true,
@@ -84,15 +85,18 @@ export default (env, argv) => {
       }),
       new HtmlWebpackPlugin({
         template: "./assets/warning.html",
-        filename: "404.html",
-        title: `${siteConfig.appName} | 404 - Page Not Found`,
-        warningHeader: "404 - Page Not Found",
-        warningMessage: "Sorry, the page you are looking for does not exist.",
-        warningCss: siteConfig.warningCss,
+        filename: "error.html",
+        title: `${siteConfig.appName} | Cannot Communicate with Server`,
+        warningHeader: "Cannot Communicate with Server",
+        warningMessage:
+          "Check your network, if its fine then something has gone wrong in our end. In that case take a break and come back in a bit.",
         publicSiteAddress: siteConfig.publicSiteAddress,
         isProduction: isProd,
         minify: getMinifyOptions(isProd),
         inject: false,
+      }),
+      new CopyPlugin({
+        patterns: [{ from: "./assets/main.css", to: "." }],
       }),
       ...(isProd
         ? [
@@ -106,6 +110,7 @@ export default (env, argv) => {
     ],
     devServer: {
       open: true,
+      historyApiFallback: true,
       static: {
         directory: path.join(__dirname, "dist"),
       },

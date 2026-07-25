@@ -11,10 +11,10 @@ RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# 4. CLEAN URL EXTENSIONS
+# 4. SINGLE PAGE APPLICATION CATCH-ALL ROUTING (REACT ROUTER)
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^([^\.]+)$ $1.html [NC,L]
+RewriteRule ^ index.html [L]
 
 # 5. REGISTER CUSTOM MIME TYPES
 AddType application/manifest+json .webmanifest

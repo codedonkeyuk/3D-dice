@@ -100,7 +100,7 @@ body,
   aspect-ratio: unset !important;
 }
 
-.dice-settings-button {
+.dice-settings-link-button {
   width: 40px;
   height: 30px;
   position: absolute;

@@ -203,6 +203,8 @@ const BabylonCanvas: React.FC = () => {
     const scene = sceneRef.current;
     if (!scene || !model) return;
 
+    let isMounted = true;
+
     const currentMeshes = scene.meshes.slice();
     currentMeshes.forEach((mesh) => {
       if (mesh.name !== "mainCam_target") {
@@ -212,10 +214,17 @@ const BabylonCanvas: React.FC = () => {
 
     const renderAsyncModel = async () => {
       const renderer = await getDice(model);
+
+      if (!isMounted) return;
+
       await renderer(scene, model);
     };
 
     renderAsyncModel().catch(console.error);
+
+    return () => {
+      isMounted = false;
+    };
   }, [model]);
 
   return (

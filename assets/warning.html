@@ -56,7 +56,7 @@
       content="<%= htmlWebpackPlugin.options.publicSiteAddress %>/og-image.png"
     />
 
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet" href="/main.css" />
     <% if (htmlWebpackPlugin.options.isProduction) { %>
     <script>
       if ("serviceWorker" in navigator) {
@@ -73,92 +73,17 @@
       console.log("🛠️ Development Mode: Service Worker injection skipped.");
     </script>
     <% } %>
-    <style>
-      :root {
-        --bg: <%= htmlWebpackPlugin.options.warningCss.light.backgroundColor %>;
-        --text-main: <%= htmlWebpackPlugin.options.warningCss.light.textColor %>;
-        --card: <%= htmlWebpackPlugin.options.warningCss.light.cardColor %>;
-        --border: <%= htmlWebpackPlugin.options.warningCss.light.borderColor %>;
-      }
-
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: <%= htmlWebpackPlugin.options.warningCss.dark.backgroundColor %>;
-          --text-main: <%= htmlWebpackPlugin.options.warningCss.dark.textColor
-            %>;
-          --card: <%= htmlWebpackPlugin.options.warningCss.dark.cardColor %>;
-          --border: <%= htmlWebpackPlugin.options.warningCss.dark.borderColor %>;
-        }
-      }
-      body {
-        background-color: var(--bg);
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-      }
-      .card {
-        background-color: var(--card);
-        border: 2px solid var(--border);
-        padding: 40px;
-        text-align: center;
-        max-width: 400px;
-        box-shadow: none;
-        @media screen and (max-width: 600px) {
-          border-left: none;
-          border-right: none;
-          padding: 40px 20px;
-        }
-      }
-      h1 {
-        color: var(--text-main);
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 10px;
-      }
-      p {
-        color: var(--text-main);
-        line-height: 1.6;
-      }
-      a {
-        color: var(--text-main);
-        display: inline-block;
-        margin-top: 20px;
-        font-weight: bold;
-      }
-
-      a.button-link {
-        padding: 10px 20px;
-        background: var(--text-main);
-        color: var(--card);
-        text-decoration: none;
-        transition: all 0.2s ease-in-out;
-
-        @media screen and (max-width: 600px) {
-          display: block;
-          width: 100%;
-          box-sizing: border-box;
-          text-align: center;
-        }
-      }
-
-      a.button-link:focus-visible {
-        outline: 3px solid var(--text-main);
-        outline-offset: 2px;
-      }
-      a.button-link:hover {
-        transform: scale(1.05);
-      }
-    </style>
+    <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
-    <main>
-      <div class="card">
-        <h1><%= htmlWebpackPlugin.options.warningHeader %></h1>
-        <p><%= htmlWebpackPlugin.options.warningMessage %></p>
-        <a class="button-link" href="/index.html">Return to Main Page</a>
-      </div>
-    </main>
+    <div class="warning">
+      <main>
+        <div class="warning-card">
+          <h1><%= htmlWebpackPlugin.options.warningHeader %></h1>
+          <p><%= htmlWebpackPlugin.options.warningMessage %></p>
+          <a class="warning-link" href="/">Return to Main Page</a>
+        </div>
+      </main>
+    </div>
   </body>
 </html>
