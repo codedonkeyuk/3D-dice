@@ -17,7 +17,6 @@ const generateFavicons = (__dirname, config) => {
         "GenerateFaviconsPlugin",
         (compilation, callback) => {
           const rootDir = compiler.context || __dirname;
-          // altered from original which was svg
           const inputPng = path.resolve(rootDir, "./assets/logo-square.png");
           const outputDir = path.resolve(rootDir, "./dist");
 
