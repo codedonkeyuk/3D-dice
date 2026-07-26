@@ -1,11 +1,11 @@
-import BabylonCanvas from "./BabylonCanvas";
+import DiceCanvas from "./DiceCanvas";
 import "./App.css";
 import SettingsButton from "./SettingsButton";
 
 const DiceRoller: React.FC = () => {
   return (
     <>
-      <BabylonCanvas />
+      <DiceCanvas />
       <SettingsButton />
     </>
   );

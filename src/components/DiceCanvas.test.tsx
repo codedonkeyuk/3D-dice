@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import BabylonCanvas from "./BabylonCanvas";
+import BabylonCanvas from "./DiceCanvas";
 import { useDiceEngine } from "../context/DiceContextProvider";
 import getDice from "../renderer/diceRenderer";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
@@ -138,12 +138,12 @@ describe("<BabylonCanvas /> Component Suite", () => {
     expect(
       screen.getByRole("button", { name: /roll dice/i }),
     ).toBeInTheDocument();
-    expect(document.querySelector(".my-babylon-canvas")).toBeInTheDocument();
+    expect(screen.getByTestId("babylon-canvas")).toBeInTheDocument();
   });
 
   it("should handle wheel canvas scroll events to mutate camera zoom constraints", () => {
     render(<BabylonCanvas />);
-    const canvas = document.querySelector(".my-babylon-canvas")!;
+    const canvas = screen.getByTestId("babylon-canvas")!;
 
     fireEvent.wheel(canvas, { deltaY: 100 });
     expect(canvas).toBeDefined();
@@ -151,7 +151,7 @@ describe("<BabylonCanvas /> Component Suite", () => {
 
   it("should handle canvas pointer dragging interactions to shift view angles", () => {
     render(<BabylonCanvas />);
-    const canvas = document.querySelector(".my-babylon-canvas")!;
+    const canvas = screen.getByTestId("babylon-canvas")!;
 
     fireEvent.pointerDown(canvas);
     fireEvent.pointerMove(canvas, { movementX: 10, movementY: -5 });

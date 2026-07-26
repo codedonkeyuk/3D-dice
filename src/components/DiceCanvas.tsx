@@ -10,7 +10,63 @@ import "@babylonjs/core/Materials/standardMaterial";
 import { useDiceEngine } from "../context/DiceContextProvider";
 import getDice from "../renderer/diceRenderer";
 
-const BabylonCanvas: React.FC = () => {
+import styled from "styled-components";
+
+const BabylonCanvas = styled.canvas`
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  aspect-ratio: unset;
+`;
+
+const RollDiceButton = styled.button`
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border: none;
+  border-radius: 4px;
+  box-shadow: var(--box-shadow);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  @media (max-width: 600px) {
+    padding: 15px 15px;
+    font-size: 1.75rem;
+    font-weight: 600;
+    width: 90%;
+    bottom: 5vh;
+  }
+`;
+
+const DiceToastDiv = styled.div`
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--card);
+  color: var(--text-main);
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  box-shadow: var(--box-shadow);
+  pointer-events: none;
+  animation: slideInDown 0.2s ease-out;
+`;
+
+const DiceCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const engineRef = useRef<Engine | null>(null);
@@ -230,16 +286,16 @@ const BabylonCanvas: React.FC = () => {
   return (
     <>
       {rollResult !== null && (
-        <div className="roll-toast-container">You rolled a {rollResult}!</div>
+        <DiceToastDiv>You rolled a {rollResult}!</DiceToastDiv>
       )}
 
-      <canvas className="my-babylon-canvas" ref={canvasRef} />
+      <BabylonCanvas ref={canvasRef} data-testid="babylon-canvas" />
 
-      <button onClick={rollDice} disabled={isRolling} className="roll-dice">
+      <RollDiceButton onClick={rollDice} disabled={isRolling}>
         {isRolling ? "Rolling..." : "Roll Dice"}
-      </button>
+      </RollDiceButton>
     </>
   );
 };
 
-export default BabylonCanvas;
+export default DiceCanvas;
