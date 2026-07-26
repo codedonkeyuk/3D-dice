@@ -26,8 +26,10 @@ const RollDiceButton = styled.button`
   left: 50%;
   transform: translateX(-50%);
   padding: 10px 20px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
   background-color: var(--btn-primary-bg);
   color: var(--btn-primary-text);
   border: none;

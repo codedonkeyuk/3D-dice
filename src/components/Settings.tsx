@@ -1,6 +1,8 @@
 import React from "react";
 import { useSearchParams, useNavigate, useParams, Link } from "react-router";
 import styled from "styled-components";
+import HtmlDialog from "./Dialog";
+import { ButtonBarDiv, PrimaryButtonLink } from "./Buttons";
 
 type DiceConfigKey = "foreground-color" | "background-color" | "dice-type";
 
@@ -47,10 +49,6 @@ const ContainerCardDiv = styled.div`
 const TitleH2 = styled.h2`
   margin: 0 0 20px 0;
   color: #ffffff;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.5px;
@@ -64,10 +62,6 @@ const DiceForm = styled.form`
 
 const DiceFormLabel = styled.label`
   color: #a1a1aa;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
   font-size: 14px;
   font-weight: 500;
 `;
@@ -114,10 +108,6 @@ const DiceSelect = styled.select`
   border-radius: 0px;
   padding: 0 12px;
   font-size: 15px;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
   outline: none;
   cursor: pointer;
   appearance: none;
@@ -125,31 +115,6 @@ const DiceSelect = styled.select`
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 16px;
-`;
-
-const SubmitLink = styled(Link)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 46px;
-  margin-top: 8px;
-  background-color: #3b82f6;
-  color: #ffffff;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 0px;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-  transition:
-    background-color 0.2s ease,
-    transform 0.1s ease;
-  cursor: pointer;
-  box-sizing: border-box;
 `;
 
 const Settings: React.FC = () => {
@@ -234,16 +199,17 @@ const Settings: React.FC = () => {
               <option value="number-dice-d20">Number Dice D20</option>
             </DiceSelect>
           </FormGroupDiv>
-
-          <SubmitLink
-            to={{
-              pathname: "..",
-              search: `?${searchParams.toString()}`,
-            }}
-            relative="path"
-          >
-            Load Dice
-          </SubmitLink>
+          <ButtonBarDiv>
+            <PrimaryButtonLink
+              to={{
+                pathname: "..",
+                search: `?${searchParams.toString()}`,
+              }}
+              relative="path"
+            >
+              Load Dice
+            </PrimaryButtonLink>
+          </ButtonBarDiv>
         </DiceForm>
       </ContainerCardDiv>
     </PageWrapperDiv>
