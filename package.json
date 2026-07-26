@@ -24,7 +24,7 @@
     "serve": "vite preview",
     "prebuild": "prettier . --check && tsc --noEmit",
     "build": "vite build",
-    "test": "vitest"
+    "test": "vitest run"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^7.0.0",
