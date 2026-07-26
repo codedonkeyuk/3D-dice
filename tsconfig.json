@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "types": ["jest"],
     "outDir": "./dist",
-    "rootDir": "./src",
     "target": "esnext",
     "module": "esnext",
+    "moduleResolution": "bundler",
     "rewriteRelativeImportExtensions": true,
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
@@ -13,7 +12,13 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": ["vite/client", "vitest/globals"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "vite.config.ts",
+    "pwa-assets.config.ts"
+  ]
 }

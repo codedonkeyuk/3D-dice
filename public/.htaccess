@@ -1,32 +1,22 @@
-# 1. ERROR CONFIGURATION
-ErrorDocument 404 /404.html
+# 1. REGISTER CUSTOM MIME TYPES
+AddType application/manifest+json .webmanifest
 
-# 2. ROUTING ENGINE
+# 2. HTTPS ENFORCEMENT (Moved to the top)
 RewriteEngine On
 RewriteBase /
-
-# 3. HTTPS ENFORCEMENT
 RewriteCond %{HTTP_HOST} !^localhost [NC]
 RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# 4. SINGLE PAGE APPLICATION CATCH-ALL ROUTING (REACT ROUTER)
+# 3. CLEAN URL EXTENSIONS (SPA Routing Engine)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [L]
+RewriteRule . /index.html [L]
+RewriteRule ^index\.html$ - [L]
 
-# 5. REGISTER CUSTOM MIME TYPES
-AddType application/manifest+json .webmanifest
-
-# 6. IMMUTABLE LONG-TERM CACHING FOR WEBPACK HASHED BUNDLES
-<FilesMatch "\.(js|css)$">
-    <IfModule mod_headers.c>
-        Header set Cache-Control "public, max-age=31536000, immutable"
-    </IfModule>
-</FilesMatch>
-
-# 7. FORCE NO-CACHE FOR SERVICE WORKER, HTML, MANIFESTS, AND RSS FEEDS
+# 4. FORCE NO-CACHE FOR SERVICE WORKER, HTML, MANIFESTS, AND RSS FEEDS
+# Moved above Section 5 so specific exceptions override generic rules
 <FilesMatch "(sw\.js|rss\.xml|\.html|\.webmanifest)$">
     <IfModule mod_headers.c>
         Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
@@ -35,7 +25,17 @@ AddType application/manifest+json .webmanifest
     </IfModule>
 </FilesMatch>
 
-# 8. SECURITY HEADERS
+# 5. IMMUTABLE LONG-TERM CACHING FOR BUNDLES (Excluding sw.js)
+<FilesMatch "\.(js|css)$">
+    <FilesMatch "sw\.js">
+        # Nested block ensures sw.js doesn't accidentally inherit this long cache
+    </FilesMatch>
+    <IfModule mod_headers.c>
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </IfModule>
+</FilesMatch>
+
+# 6. SECURITY HEADERS
 <IfModule mod_headers.c>
     Header set X-XSS-Protection "1; mode=block"
     Header set X-Frame-Options "SAMEORIGIN"
@@ -43,7 +43,7 @@ AddType application/manifest+json .webmanifest
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
-# 9. PERFORMANCE: COMPRESSION
+# 7. PERFORMANCE: COMPRESSION
 <IfModule mod_deflate.c>
     SetOutputFilter DEFLATE
     AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
@@ -53,12 +53,13 @@ AddType application/manifest+json .webmanifest
     SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico|zip|gz|mp4)$ no-gzip dont-vary
 </IfModule>
 
-# 10. PERFORMANCE: BROWSER CACHING (FALLBACKS)
+# 8. PERFORMANCE: BROWSER CACHING (FALLBACKS)
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresDefault "access plus 1 month"
     ExpiresByType text/html "access plus 0 seconds"
     ExpiresByType application/xml "access plus 0 seconds"
+    RewriteCond %{REQUEST_FILENAME} !-f
     ExpiresByType text/xml "access plus 0 seconds"
     ExpiresByType application/manifest+json "access plus 0 seconds"
     ExpiresByType image/x-icon "access plus 1 year"

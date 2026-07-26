@@ -43,6 +43,7 @@ Nope, I'll be updating this site with the ability to draw on the dice surface pr
 ```bash
 container system start
 container run -it --rm --name dice \
+  -p 8080:80 \
   --volume "$(pwd)/dist:/usr/local/apache2/htdocs/" \
   --volume "$(pwd)/httpd-override.conf:/usr/local/apache2/conf/extra/httpd-override.conf" \
   httpd:2.4 \
