@@ -24,7 +24,8 @@
     "serve": "vite preview",
     "prebuild": "prettier . --check && tsc --noEmit",
     "build": "vite build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:debug": "vitest --inspect-brk --no-file-parallelism run"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^7.0.0",
@@ -34,6 +35,7 @@
     "@types/react-dom": "^19.2.3",
     "@vite-pwa/assets-generator": "^1.0.2",
     "@vitejs/plugin-react": "^6.0.4",
+    "canvas": "^3.2.3",
     "jsdom": "^29.1.1",
     "lightningcss": "^1.33.0",
     "prettier": "3.9.6",
@@ -56,6 +58,7 @@
   "dependencies": {
     "@babylonjs/core": "^9.17.0",
     "@babylonjs/loaders": "^9.17.0",
+    "happy-dom": "^20.11.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router": "^8.2.0",
