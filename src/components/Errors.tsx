@@ -3,7 +3,7 @@ const warning = (warningHeader: string, warningMessage: string) => (
     <div className="warning-card">
       <h1>{warningHeader}</h1>
       <p>{warningMessage}</p>
-      <a className="warning-link" href="/index.html">
+      <a className="warning-link" href="/">
         Return to Main Page
       </a>
     </div>

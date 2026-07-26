@@ -8,10 +8,10 @@ RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# 3. CLEAN URL EXTENSIONS 
+# 3. CLEAN URL EXTENSIONS (SPAs)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [L]
+RewriteRule ^(.*)$ index.html [L]
 
 # 4. REGISTER CUSTOM MIME TYPES
 AddType application/manifest+json .webmanifest
@@ -50,7 +50,7 @@ AddType application/manifest+json .webmanifest
     SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico|zip|gz|mp4)$ no-gzip dont-vary
 </IfModule>
 
-# 9. PERFORMANCE: BROWSER CACHING (FALLBACKS)
+# 9. PERFORMANCE: BROWSER CACHING (FALLBACKS aligned with Section 5)
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresDefault "access plus 1 month"
@@ -58,6 +58,9 @@ AddType application/manifest+json .webmanifest
     ExpiresByType application/xml "access plus 0 seconds"
     ExpiresByType text/xml "access plus 0 seconds"
     ExpiresByType application/manifest+json "access plus 0 seconds"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
     ExpiresByType image/x-icon "access plus 1 year"
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
