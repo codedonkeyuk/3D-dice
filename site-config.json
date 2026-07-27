@@ -3,6 +3,6 @@
   "shortName": "Dice",
   "themeColor": "#e60000",
   "backgroundColor": "#000000",
-  "publicSiteAddress": "https//dice.codedonkey.uk",
+  "publicSiteAddress": "https://dice.codedonkey.uk",
   "metaDescription": "A 3D dice generator that allows you to customise dice. You can then bookmark, and roll it whenever you like."
 }
