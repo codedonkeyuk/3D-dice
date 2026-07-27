@@ -8,6 +8,7 @@ import DiceContextProvider from "../context/DiceContextProvider";
 import { Error404 } from "../error/Errors";
 import Loading from "./Loading";
 import { RouteErrorBoundary } from "../error/RouteErrorBoundary";
+import { CustomDiceDbProvider } from "../context/CustomDiceDbProvider";
 
 const RootLayout = () => {
   const navigation = useNavigation();
@@ -15,9 +16,11 @@ const RootLayout = () => {
   const isPageLoading = navigation.state === "loading";
 
   return (
-    <DiceContextProvider>
-      {isPageLoading ? <Loading /> : <Outlet />}
-    </DiceContextProvider>
+    <CustomDiceDbProvider>
+      <DiceContextProvider>
+        {isPageLoading ? <Loading /> : <Outlet />}
+      </DiceContextProvider>
+    </CustomDiceDbProvider>
   );
 };
 

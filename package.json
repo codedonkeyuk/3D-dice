@@ -40,6 +40,7 @@
     "@vitejs/plugin-react": "^6.0.4",
     "canvas": "^3.2.3",
     "cspell": "^10.0.1",
+    "fake-indexeddb": "^6.2.5",
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "lightningcss": "^1.33.0",
