@@ -31,7 +31,6 @@ export function generateD2MeshMaterial(
 ): string {
   let slots: string = "";
 
-  // Guard Clause: Return empty SVG template early if sides array is missing
   if (!form.sides) {
     const content = `
       ${diceStyle(form.foregroundColor, form.backgroundColor)}
