@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { createHtmlPlugin } from "vite-plugin-html";
-import siteConfig from "./public/site-config.json" with { type: "json" };
+import siteConfig from "./site-config.json" with { type: "json" };
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({

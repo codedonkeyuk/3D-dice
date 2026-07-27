@@ -5,5 +5,5 @@ import {
 
 export default defineConfig({
   preset,
-  images: ["./public/logo-square.png"],
+  images: ["./logo-square.png"],
 });
