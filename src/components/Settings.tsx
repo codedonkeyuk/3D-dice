@@ -1,7 +1,6 @@
 import React from "react";
-import { useSearchParams, useNavigate, useParams, Link } from "react-router";
+import { useSearchParams, useNavigate, useParams } from "react-router";
 import styled from "styled-components";
-import HtmlDialog from "./Dialog";
 import { ButtonBarDiv, PrimaryButtonLink } from "./Buttons";
 
 type DiceConfigKey = "foreground-color" | "background-color" | "dice-type";

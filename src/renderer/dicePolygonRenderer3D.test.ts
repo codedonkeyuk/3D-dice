@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import dicePolygonRenderer3D, {
   generateD10MeshMaterial,
-} from "./dicePolygonRenderer3D"; // Adjust path
+} from "./dicePolygonRenderer3D";
 
 vi.mock("./svg/generateSvg", () => ({
   default: vi.fn(
@@ -46,11 +46,10 @@ vi.mock("./canvas/canvasCommon", () => ({
 
 vi.mock("./svg/injectSideIntoSvg", () => ({
   default: vi.fn(
-    async (type, side, w, h) => `<injected-${type} side="${side}" />`,
+    async (type, side, _w, _h) => `<injected-${type} side="${side}" />`,
   ),
 }));
 
-// 2. Mock Babylon.js classes using constructor functions
 const mockSetPosition = vi.fn();
 const mockEnableEdgesRendering = vi.fn();
 

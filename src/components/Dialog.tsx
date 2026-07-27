@@ -63,7 +63,7 @@ const HtmlDialog: React.FC<HtmlDialogProps> = ({ children, buttonText }) => {
     }
   };
 
-  const closeDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const closeDialog = (_event: React.MouseEvent<HTMLButtonElement>) => {
     if (dialogRef.current) {
       dialogRef.current.close();
     }

@@ -152,7 +152,7 @@ async function dicePolygonRenderer3D(
     );
   });
 
-  const sides = await Promise.all(sidePromises);
+  await Promise.all(sidePromises);
 
   return {
     mesh,
