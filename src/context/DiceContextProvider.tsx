@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from "react";
-import { useLocation, useParams } from "react-router"; // Imported useParams
+import { useLocation, useParams } from "react-router";
 import { findDice } from "../models/find";
+import DiceNotFoundError from "../error/DiceNotFoundError";
 
 interface DiceContextType {
   model: any;
@@ -22,6 +23,10 @@ export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const activeDiceType = diceId || "poker-dice-d6";
 
   const dice = findDice(activeDiceType);
+
+  if (!dice) {
+    throw new DiceNotFoundError(activeDiceType);
+  }
 
   const model = dice
     ? {

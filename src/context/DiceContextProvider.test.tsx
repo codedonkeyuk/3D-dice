@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router";
 import { DiceContextProvider, useDiceEngine } from "./DiceContextProvider";
 import { findDice } from "../models/find";
+import DiceNotFoundError from "../error/DiceNotFoundError";
 
 vi.mock("../models/find", () => ({
   findDice: vi.fn(),
@@ -92,12 +93,35 @@ describe("DiceContextProvider Component", () => {
     expect(screen.getByTestId("bg-color")).toHaveTextContent("#000000");
   });
 
-  it("should evaluate the data model block as null if the lookup query yields nothing", () => {
+  it("should throw dice not found error if dice does not exist", () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     vi.mocked(findDice).mockReturnValue(undefined);
 
-    renderWithRouterContext("/ghost-dice-type");
+    let caughtError: any = null;
+    const TestBoundary = () => {
+      const { useRouteError } = require("react-router");
+      caughtError = useRouteError();
+      return <div>Error Handled</div>;
+    };
 
-    expect(screen.getByTestId("no-model")).toBeInTheDocument();
+    const routes = [
+      {
+        path: "/:diceId?",
+        ErrorBoundary: TestBoundary,
+        element: (
+          <DiceContextProvider>
+            <ContextConsumerTestChild />
+          </DiceContextProvider>
+        ),
+      },
+    ];
+
+    const testRouter = createMemoryRouter(routes, {
+      initialEntries: ["/ghost-dice-type"],
+    });
+    render(<RouterProvider router={testRouter} />);
+    expect(caughtError).toBeInstanceOf(DiceNotFoundError);
+    consoleSpy.mockRestore();
   });
 
   it("should crash with a strict framework crash if the hook is invoked outside a provider wrapper", () => {

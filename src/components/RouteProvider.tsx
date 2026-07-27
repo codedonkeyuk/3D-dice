@@ -5,8 +5,9 @@ import {
   useNavigation,
 } from "react-router";
 import DiceContextProvider from "../context/DiceContextProvider";
-import { Error404 } from "./Errors";
+import { Error404 } from "../error/Errors";
 import Loading from "./Loading";
+import { RouteErrorBoundary } from "../error/RouteErrorBoundary";
 
 const RootLayout = () => {
   const navigation = useNavigation();
@@ -23,6 +24,7 @@ const RootLayout = () => {
 export const router = createBrowserRouter([
   {
     element: <RootLayout />,
+    ErrorBoundary: RouteErrorBoundary,
     children: [
       {
         path: "/",
