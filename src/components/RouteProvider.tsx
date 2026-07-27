@@ -20,7 +20,7 @@ const RootLayout = () => {
   );
 };
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     element: <RootLayout />,
     children: [
