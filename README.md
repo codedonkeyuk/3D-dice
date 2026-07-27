@@ -33,7 +33,8 @@ Nope, I'll be updating this site with the ability to draw on the dice surface pr
 | `npm install`      | install dependencies                                                       |
 | `nvm use`          | Use node version specified in projects .nvmrc file. (NVM needs installing) |
 | `nvm run test`     | run jest tests                                                             |
-| `nvm run serve`    | serve site in development mode                                             |
+| `nvm run serveDev` | serve site in development mode (vite), unzipped with livereload (vite)     |
+| `nvm run serveProd`| serve site in production mode (vite), zipped no reload                     |
 | `nvm run clean`    | clean project with prettier                                                |
 | `nvm run validate` | validate code with typescript & prettier compiler                          |
 | `nvm run build`    | Build site, validates files before doing so                                |
