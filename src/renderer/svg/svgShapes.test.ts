@@ -20,7 +20,11 @@ import {
 import type { GraphicElement } from "../../types";
 
 vi.mock("../shape/shapeProps", () => ({
-  default: vi.fn((props: any) => ({ ...props, x: props.x ?? 0, y: props.y ?? 0 })),
+  default: vi.fn((props: any) => ({
+    ...props,
+    x: props.x ?? 0,
+    y: props.y ?? 0,
+  })),
 }));
 
 vi.mock("../shape/Polygons", () => ({

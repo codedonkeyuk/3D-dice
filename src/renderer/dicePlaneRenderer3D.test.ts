@@ -1,8 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import dicePlaneRenderer3D, { generateD2MeshMaterial } from "./dicePlaneRenderer3D"; // Adjusted to match your log path
+import dicePlaneRenderer3D, {
+  generateD2MeshMaterial,
+} from "./dicePlaneRenderer3D"; // Adjusted to match your log path
 
 vi.mock("./svg/generateSvg", () => ({
-  default: vi.fn((content, w, h) => `<svg width="${w}" height="${h}">${content}</svg>`),
+  default: vi.fn(
+    (content, w, h) => `<svg width="${w}" height="${h}">${content}</svg>`,
+  ),
 }));
 
 vi.mock("./svg/svgGraphicElementsRenderer", () => ({
@@ -18,12 +22,21 @@ vi.mock("./shape/castPiece", () => ({
       frontUvs: { x: 0, y: 0, z: 0.5, w: 1 },
       backUvs: { x: 0.5, y: 0, z: 1, w: 1 },
       sideSlots: [
-        { x: 10, y: 20, rotate: 0, width: 50, height: 50, scaleX: 1, scaleY: 1, translateX: 0 }
-      ]
+        {
+          x: 10,
+          y: 20,
+          rotate: 0,
+          width: 50,
+          height: 50,
+          scaleX: 1,
+          scaleY: 1,
+          translateX: 0,
+        },
+      ],
     },
     numberPositions: {
-      1: { x: 0, y: 5, z: 10 }
-    }
+      1: { x: 0, y: 5, z: 10 },
+    },
   })),
 }));
 
@@ -48,10 +61,15 @@ vi.mock("@babylonjs/core/Meshes/meshBuilder", () => ({
 vi.mock("@babylonjs/core/Maths/math.vector", () => {
   // Use traditional functions so they can be instantiated with 'new'
   function MockVector3(this: any, x: number, y: number, z: number) {
-    this.x = x; this.y = y; this.z = z;
+    this.x = x;
+    this.y = y;
+    this.z = z;
   }
   function MockVector4(this: any, x: number, y: number, z: number, w: number) {
-    this.x = x; this.y = y; this.z = z; this.w = w;
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.w = w;
   }
   return {
     Vector3: MockVector3,
@@ -67,13 +85,13 @@ vi.mock("@babylonjs/core/Materials/standardMaterial", () => {
   return {
     StandardMaterial: function (this: any) {
       this.diffuseTexture = null;
-    }
+    },
   };
 });
 
 vi.mock("@babylonjs/core/Materials/Textures/texture", () => {
   return {
-    Texture: function () {}
+    Texture: function () {},
   };
 });
 
@@ -85,7 +103,12 @@ describe("Dice Renderer Module", () => {
 
   describe("generateD2MeshMaterial", () => {
     it("should generate SVG without slots if form.sides is undefined", () => {
-      const mockMesh = { html: "<mesh-html />", width: 50, height: 50, sideSlots: [] };
+      const mockMesh = {
+        html: "<mesh-html />",
+        width: 50,
+        height: 50,
+        sideSlots: [],
+      };
       const mockForm = { foregroundColor: "black", backgroundColor: "white" };
 
       const result = generateD2MeshMaterial(mockMesh as any, mockForm as any);
@@ -100,12 +123,12 @@ describe("Dice Renderer Module", () => {
         html: "<div>Mesh</div>",
         width: 50,
         height: 50,
-        sideSlots: [{ x: 15, y: 25 }]
+        sideSlots: [{ x: 15, y: 25 }],
       };
       const mockForm = {
         foregroundColor: "black",
         backgroundColor: "white",
-        sides: [{ elements: ["circle"] }]
+        sides: [{ elements: ["circle"] }],
       };
 
       const result = generateD2MeshMaterial(mockMesh as any, mockForm as any);
@@ -119,7 +142,7 @@ describe("Dice Renderer Module", () => {
     const mockScene = {} as any;
     const mockDice = {
       piece: "d6",
-      form: { foregroundColor: "blue", backgroundColor: "red", sides: [] }
+      form: { foregroundColor: "blue", backgroundColor: "red", sides: [] },
     } as any;
 
     it("should construct the 3D plane mesh and attach materials correctly", async () => {
@@ -137,7 +160,7 @@ describe("Dice Renderer Module", () => {
       result.changeSide(mockCamera, 1);
 
       expect(mockSetPosition).toHaveBeenCalledWith(
-        expect.objectContaining({ x: 0, y: 5, z: 10 })
+        expect.objectContaining({ x: 0, y: 5, z: 10 }),
       );
     });
 

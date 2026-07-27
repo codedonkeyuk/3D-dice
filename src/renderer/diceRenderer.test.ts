@@ -30,7 +30,7 @@ describe("getDice", () => {
     await expect(
       getDice({
         subCategory: "Unknown",
-      } as any)
+      } as any),
     ).rejects.toThrow("Cannot find 3D renderer for dice Unknown");
   });
 
@@ -38,7 +38,7 @@ describe("getDice", () => {
     await expect(
       getDice({
         subCategory: null,
-      } as any)
+      } as any),
     ).rejects.toThrow("Cannot find 3D renderer for dice null");
   });
 });

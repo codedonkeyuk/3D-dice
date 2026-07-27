@@ -32,9 +32,9 @@ describe("injectSideIntoSvg", () => {
         elements: [{ id: 1, type: "path" }],
       } as any;
 
-      (generateGraphicsSideSvg as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(
-        "<svg>mock-graphics</svg>",
-      );
+      (
+        generateGraphicsSideSvg as unknown as ReturnType<typeof vi.fn>
+      ).mockResolvedValue("<svg>mock-graphics</svg>");
 
       const result = await injectSideIntoSvg("square", mockSide, width, height);
 
@@ -96,9 +96,9 @@ describe("injectSideIntoSvg", () => {
         mimeType: "image/png",
       } as any;
 
-      (arrayBufferToBlob as unknown as ReturnType<typeof vi.fn>).mockReturnValue(
-        mockBlob,
-      );
+      (
+        arrayBufferToBlob as unknown as ReturnType<typeof vi.fn>
+      ).mockReturnValue(mockBlob);
       (blobToDataURL as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(
         "data:image/png;base64,mockedDataUrl",
       );

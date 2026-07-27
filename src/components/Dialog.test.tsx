@@ -12,7 +12,7 @@ describe("HtmlDialog", () => {
     render(
       <HtmlDialog buttonText="Open">
         <div>Dialog Content</div>
-      </HtmlDialog>
+      </HtmlDialog>,
     );
     expect(screen.getByText("Dialog Content")).toBeInTheDocument();
     expect(screen.getByText("Close")).toBeInTheDocument();
