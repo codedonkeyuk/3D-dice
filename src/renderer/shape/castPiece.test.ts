@@ -4,8 +4,31 @@ import type { ModelPiece, TemplateOpenGl } from "../../types";
 
 describe("get3dTemplate", () => {
   it("should return the OpenGl template when present", () => {
-    const mock_template: TemplateOpenGl = {};
+    const mock_template: TemplateOpenGl = {
+      numberPositions: [],
+      mesh: {
+        vertex: [],
+        face: [],
+        sideSlots: [],
+        material: {
+          prism: {
+            html: "",
+            width: 0,
+            height: 0,
+          },
+          side: {
+            html: "",
+            width: 0,
+            height: 0,
+          },
+        },
+      },
+    };
     const piece: ModelPiece = {
+      modelId: "sd",
+      renderType: "mesh",
+      metalic: false,
+      transparent: false,
       template: {
         OpenGl: mock_template,
       },
@@ -17,7 +40,11 @@ describe("get3dTemplate", () => {
 
   it("should throw an error if the OpenGl template is missing", () => {
     const piece: ModelPiece = {
-      template: null,
+      modelId: "sd",
+      renderType: "mesh",
+      metalic: false,
+      transparent: false,
+      template: undefined,
     };
 
     expect(() => get3dTemplate(piece)).toThrow("Missing openGl template");
