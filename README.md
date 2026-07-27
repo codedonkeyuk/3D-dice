@@ -18,7 +18,7 @@ Issues faced
 
 - My last employment agency asking me to sign an agreement not to distribute my project for the duration of my 2 year contract! Blood still boils over that one.
 
-- Ultimately AI being able to generate images, models, and online games off simple instructions. This totally killed the project. My heart was broken when I asked a visual model to produce a Baywatch themed snakes and ladders game, and out came an awesome image. Not even David Hasslehoffs tanned chiseled middle age physique could make me feel happy! I can't make a tool as good as that.
+- Ultimately AI being able to generate images, models, and online games off simple instructions. This totally killed the project. My heart was broken when I asked a visual model to produce a Baywatch themed snakes and ladders game, and out came an awesome image. I can't make a tool as good as that, game over for my project.
 
 Anyway I have 3 years worth of code that is doing nothing, and I am looking for a job in a highly competitive market. So I am resurrecting some old projects. This project represents about 10% of Tabletop Build functionality.
 

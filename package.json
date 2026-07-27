@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "clean": "prettier . --write",
-    "validate": "prettier . --check && tsc --noEmit",
+    "validate": "prettier . --check && tsc --noEmit && npx cspell README.md",
     "dev": "vite",
     "serve": "vite preview --open",
     "prebuild": "prettier . --check && tsc --noEmit",
