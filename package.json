@@ -21,7 +21,7 @@
     "clean": "prettier . --write",
     "validate": "prettier . --check && tsc --noEmit",
     "dev": "vite",
-    "serve": "vite preview",
+    "serve": "vite preview --open",
     "prebuild": "prettier . --check && tsc --noEmit",
     "build": "vite build",
     "test": "vitest run",
@@ -42,7 +42,6 @@
     "jsdom": "^29.1.1",
     "lightningcss": "^1.33.0",
     "prettier": "3.9.6",
-    "sharp": "^0.35.3",
     "typescript": "^7.0.2",
     "vite": "^8.1.5",
     "vite-plugin-html": "^3.2.2",
@@ -52,7 +51,8 @@
   "overrides": {
     "glob": "^13.0.6",
     "minimatch": "^10.2.5",
-    "brace-expansion": "^5.0.8"
+    "brace-expansion": "^5.0.8",
+    "sharp": "^0.33.5"
   },
   "allowScripts": {
     "unrs-resolver@1.12.2": true,
