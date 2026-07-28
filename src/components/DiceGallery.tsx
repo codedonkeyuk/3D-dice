@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useDiceEngine } from "../context/DiceContextProvider";
-import type { Side } from "../types";
 import DiceSideThumbnail from "./DiceSideThumbnail";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 
 export interface GalleryImage {
   width: number;
@@ -16,11 +16,17 @@ const ImageGallery: React.FC<GalleryImage> = ({
   backgroundColor,
   forgroundColor,
 }) => {
+  const [searchParams] = useSearchParams();
   const { model } = useDiceEngine();
+  const navigate = useNavigate();
+  const { diceId } = useParams<{ diceId: string }>();
 
-  // 2. The click handler action
-  const handleImageSelect = (side: Side) => {
-    console.log("hello world", side);
+  const handleImageSelect = (side: number) => {
+    const nextParams = new URLSearchParams(searchParams);
+    navigate({
+      pathname: `/${diceId}/settings/${side}/editor`,
+      search: `?${nextParams.toString()}`,
+    });
   };
 
   if (!model || !model.form.sides) {
@@ -33,7 +39,7 @@ const ImageGallery: React.FC<GalleryImage> = ({
         {model?.form.sides.map((side, indx) => (
           <ImageItem key={`side_${indx}`}>
             <ImageButton
-              onClick={() => handleImageSelect(side)}
+              onClick={() => handleImageSelect(indx)}
               aria-label={`Select to edit dice side ${indx + 1}`}
             >
               <StyledDiceSideThumbnail

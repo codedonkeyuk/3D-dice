@@ -46,7 +46,10 @@ describe("DicePreviewImage Component", () => {
   });
 
   it("renders nothing (null) if model is not present", () => {
-    vi.mocked(useDiceEngine).mockReturnValue({ model: undefined });
+    vi.mocked(useDiceEngine).mockReturnValue({
+      model: undefined,
+      refresh: () => {},
+    });
 
     const { container } = render(<DicePreviewImage {...defaultProps} />);
     expect(container.firstChild).toBeNull();
@@ -70,6 +73,9 @@ describe("DicePreviewImage Component", () => {
           metalic: false,
           transparent: false,
         },
+      },
+      refresh: function (): void {
+        throw new Error("Function not implemented.");
       },
     });
 
@@ -95,6 +101,9 @@ describe("DicePreviewImage Component", () => {
           metalic: false,
           transparent: false,
         },
+      },
+      refresh: function (): void {
+        throw new Error("Function not implemented.");
       },
     });
 

@@ -131,7 +131,10 @@ describe("DiceCanvas Component", () => {
 
   beforeEach(() => {
     vi.useFakeTimers();
-    vi.mocked(useDiceEngine).mockReturnValue({ model: mockModel as any });
+    vi.mocked(useDiceEngine).mockReturnValue({
+      model: mockModel as any,
+      refresh: () => {},
+    });
   });
 
   afterEach(() => {

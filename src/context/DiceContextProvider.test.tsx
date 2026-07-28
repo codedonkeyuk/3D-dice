@@ -5,10 +5,9 @@ import { DiceContextProvider, useDiceEngine } from "./DiceContextProvider";
 import { findDice } from "../models/find";
 import { getCustomDice } from "../storage/customDiceStore";
 
-// 1. STABILISE MOCK REFERENCES GLOBAL TO PREVENT INFINITE RENDERING LOOPS
 const mockDbInstance = {};
 const mockDbValue = {
-  db: mockDbInstance, // Stays reference-equal on subsequent renders
+  db: mockDbInstance,
   isLoading: false,
   error: null,
 };

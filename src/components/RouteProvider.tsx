@@ -48,6 +48,13 @@ export const router = createBrowserRouter([
           })),
       },
       {
+        path: "/:diceId/settings/:sideId/editor",
+        lazy: () =>
+          import("./editor/SideEditor").then((module) => ({
+            Component: module.default,
+          })),
+      },
+      {
         path: "*",
         element: Error404(),
       },

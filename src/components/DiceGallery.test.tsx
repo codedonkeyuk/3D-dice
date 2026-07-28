@@ -1,7 +1,19 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { MemoryRouter } from "react-router";
 import DiceGallery from "./DiceGallery";
 import { useDiceEngine } from "../context/DiceContextProvider";
+
+const mockNavigate = vi.fn();
+
+vi.mock("react-router", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-router")>();
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+    useSearchParams: () => [new URLSearchParams(), vi.fn()],
+  };
+});
 
 vi.mock("../context/DiceContextProvider", () => ({
   useDiceEngine: vi.fn(),
@@ -26,6 +38,10 @@ describe("DiceGallery Component", () => {
     forgroundColor: "#ffffff",
   };
 
+  const renderWithRouter = (ui: React.ReactElement) => {
+    return render(<MemoryRouter>{ui}</MemoryRouter>);
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "log").mockImplementation(() => {});
@@ -38,14 +54,14 @@ describe("DiceGallery Component", () => {
   it("should return null and block rendering if the model context is missing", () => {
     (useDiceEngine as any).mockReturnValue({ model: null });
 
-    const { container } = render(<DiceGallery {...defaultProps} />);
+    const { container } = renderWithRouter(<DiceGallery {...defaultProps} />);
     expect(container.firstChild).toBeNull();
   });
 
   it("should return null if the model exists but lacks rendering sides", () => {
     (useDiceEngine as any).mockReturnValue({ model: { form: {} } });
 
-    const { container } = render(<DiceGallery {...defaultProps} />);
+    const { container } = renderWithRouter(<DiceGallery {...defaultProps} />);
     expect(container.firstChild).toBeNull();
   });
 
@@ -54,7 +70,7 @@ describe("DiceGallery Component", () => {
       model: { form: { sides: mockSides } },
     });
 
-    render(<DiceGallery {...defaultProps} />);
+    renderWithRouter(<DiceGallery {...defaultProps} />);
 
     const items = screen.getAllByRole("listitem");
     expect(items).toHaveLength(2);
@@ -65,18 +81,19 @@ describe("DiceGallery Component", () => {
     expect(buttons).toHaveLength(2);
   });
 
-  it("should output 'hello world' and the target side dataset to console logs when clicked", () => {
+  it("should trigger navigation or logs when the item button is clicked", () => {
     (useDiceEngine as any).mockReturnValue({
       model: { form: { sides: mockSides } },
     });
 
-    render(<DiceGallery {...defaultProps} />);
+    renderWithRouter(<DiceGallery {...defaultProps} />);
 
-    const firstButton = screen.getAllByRole("button", {
+    const buttons = screen.getAllByRole("button", {
       name: /select to edit dice side/i,
-    })[0];
-    fireEvent.click(firstButton);
+    });
 
-    expect(console.log).toHaveBeenCalledWith("hello world", mockSides[0]);
+    fireEvent.click(buttons[0]);
+
+    expect(mockNavigate).toHaveBeenCalled();
   });
 });

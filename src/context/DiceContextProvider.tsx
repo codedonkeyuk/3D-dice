@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { useLocation, useParams } from "react-router";
 import { findDice } from "../models/find";
 import DiceNotFoundError from "../error/DiceNotFoundError";
@@ -8,6 +14,7 @@ import type { CategoryRecord, ModelPiece, SideGraphics } from "../types";
 
 interface DiceContextType {
   model: CategoryRecord<ModelPiece, SideGraphics> | undefined;
+  refresh: () => void;
 }
 
 const DiceContext = createContext<DiceContextType | undefined>(undefined);
@@ -22,6 +29,8 @@ export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const { db, isLoading, error } = useDiceDB();
   const [errorState, setErrorState] = useState<any>(null);
 
+  const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
+
   const { diceId } = useParams<{ diceId: string }>();
 
   const params = new URLSearchParams(location.search);
@@ -29,6 +38,10 @@ export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const foregroundColor = params.get("foreground-color") || "#FFFFFF";
 
   const activeDiceType = diceId || "poker-dice-d6";
+
+  const refresh = useCallback(() => {
+    setRefreshTrigger((prev) => prev + 1);
+  }, []);
 
   if (errorState) {
     throw errorState;
@@ -57,7 +70,7 @@ export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
               sides: dbDice.sides,
             },
           } as any);
-          return; // Don't run the outer setModel if this matches
+          return;
         }
 
         setModel({
@@ -69,7 +82,6 @@ export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
           },
         } as any);
       })().catch((err) => {
-        // 1. FIXED: Safely intercept the background promise failure
         setErrorState(err);
       });
     }
@@ -81,10 +93,14 @@ export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
     diceId,
     backgroundColor,
     foregroundColor,
+    refreshTrigger, // 3. ADDED AS A DEPENDENCY TO TRIGGER DATABASE FETCH RE-RUN
   ]);
 
+  // 4. EXPOSE THE REFRESH FUNCTION THROUGH VALUE WRAPPER
   return (
-    <DiceContext.Provider value={{ model }}>{children}</DiceContext.Provider>
+    <DiceContext.Provider value={{ model, refresh }}>
+      {children}
+    </DiceContext.Provider>
   );
 };
 

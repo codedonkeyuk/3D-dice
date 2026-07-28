@@ -236,3 +236,15 @@ export type SideImageFile = Side & {
   mimeType: MimeType;
   image: string | ArrayBuffer | null;
 };
+
+export type TextElement = SystemElement & {
+  type: "text";
+  content: string;
+  fontSize: number;
+  fontColor: string;
+};
+
+export type TargetElement = SystemElement & {
+  type: "target";
+  directional: boolean;
+};
