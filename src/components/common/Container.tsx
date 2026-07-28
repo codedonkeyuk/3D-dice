@@ -17,8 +17,9 @@ export const ContainerCardDiv = styled.div`
   background-color: #1a1a1e;
   border-radius: 0px;
   padding: 24px;
-  margin-top: 10vh;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   border: 1px solid #2a2a30;
   box-sizing: border-box;
+  @media (max-width: 600px) {
+    margin-top: 0;
+  }
 `;
