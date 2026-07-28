@@ -61,13 +61,22 @@ export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
           if (!catalogDice) {
             throw new DiceNotFoundError(activeDiceType);
           }
+
+          const sides = dbDice.sides.map((side) => ({
+            ...side,
+            elements: side.elements.map((element) => ({
+              ...element,
+              strokeColor: foregroundColor,
+            })),
+          }));
+
           setModel({
             ...catalogDice,
             form: {
               ...catalogDice?.form,
               foregroundColor,
               backgroundColor,
-              sides: dbDice.sides,
+              sides: sides,
             },
           } as any);
           return;
@@ -93,10 +102,9 @@ export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
     diceId,
     backgroundColor,
     foregroundColor,
-    refreshTrigger, // 3. ADDED AS A DEPENDENCY TO TRIGGER DATABASE FETCH RE-RUN
+    refreshTrigger,
   ]);
 
-  // 4. EXPOSE THE REFRESH FUNCTION THROUGH VALUE WRAPPER
   return (
     <DiceContext.Provider value={{ model, refresh }}>
       {children}
