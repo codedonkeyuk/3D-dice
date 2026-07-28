@@ -7,7 +7,7 @@ import { getCustomDice } from "../storage/customDiceStore";
 import type { CategoryRecord, ModelPiece, SideGraphics } from "../types";
 
 interface DiceContextType {
-  model: any;
+  model: CategoryRecord<ModelPiece, SideGraphics> | undefined;
 }
 
 const DiceContext = createContext<DiceContextType | undefined>(undefined);
