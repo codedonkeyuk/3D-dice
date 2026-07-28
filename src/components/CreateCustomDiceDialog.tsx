@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ButtonBarDiv, PrimaryButton, SecondaryButton } from "./common/Buttons";
 import { DialogElement } from "./common/Dialog";
 import {
@@ -36,9 +36,21 @@ const CreateCustomDiceDialog: React.FC = () => {
     throw new Error(error as string);
   }
 
-  (async () => {
-    setNameValid(await validateId(db, diceName));
-  })();
+  useEffect(() => {
+    if (!db) return;
+
+    let isActive = true;
+    (async () => {
+      const isValid = await validateId(db, diceName);
+      if (isActive) {
+        setNameValid(isValid);
+      }
+    })();
+
+    return () => {
+      isActive = false;
+    };
+  }, [db, diceName]);
 
   const openDialog = () => {
     if (dialogRef.current) {
