@@ -28,7 +28,7 @@ export const DialogElement = styled.dialog`
   }
 
   &::backdrop {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: var(--dialog-backdrop-color);
     backdrop-filter: blur(4px);
     opacity: 0;
     transition:
@@ -41,7 +41,7 @@ export const DialogElement = styled.dialog`
   }
 
   & *:focus-visible {
-    outline: 3px solid #3b82f6;
+    outline: 3px solid var(--accessibility-bdr);
     outline-offset: 2px;
   }
 

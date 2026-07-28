@@ -64,8 +64,8 @@ const GalleryContainer = styled.div`
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  background-color: rgb(38, 38, 43);
-  border: 1px solid rgb(63, 63, 70);
+  background-color: var(--card);
+  border: 1px solid var(--border);
 `;
 
 const ScrollWrapper = styled.ul`
@@ -78,21 +78,6 @@ const ScrollWrapper = styled.ul`
   list-style: none;
 
   -webkit-overflow-scrolling: touch;
-
-  &::-webkit-scrollbar {
-    height: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    background: #e9ecef;
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #ced4da;
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background: #adb5bd;
-  }
 `;
 
 const ImageItem = styled.li`
@@ -114,11 +99,10 @@ const ImageButton = styled.button`
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 
   &:focus-visible {
-    outline: 2px solid #0056b3;
+    outline: 2px solid var(--accessibility-bdr);
   }
 `;
 

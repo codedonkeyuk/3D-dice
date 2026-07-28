@@ -26,14 +26,14 @@ const baseButtonStyles = css`
     border-color 0.15s ease;
 
   &:focus-visible {
-    outline: 3px solid #3b82f6;
+    outline: 3px solid var(--accessibility-bdr);
     outline-offset: 2px;
   }
 
   &:disabled {
-    background-color: #3f3f46;
-    color: #a1a1aa;
-    border-color: #27272a;
+    background-color: var(--btn-disabled-bg);
+    color: var(--btn-disabled-color);
+    border-color: var(--border);
     cursor: not-allowed;
     pointer-events: none;
     opacity: 0.6;

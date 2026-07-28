@@ -7,7 +7,7 @@ export const SettingsForm = styled.form`
 `;
 
 export const SettingsFormLabel = styled.label`
-  color: #a1a1aa;
+  color: var(--text-main);
   font-size: 14px;
   font-weight: 500;
 `;
@@ -31,14 +31,14 @@ export const ColorInputWrapperDiv = styled.div`
   height: 44px;
   border-radius: 0px;
   overflow: hidden;
-  border: 2px solid #2a2a30;
+  border: 2px solid var(--border);
   cursor: pointer;
   display: flex;
   position: relative;
 
   &:focus-within {
-    border-color: #0056b3;
-    box-shadow: inset 0 0 0 2px #0056b3;
+    border-color: var(--accessibility-bdr);
+    box-shadow: inset 0 0 0 2px var(--accessibility-bdr);
   }
 `;
 
@@ -77,9 +77,9 @@ export const ColorInput = styled.input`
 export const DiceSelect = styled.select`
   width: 100%;
   height: 44px;
-  background-color: #26262b;
-  color: #ffffff;
-  border: 1px solid #3f3f46;
+  background-color: var(--card);
+  color: var(--text-main);
+  border: 1px solid #9ca3af;
   border-radius: 0px;
   padding: 0 12px;
   font-size: 15px;
@@ -91,16 +91,16 @@ export const DiceSelect = styled.select`
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-size: 16px;
   &:focus {
-    outline: 2px solid #0056b3;
+    outline: 2px solid var(--accessibility-bdr);
     outline-offset: 2px;
   }
 `;
 
 export const DiceInput = styled.input`
   height: 42px;
-  background-color: #26262b;
-  color: #ffffff;
-  border: 1px solid #3f3f46;
+  background-color: var(--card);
+  color: var(--text-main);
+  border: 1px solid var(--border);
   border-radius: 0px;
   padding: 0 12px;
   font-size: 15px;
@@ -108,13 +108,13 @@ export const DiceInput = styled.input`
 
   &.error,
   &[aria-invalid="true"] {
-    border-color: #ef4444;
+    border-color: var(--btn-primary-bg);
     /* Red arrow */
   }
 `;
 
 export const ErrorText = styled.span`
-  color: #ef4444;
+  color: var(--btn-primary-bg);
   font-size: 12px;
   margin-top: 4px;
   font-weight: 500;

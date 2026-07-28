@@ -1,6 +1,6 @@
 :root {
   --bg: #1c6036;
-  --card: #ffffff;
+  --card: #efefef;
   --text-main: #111827;
   --text-muted: #4b5563;
   --border: #d4d4d8;
@@ -9,21 +9,23 @@
   --btn-hover: #f5f5f5;
   --btn-primary-bg: #e60000;
   --btn-primary-text: #ffffff;
-  --btn-secondary-bg: #ffffff;
+  --btn-secondary-bg: #dee2e6;
   --btn-secondary-text: #1f2937;
+  --btn-disabled-bg: #3f3f46;
+  --btn-disabled-color: #a1a1aa;
   --poker-felt: radial-gradient(circle, #247543 0%, #124224 100%);
   --box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   --card-bdr-radius: 16px;
   --card-bdr-padding: 24px;
   --accessibility-bdr: 3px solid #3b82f6;
+  --dialog-backdrop-color: rgba(0, 0, 0, 0.6);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #1c2d5a;
-    --card: #000000;
-    --border: #e5e7eb;
-    --text-main: #f9fafb;
+    --card: #26262b;
+    --text-main: #a1a1aa;
     --text-muted: #9ca3af;
     --border: #1f2937;
     --btn-bg: #f3f4f6;

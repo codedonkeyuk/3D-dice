@@ -6,7 +6,6 @@ export const PageWrapperDiv = styled.div`
   align-items: flex-start;
   min-height: 100vh;
   width: 100%;
-  background-color: #121214;
   padding: 16px;
   box-sizing: border-box;
 `;
@@ -14,10 +13,10 @@ export const PageWrapperDiv = styled.div`
 export const ContainerCardDiv = styled.div`
   width: 100%;
   max-width: 800px;
-  background-color: #1a1a1e;
+  background-color: var(--card);
   border-radius: 0px;
   padding: 24px;
-  border: 1px solid #2a2a30;
+  border: 1px solid var(--border);
   box-sizing: border-box;
   @media (max-width: 600px) {
     margin-top: 0;
