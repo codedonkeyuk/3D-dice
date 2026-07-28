@@ -21,6 +21,7 @@ import {
 } from "../storage/customDiceStore";
 import DeleteCustomDiceDialog from "./DeleteCustomDiceDialog";
 import DiceGallery from "./DiceGallery";
+import DicePreviewImage from "./DicePreviewImage";
 
 type DiceConfigKey = "foreground-color" | "background-color" | "dice-type";
 
@@ -95,6 +96,10 @@ const Settings: React.FC = () => {
     <PageWrapperDiv>
       <ContainerCardDiv>
         <TitleH1>Settings</TitleH1>
+        <DicePreviewImage
+          backgroundColor={backgroundColor}
+          foregroundColor={foregroundColor}
+        />
 
         <SettingsForm onSubmit={(e) => e.preventDefault()}>
           <RowGroupDiv>
