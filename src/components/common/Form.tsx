@@ -79,7 +79,7 @@ export const DiceSelect = styled.select`
   height: 44px;
   background-color: var(--card);
   color: var(--text-main);
-  border: 1px solid #9ca3af;
+  border: 1px solid var(--border);
   border-radius: 0px;
   padding: 0 12px;
   font-size: 15px;
