@@ -16,6 +16,19 @@ const mockDbValue = {
   error: null,
 };
 
+vi.mock("../context/DiceContextProvider", () => ({
+  useDiceEngine: vi.fn(() => ({
+    model: {
+      form: {
+        sides: [
+          { id: "side-1", graphic: "dot" },
+          { id: "side-2", graphic: "cross" },
+        ],
+      },
+    },
+  })),
+}));
+
 vi.mock("../context/CustomDiceDbProvider", () => ({
   useDiceDB: () => mockDbValue,
   CustomDiceDbProvider: ({ children }: { children: React.ReactNode }) =>

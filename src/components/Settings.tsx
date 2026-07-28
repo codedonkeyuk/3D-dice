@@ -20,6 +20,7 @@ import {
   type DiceSelectOption,
 } from "../storage/customDiceStore";
 import DeleteCustomDiceDialog from "./DeleteCustomDiceDialog";
+import DiceGallery from "./DiceGallery";
 
 type DiceConfigKey = "foreground-color" | "background-color" | "dice-type";
 
@@ -160,6 +161,19 @@ const Settings: React.FC = () => {
               )}
             </DiceSelect>
           </FormGroupDiv>
+          {isCustom && (
+            <FormGroupDiv>
+              <SettingsFormLabel htmlFor="diceTypeSelect">
+                Edit Dice
+              </SettingsFormLabel>
+              <DiceGallery
+                width={150}
+                height={150}
+                backgroundColor={backgroundColor}
+                forgroundColor={foregroundColor}
+              />
+            </FormGroupDiv>
+          )}
           <ButtonBarDiv>
             {isCustom && <DeleteCustomDiceDialog diceId={diceId} />}
             <CreateCustomDiceDialog />

@@ -12,6 +12,7 @@ interface DiceSideArgs {
   foregroundColor: string;
   width: number;
   height: number;
+  className?: string;
 }
 
 const DiceSideThumbnail: React.FC<DiceSideArgs> = ({
@@ -21,6 +22,7 @@ const DiceSideThumbnail: React.FC<DiceSideArgs> = ({
   foregroundColor,
   width,
   height,
+  className,
 }) => {
   const [thumbnail, setThumbnail] = useState<string>();
 
@@ -58,7 +60,16 @@ const DiceSideThumbnail: React.FC<DiceSideArgs> = ({
     return null;
   }
 
-  return <img src={thumbnail} width={width} height={height} alt={alt} />;
+  return (
+    <img
+      src={thumbnail}
+      width={width}
+      height={height}
+      alt={alt}
+      loading="lazy"
+      className={className}
+    />
+  );
 };
 
 export default DiceSideThumbnail;
