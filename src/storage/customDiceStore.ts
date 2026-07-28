@@ -1,18 +1,19 @@
+import { findDice } from "../models/find";
 import type { SideGraphics } from "../types";
+
+export type DiceTemplate =
+  | "blank-dice-d2"
+  | "blank-dice-d4"
+  | "blank-dice-d6"
+  | "blank-dice-d8"
+  | "blank-dice-d10"
+  | "blank-dice-d12"
+  | "blank-dice-d20";
 
 export interface DiceData {
   id?: string;
   name: string;
-  backgroundColor: string;
-  foregroundColor: string;
-  diceTemplate:
-    | "blank-dice-d2"
-    | "blank-dice-d4"
-    | "blank-dice-d6"
-    | "blank-dice-d8"
-    | "blank-dice-d10"
-    | "blank-dice-d12"
-    | "blank-dice-d20";
+  diceTemplate: DiceTemplate;
   sides: SideGraphics[];
 }
 
@@ -155,6 +156,11 @@ export function validateId(db: IDBDatabase, name: string): Promise<boolean> {
     }
 
     const generatedId = generateIdFromName(name);
+
+    const catalogDice = findDice(generatedId);
+    if (catalogDice) {
+      resolve(false);
+    }
 
     const transaction = db.transaction("dice", "readonly");
     const store = transaction.objectStore("dice");

@@ -1,7 +1,21 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, act } from "@testing-library/react"; // Added act
 import { RouterProvider, createMemoryRouter } from "react-router";
 import { router } from "./RouteProvider";
+
+// 1. FIXED: Mock the database provider layer to arrest background microtask loops
+const mockDbInstance = {};
+const mockDbValue = {
+  db: mockDbInstance,
+  isLoading: false,
+  error: null,
+};
+
+vi.mock("../context/CustomDiceDbProvider", () => ({
+  useDiceDB: () => mockDbValue,
+  CustomDiceDbProvider: ({ children }: { children: React.ReactNode }) =>
+    children,
+}));
 
 vi.mock("./DiceRoller", () => ({
   default: () => <div data-testid="dice-roller">Dice Roller Component</div>,
@@ -54,6 +68,7 @@ describe("Router Paths using Data-Driven Memory Instances", () => {
     });
   });
 
+  // 2. FIXED: Wrapped inside async act wrapper to handle rogue state lifecycle updates safely
   it("should render the 404 Error page for an unknown route", async () => {
     const routesWithFallback = router.routes.map((route) => ({
       ...route,
@@ -64,7 +79,9 @@ describe("Router Paths using Data-Driven Memory Instances", () => {
       initialEntries: ["/completely/invalid/route"],
     });
 
-    render(<RouterProvider router={testRouter} />);
+    await act(async () => {
+      render(<RouterProvider router={testRouter} />);
+    });
 
     expect(screen.getByText(/404/i)).toBeInTheDocument();
   });

@@ -1,7 +1,10 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import { findDice } from "../models/find";
 import DiceNotFoundError from "../error/DiceNotFoundError";
+import { useDiceDB } from "./CustomDiceDbProvider";
+import { getCustomDice } from "../storage/customDiceStore";
+import type { CategoryRecord, ModelPiece, SideGraphics } from "../types";
 
 interface DiceContextType {
   model: any;
@@ -12,7 +15,12 @@ const DiceContext = createContext<DiceContextType | undefined>(undefined);
 export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const [model, setModel] = useState<
+    undefined | CategoryRecord<ModelPiece, SideGraphics>
+  >(undefined);
   const location = useLocation();
+  const { db, isLoading, error } = useDiceDB();
+  const [errorState, setErrorState] = useState<any>(null);
 
   const { diceId } = useParams<{ diceId: string }>();
 
@@ -22,22 +30,58 @@ export const DiceContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const activeDiceType = diceId || "poker-dice-d6";
 
-  const dice = findDice(activeDiceType);
-
-  if (!dice) {
-    throw new DiceNotFoundError(activeDiceType);
+  if (errorState) {
+    throw errorState;
   }
 
-  const model = dice
-    ? {
-        ...dice,
-        form: {
-          ...dice.form,
-          foregroundColor,
-          backgroundColor,
-        },
-      }
-    : null;
+  useEffect(() => {
+    if (db && diceId && !isLoading && !error) {
+      (async () => {
+        let catalogDice = findDice(activeDiceType);
+
+        if (!catalogDice) {
+          let dbDice = await getCustomDice(db, activeDiceType);
+          if (!dbDice) {
+            throw new DiceNotFoundError(activeDiceType);
+          }
+          catalogDice = findDice(dbDice.diceTemplate);
+          if (!catalogDice) {
+            throw new DiceNotFoundError(activeDiceType);
+          }
+          setModel({
+            ...catalogDice,
+            form: {
+              ...catalogDice?.form,
+              foregroundColor,
+              backgroundColor,
+              sides: dbDice.sides,
+            },
+          } as any);
+          return; // Don't run the outer setModel if this matches
+        }
+
+        setModel({
+          ...catalogDice,
+          form: {
+            ...catalogDice?.form,
+            foregroundColor,
+            backgroundColor,
+          },
+        } as any);
+      })().catch((err) => {
+        // 1. FIXED: Safely intercept the background promise failure
+        setErrorState(err);
+      });
+    }
+  }, [
+    activeDiceType,
+    db,
+    isLoading,
+    error,
+    diceId,
+    backgroundColor,
+    foregroundColor,
+  ]);
 
   return (
     <DiceContext.Provider value={{ model }}>{children}</DiceContext.Provider>

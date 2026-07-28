@@ -29,6 +29,15 @@ const baseButtonStyles = css`
     outline: 3px solid #3b82f6;
     outline-offset: 2px;
   }
+
+  &:disabled {
+    background-color: #3f3f46;
+    color: #a1a1aa;
+    border-color: #27272a;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.6;
+  }
 `;
 
 const Button = styled.button`

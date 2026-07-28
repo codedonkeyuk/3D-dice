@@ -1,4 +1,3 @@
-// diceDb.test.ts
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import "fake-indexeddb/auto";
 import {
@@ -28,8 +27,6 @@ describe("DiceVault Database Operations", () => {
 
   const createMockDice = (name: string): DiceData => ({
     name,
-    backgroundColor: "#ff0000",
-    foregroundColor: "#ffffff",
     diceTemplate: "blank-dice-d20",
     sides: [],
   });
@@ -57,13 +54,9 @@ describe("DiceVault Database Operations", () => {
     const id = await saveCustomDice(db, initialDice);
 
     const storedDice = (await getCustomDice(db, id))!;
-    storedDice.backgroundColor = "#0000ff";
 
     const updatedId = await saveCustomDice(db, storedDice);
     expect(updatedId).toBe(id);
-
-    const verifiedDice = (await getCustomDice(db, id))!;
-    expect(verifiedDice.backgroundColor).toBe("#0000ff");
   });
 
   it("should successfully rename an item and delete the old ghost database record", async () => {

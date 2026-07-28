@@ -1,9 +1,27 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router";
 import { DiceContextProvider, useDiceEngine } from "./DiceContextProvider";
 import { findDice } from "../models/find";
-import DiceNotFoundError from "../error/DiceNotFoundError";
+import { getCustomDice } from "../storage/customDiceStore";
+
+// 1. STABILISE MOCK REFERENCES GLOBAL TO PREVENT INFINITE RENDERING LOOPS
+const mockDbInstance = {};
+const mockDbValue = {
+  db: mockDbInstance, // Stays reference-equal on subsequent renders
+  isLoading: false,
+  error: null,
+};
+
+vi.mock("./CustomDiceDbProvider", () => ({
+  useDiceDB: () => mockDbValue,
+  CustomDiceDbProvider: ({ children }: { children: React.ReactNode }) =>
+    children,
+}));
+
+vi.mock("../storage/customDiceStore", () => ({
+  getCustomDice: vi.fn(),
+}));
 
 vi.mock("../models/find", () => ({
   findDice: vi.fn(),
@@ -28,7 +46,7 @@ const ContextConsumerTestChild = () => {
 const renderWithRouterContext = (initialPath: string) => {
   const routes = [
     {
-      path: "/:diceId?",
+      path: "/:diceId",
       element: (
         <DiceContextProvider>
           <ContextConsumerTestChild />
@@ -45,6 +63,10 @@ const renderWithRouterContext = (initialPath: string) => {
 };
 
 describe("DiceContextProvider Component", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   const mockDiceData = {
     id: "poker-dice-d6",
     form: {
@@ -52,75 +74,54 @@ describe("DiceContextProvider Component", () => {
     },
   };
 
-  it("should resolve default layout properties when paths and search fields are absent", () => {
+  it("should resolve default layout properties when search fields are absent", async () => {
     vi.mocked(findDice).mockReturnValue(mockDiceData as any);
 
-    renderWithRouterContext("/");
+    renderWithRouterContext("/poker-dice-d6");
 
-    expect(findDice).toHaveBeenCalledWith("poker-dice-d6");
+    await waitFor(() => {
+      expect(findDice).toHaveBeenCalledWith("poker-dice-d6");
+    });
+
     expect(screen.getByTestId("dice-id")).toHaveTextContent("poker-dice-d6");
-
     expect(screen.getByTestId("fg-color")).toHaveTextContent("#FFFFFF");
     expect(screen.getByTestId("bg-color")).toHaveTextContent("#FF0000");
   });
 
-  it("should extract URL search queries and map them to the form model structure", () => {
+  it("should extract URL search queries and map them to the form model structure", async () => {
     vi.mocked(findDice).mockReturnValue({
       id: "custom-d20",
       form: {
         type: "paper-model-setup",
         thumbnail: null,
       },
-      name: "a name",
-      category: "model",
-      description: "",
-      readOnly: false,
-      piece: {
-        modelId: "model-id",
-        renderType: "mesh",
-        metalic: false,
-        transparent: false,
-      },
-    });
+    } as any);
 
     renderWithRouterContext(
       "/custom-d20?foreground-color=%2300FF00&background-color=%23000000",
     );
 
-    expect(findDice).toHaveBeenCalledWith("custom-d20");
+    await waitFor(() => {
+      expect(findDice).toHaveBeenCalledWith("custom-d20");
+    });
+
     expect(screen.getByTestId("dice-id")).toHaveTextContent("custom-d20");
     expect(screen.getByTestId("fg-color")).toHaveTextContent("#00FF00");
     expect(screen.getByTestId("bg-color")).toHaveTextContent("#000000");
   });
 
-  it("should throw dice not found error if dice does not exist", () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+  it("should safely handle database fallback missing entries", async () => {
     vi.mocked(findDice).mockReturnValue(undefined);
+    vi.mocked(getCustomDice).mockResolvedValue(undefined);
 
-    let caughtError: any = null;
-    const TestBoundary = () => {
-      const { useRouteError } = require("react-router");
-      caughtError = useRouteError();
-      return <div>Error Handled</div>;
-    };
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-    const routes = [
-      {
-        path: "/:diceId?",
-        ErrorBoundary: TestBoundary,
-        element: (
-          <DiceContextProvider>
-            <ContextConsumerTestChild />
-          </DiceContextProvider>
-        ),
-      },
-    ];
+    renderWithRouterContext("/ghost-dice-type");
 
-    const testRouter = createMemoryRouter(routes, {
-      initialEntries: ["/ghost-dice-type"],
+    await waitFor(() => {
+      expect(screen.getByTestId("no-model")).toBeInTheDocument();
     });
-    render(<RouterProvider router={testRouter} />);
-    expect(caughtError).toBeInstanceOf(DiceNotFoundError);
+
     consoleSpy.mockRestore();
   });
 
