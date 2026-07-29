@@ -6,15 +6,15 @@ Live Site: [https://dice.codedonkey.uk](https://dice.codedonkey.uk)
 
 ## TableTop Build
 
-I started a project 5 years ago called Tabletop Build. The idea was to allow board game designers a platform to not only design games, but distribute and sale them. Not only as web based games but also as physical games through 3D and conventional printing. So when folks were buying crypto and making money, I was wasting mine by building a games platform.
+I started a project 5 years ago called Tabletop Build. The idea was to allow board game designers a SASS platform to design games and sell games. Not only as web based games, but also as physical games through 3D and conventional printing.
 
 Unfortunately it was a troubled project from the beginning, and the collective cost dramas resulted in an expensive mess.
 
 Issues faced
 
-- A 3rd party React component based UI library becoming commercial requiring a massive rewrite. Having to replace UI components throughout your application does not make a fun time!
+- A 3rd party React component based UI library becoming commercial requiring a massive rewrite. Having to replace UI components throughout an application was not fun!
 
-- SVG Security restrictions imposed by browsers causing constant failures with various browser updates. SVGs are a major security hole. This project currently can't use WebGPU because it considers my generated SVGs insecure. A never ending drama!
+- SVG Security restrictions imposed by browsers causing constant failures with various browser updates. SVGs are a major security hole. This project currently can't use WebGPU because it considers its generated SVGs insecure. A never ending drama!
 
 - My last employment agency asking me to sign an agreement not to distribute my project for the duration of my 2 year contract! Blood still boils over that one.
 
