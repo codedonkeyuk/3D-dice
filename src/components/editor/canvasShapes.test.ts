@@ -90,7 +90,7 @@ describe("Canvas Drawing Functions", () => {
       expect(mockCtx.lineWidth).toBe(4);
       expect(mockCtx.save).toHaveBeenCalledTimes(1);
       expect(mockCtx.restore).toHaveBeenCalledTimes(1);
-      expect(mockCtx.translate).toHaveBeenCalledWith(60, 120); // 10 + 50, 20 + 100
+      expect(mockCtx.translate).toHaveBeenCalledWith(60, 120);
       expect(mockCtx.rotate).toHaveBeenCalledWith(45 * (Math.PI / 180));
       expect(mockCtx.beginPath).toHaveBeenCalledTimes(1);
     });
@@ -99,7 +99,7 @@ describe("Canvas Drawing Functions", () => {
   describe("Geometric Drawers", () => {
     it("should construct a rect taking stroke width into consideration", () => {
       drawSquare(mockCtx, baseProps);
-      expect(mockCtx.rect).toHaveBeenCalledWith(-50, -100, 96, 196); // center offsets and sizing - stroke width
+      expect(mockCtx.rect).toHaveBeenCalledWith(-50, -100, 96, 196);
       expect(mockCtx.stroke).toHaveBeenCalledTimes(1);
       expect(mockCtx.fill).toHaveBeenCalledTimes(1);
     });
@@ -109,7 +109,7 @@ describe("Canvas Drawing Functions", () => {
       expect(triangleCoordinates).toHaveBeenCalledWith(-50, -100, 100, 200);
       expect(mockCtx.moveTo).toHaveBeenCalledWith(0, 0);
       expect(mockCtx.lineTo).toHaveBeenCalledWith(10, 10);
-      expect(mockCtx.lineTo).toHaveBeenCalledWith(0, 0); // loop closure
+      expect(mockCtx.lineTo).toHaveBeenCalledWith(0, 0);
     });
 
     it("should draw pentagon boundaries with specific coordinates", () => {
@@ -134,7 +134,7 @@ describe("Canvas Drawing Functions", () => {
 
       expect(mockCtx.beginPath).toHaveBeenCalledTimes(1);
       expect(mockCtx.setLineDash).toHaveBeenCalledWith([]);
-      expect(mockCtx.moveTo).toHaveBeenCalledWith(15, 25); // absolute modifier (x + point.x)
+      expect(mockCtx.moveTo).toHaveBeenCalledWith(15, 25);
       expect(mockCtx.lineTo).toHaveBeenCalledWith(15, 25);
       expect(mockCtx.lineTo).toHaveBeenCalledWith(25, 45);
       expect(mockCtx.stroke).toHaveBeenCalledTimes(1);
@@ -150,7 +150,6 @@ describe("Canvas Drawing Functions", () => {
     it("should compose multiple elements sequentially inside the target generator", () => {
       drawTarget(mockCtx, baseProps);
 
-      // Target cascades three individual shape types to context pipelines
       expect(pentagonCoordinates).toHaveBeenCalled();
       expect(triangleCoordinates).toHaveBeenCalled();
       expect(mockCtx.rect).toHaveBeenCalled();

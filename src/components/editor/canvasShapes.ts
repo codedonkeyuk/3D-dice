@@ -21,8 +21,8 @@ function start(ctx: CanvasRenderingContext2D, props: GraphicElement) {
     ctx.lineWidth = props.strokeWidth;
   }
   ctx.save();
-  ctx.translate(props.x + props.width * 0.5, props.y + props.height * 0.5); // pivot point
-  ctx.rotate(props.rotate * (Math.PI / 180)); // rotate square in radians
+  ctx.translate(props.x + props.width * 0.5, props.y + props.height * 0.5);
+  ctx.rotate(props.rotate * (Math.PI / 180));
   ctx.beginPath();
 }
 

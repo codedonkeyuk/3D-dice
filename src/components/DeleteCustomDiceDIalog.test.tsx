@@ -5,7 +5,6 @@ import { useDiceDB } from "../context/CustomDiceDbProvider";
 import { deleteDice as storeDiceDelete } from "../storage/customDiceStore";
 import { useNavigate } from "react-router";
 
-// 1. Mock external dependencies
 vi.mock("../context/CustomDiceDbProvider", () => ({
   useDiceDB: vi.fn(),
 }));
@@ -22,7 +21,6 @@ vi.mock("react-router", async (importOriginal) => {
   };
 });
 
-// Mock HTMLDialogElement methods for JSDOM
 beforeAll(() => {
   HTMLDialogElement.prototype.showModal = vi.fn(function (
     this: HTMLDialogElement,
@@ -69,7 +67,6 @@ describe("DeleteCustomDiceDialog Component", () => {
     });
     fireEvent.click(triggerButton);
 
-    // Explicitly look for the heading element to avoid conflicting with the button text
     expect(
       screen.getByRole("heading", { name: /delete dice/i }),
     ).toBeInTheDocument();
@@ -88,19 +85,16 @@ describe("DeleteCustomDiceDialog Component", () => {
 
     render(<DeleteCustomDiceDialog diceId={mockDiceId} />);
 
-    // Open the dialog modal
     fireEvent.click(
       screen.getByRole("button", { name: /delete this custom dice/i }),
     );
 
-    // Find and click the confirm delete button inside the hidden dialog
     const confirmDeleteButton = screen.getByRole("button", {
       name: /delete dice/i,
       hidden: true,
     });
     fireEvent.click(confirmDeleteButton);
 
-    // Verify database removal execution and subsequent application redirect
     await waitFor(() => {
       expect(storeDiceDelete).toHaveBeenCalledWith(mockDb, mockDiceId);
       expect(mockNavigate).toHaveBeenCalledWith("/poker-dice-d6/settings", {
@@ -128,7 +122,6 @@ describe("DeleteCustomDiceDialog Component", () => {
     });
     fireEvent.click(confirmDeleteButton);
 
-    // Verify it ignored the operation instead of crashing
     expect(storeDiceDelete).not.toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();
   });

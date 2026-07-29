@@ -5,7 +5,7 @@ import {
   fireEvent,
   waitFor,
   act,
-} from "@testing-library/react"; // Added act
+} from "@testing-library/react";
 import Settings from "./Settings";
 import { MemoryRouter, Routes, Route } from "react-router";
 

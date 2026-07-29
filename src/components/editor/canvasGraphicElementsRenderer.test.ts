@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import canvasGraphicElementsRenderer from "./canvasGraphicElementsRenderer"; // Adjust path
+import canvasGraphicElementsRenderer from "./canvasGraphicElementsRenderer";
 import { type GraphicElement } from "../../types";
 
-// Mock the drawing routines to isolate our router logic
 vi.mock("./canvasShapes", () => ({
   drawSquare: vi.fn(),
   drawTriangle: vi.fn(),
@@ -15,12 +14,10 @@ vi.mock("./canvasShapes", () => ({
   drawText: vi.fn(),
 }));
 
-// Mock the shape default utility
 vi.mock("../../renderer/shape/shapeProps", () => ({
   default: vi.fn((el) => ({ ...el, _processedByDefaults: true })),
 }));
 
-// Re-import the mocked handlers for assertions
 import {
   drawSquare,
   drawTriangle,
@@ -55,7 +52,6 @@ describe("canvasGraphicElementsRenderer", () => {
   });
 
   it("should sequentially loop through multiple elements and match their exact drawing routes", () => {
-    // Array testing maps across every key variant in your DrawMethods dictionary
     const mixedElements: GraphicElement[] = [
       { id: "e1", type: "square" } as unknown as GraphicElement,
       { id: "e2", type: "triangle" } as unknown as GraphicElement,
@@ -70,7 +66,6 @@ describe("canvasGraphicElementsRenderer", () => {
 
     canvasGraphicElementsRenderer(mixedElements, mockCtx);
 
-    // Verify each designated module method interceptor gets triggered
     expect(drawSquare).toHaveBeenCalledTimes(1);
     expect(drawTriangle).toHaveBeenCalledTimes(1);
     expect(drawPentagon).toHaveBeenCalledTimes(1);

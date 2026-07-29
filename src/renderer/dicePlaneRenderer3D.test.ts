@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import dicePlaneRenderer3D, {
   generateD2MeshMaterial,
-} from "./dicePlaneRenderer3D"; // Adjusted to match your log path
+} from "./dicePlaneRenderer3D";
 
 vi.mock("./svg/generateSvg", () => ({
   default: vi.fn(
@@ -49,7 +49,6 @@ vi.mock("./svg/diceMethods", () => ({
   diceStyle: vi.fn((fg, bg) => `<style fg="${fg}" bg="${bg}" />`),
 }));
 
-// 2. Mock Babylon.js classes using valid constructor structures
 const mockSetPosition = vi.fn();
 
 vi.mock("@babylonjs/core/Meshes/meshBuilder", () => ({
@@ -59,7 +58,6 @@ vi.mock("@babylonjs/core/Meshes/meshBuilder", () => ({
 }));
 
 vi.mock("@babylonjs/core/Maths/math.vector", () => {
-  // Use traditional functions so they can be instantiated with 'new'
   function MockVector3(this: any, x: number, y: number, z: number) {
     this.x = x;
     this.y = y;

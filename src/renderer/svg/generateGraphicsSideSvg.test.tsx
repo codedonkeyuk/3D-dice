@@ -4,7 +4,6 @@ import { drawSvgCircle, drawSvgSquare, drawSvgTriangle } from "./svgShapes";
 import svgGraphicElementsRenderer from "./svgGraphicElementsRenderer";
 import type { SideGraphics } from "../../types";
 
-// 1. Convert jest.mock to hoisting-compatible vi.mock factories
 vi.mock("./svgShapes", () => ({
   drawSvgSquare: vi.fn(
     (props) =>
@@ -30,7 +29,6 @@ describe("generateGraphicsSideSvg", () => {
   const height = 200;
 
   beforeEach(() => {
-    // 2. Use vi.clearAllMocks instead of jest.clearAllMocks
     vi.clearAllMocks();
 
     mockSide = {

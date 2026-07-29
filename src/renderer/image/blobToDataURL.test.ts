@@ -1,5 +1,5 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
-import blobToDataURL from "./blobToDataURL"; // Adjust path as needed
+import blobToDataURL from "./blobToDataURL";
 import type { MimeType } from "../../types";
 
 describe("blobToDataURL", () => {
