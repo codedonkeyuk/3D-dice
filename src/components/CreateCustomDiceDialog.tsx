@@ -18,6 +18,7 @@ import {
 } from "../storage/customDiceStore";
 import { findDice } from "../models/find";
 import { useNavigate } from "react-router";
+import { Paragraph, TitleH1 } from "./common/Typography";
 
 const CreateCustomDiceDialog: React.FC = () => {
   const [diceName, setDiceName] = useState("");
@@ -91,7 +92,11 @@ const CreateCustomDiceDialog: React.FC = () => {
     <>
       <SecondaryButton onClick={openDialog}>Create Custom Dice</SecondaryButton>
       <DialogElement ref={dialogRef} aria-labelledby="modal-title">
-        <h1 id="modal-title">Create Custom Dice</h1>
+        <TitleH1 id="modal-title">Create Custom Dice</TitleH1>
+        <Paragraph>
+          Custom dice are stored in your browsers database. No data is ever sent
+          to remote a server.
+        </Paragraph>
         <FormGroupDiv>
           <SettingsFormLabel htmlFor="dice-type-select">Name</SettingsFormLabel>
           <DiceInput

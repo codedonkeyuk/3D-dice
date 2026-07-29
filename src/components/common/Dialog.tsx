@@ -10,9 +10,7 @@ export const DialogElement = styled.dialog`
   background: var(--card);
   color: var(--text-main);
   border: 1px solid var(--border);
-  border-radius: var(--card-bdr-radius);
   padding: var(--card-bdr-padding);
-  width: 90%;
   max-width: 480px;
   box-shadow: var(--dialog-shadow);
   opacity: 0;
@@ -50,5 +48,12 @@ export const DialogElement = styled.dialog`
     transition:
       opacity 0.1s linear,
       display 0.1s allow-discrete;
+  }
+
+  @media (max-width: 600px) {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    border-left: none;
+    border-right: none;
   }
 `;

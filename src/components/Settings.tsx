@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate, useParams } from "react-router";
 import { ButtonBarDiv, PrimaryButtonLink } from "./common/Buttons";
 import CreateCustomDiceDialog from "./CreateCustomDiceDialog";
-import { TitleH1 } from "./common/Headers";
+import { TitleH1 } from "./common/Typography";
 import {
   ColorInput,
   ColorInputWrapperDiv,
