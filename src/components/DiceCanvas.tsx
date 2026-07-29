@@ -57,8 +57,8 @@ const DiceToastDiv = styled.div`
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--card);
-  color: var(--text-main);
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   padding: 12px 28px;
   border-radius: 30px;
   font-size: 1.25rem;
