@@ -26,7 +26,7 @@ const baseButtonStyles = css`
     border-color 0.15s ease;
 
   &:focus-visible {
-    outline: 3px solid var(--accessibility-bdr);
+    outline: var(--accessibility-bdr);
     outline-offset: 2px;
   }
 

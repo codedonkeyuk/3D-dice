@@ -41,7 +41,7 @@ export const DialogElement = styled.dialog`
   }
 
   & *:focus-visible {
-    outline: 3px solid var(--accessibility-bdr);
+    outline: var(--accessibility-bdr);
     outline-offset: 2px;
   }
 

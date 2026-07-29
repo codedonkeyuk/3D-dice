@@ -7,17 +7,17 @@ interface DicePreviewImageArgs {
   foregroundColor: string;
 }
 
-const PreviewContainer = styled.div`
-  width: 100%;
+const PreviewContainer = styled.figure`
   background-color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 16px 0;
+  margin: 16px 0;
 `;
 
-const Caption = styled.p`
+const Caption = styled.figcaption`
   color: white;
   font-size: 14px;
   margin-top: 20px;

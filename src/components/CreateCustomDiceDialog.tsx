@@ -59,6 +59,8 @@ const CreateCustomDiceDialog: React.FC = () => {
   };
 
   const closeDialog = (_event: React.MouseEvent<HTMLButtonElement>) => {
+    setDiceName("");
+    setNameValid(true);
     if (dialogRef.current) {
       dialogRef.current.close();
     }
@@ -74,6 +76,8 @@ const CreateCustomDiceDialog: React.FC = () => {
           sides: dice?.form.sides,
         };
         const dbId = await saveCustomDice(db, newDice);
+        setDiceName("");
+        setNameValid(true);
         navigate(`/${dbId}/settings`, { replace: true });
       }
 
@@ -105,11 +109,11 @@ const CreateCustomDiceDialog: React.FC = () => {
           )}
         </FormGroupDiv>
         <FormGroupDiv>
-          <SettingsFormLabel htmlFor="diceTypeSelect">
-            Dice Type
+          <SettingsFormLabel htmlFor="dialogDiceTypeSelect">
+            Dice Template
           </SettingsFormLabel>
           <DiceSelect
-            id="diceTypeSelect"
+            id="dialogDiceTypeSelect"
             value={diceType}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
               setDiceType(e.target.value)
@@ -130,7 +134,7 @@ const CreateCustomDiceDialog: React.FC = () => {
           </SecondaryButton>
           <PrimaryButton
             data-command="create"
-            disabled={!nameValid}
+            disabled={diceName === "" || !nameValid}
             onClick={(e) => createDice(e)}
           >
             Create Dice

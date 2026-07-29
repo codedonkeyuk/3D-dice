@@ -168,9 +168,7 @@ const Settings: React.FC = () => {
           </FormGroupDiv>
           {isCustom && (
             <FormGroupDiv>
-              <SettingsFormLabel htmlFor="diceTypeSelect">
-                Edit Dice
-              </SettingsFormLabel>
+              <SettingsFormLabel>Edit Dice</SettingsFormLabel>
               <DiceGallery
                 width={150}
                 height={150}

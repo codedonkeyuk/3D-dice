@@ -68,6 +68,7 @@ const DiceSideThumbnail: React.FC<DiceSideArgs> = ({
       alt={alt}
       loading="lazy"
       className={className}
+      draggable="false"
     />
   );
 };

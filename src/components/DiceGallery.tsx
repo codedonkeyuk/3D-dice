@@ -102,7 +102,7 @@ const ImageButton = styled.button`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--accessibility-bdr);
+    outline: var(--accessibility-bdr);
   }
 `;
 

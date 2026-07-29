@@ -6,7 +6,6 @@ import { validateId, saveCustomDice } from "../storage/customDiceStore";
 import { findDice } from "../models/find";
 import { useNavigate } from "react-router";
 
-// 1. Mock the dependencies
 vi.mock("../context/CustomDiceDbProvider", () => ({
   useDiceDB: vi.fn(),
 }));
@@ -28,7 +27,6 @@ vi.mock("react-router", async (importOriginal) => {
   };
 });
 
-// Mock HTMLDialogElement methods because JSDOM doesn't implement them natively yet
 beforeAll(() => {
   HTMLDialogElement.prototype.showModal = vi.fn(function (
     this: HTMLDialogElement,
@@ -87,14 +85,13 @@ describe("CreateCustomDiceDialog Component", () => {
       isLoading: false,
       error: null,
     });
-    (validateId as any).mockResolvedValue(false); // Name already exists
+    (validateId as any).mockResolvedValue(false);
 
     render(<CreateCustomDiceDialog />);
 
     const input = screen.getByLabelText(/name/i);
     fireEvent.change(input, { target: { value: "ExistingDice" } });
 
-    // Use fine-grained text matching instead of getByRole
     await waitFor(() => {
       expect(
         screen.getByText(/The name you just entered already exists/i),
@@ -120,20 +117,17 @@ describe("CreateCustomDiceDialog Component", () => {
 
     render(<CreateCustomDiceDialog />);
 
-    // Open Dialog
     fireEvent.click(
       screen.getByRole("button", { name: /create custom dice/i }),
     );
 
-    // Fill Form
     fireEvent.change(screen.getByLabelText(/name/i), {
       target: { value: "Lucky D6" },
     });
-    fireEvent.change(screen.getByLabelText(/dice type/i), {
+    fireEvent.change(screen.getByLabelText(/dice template/i), {
       target: { value: "blank-dice-d6" },
     });
 
-    // Click Submit
     const createButton = screen.getByRole("button", { name: /create dice/i });
     fireEvent.click(createButton);
 

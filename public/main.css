@@ -3,7 +3,7 @@
   --card: #efefef;
   --text-main: #111827;
   --text-muted: #4b5563;
-  --border: #d4d4d8;
+  --border: #a1a1aa;
   --btn-bg: #1f2937;
   --btn-text: #1f2937;
   --btn-hover: #f5f5f5;
@@ -11,13 +11,14 @@
   --btn-primary-text: #ffffff;
   --btn-secondary-bg: #dee2e6;
   --btn-secondary-text: #1f2937;
-  --btn-disabled-bg: #3f3f46;
-  --btn-disabled-color: #a1a1aa;
+  --btn-disabled-bg: #e60000;
+  --btn-disabled-color: #ffffff;
   --poker-felt: radial-gradient(circle, #247543 0%, #124224 100%);
   --box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   --card-bdr-radius: 16px;
   --card-bdr-padding: 24px;
   --accessibility-bdr: 3px solid #3b82f6;
+  --accessibility-bdr-color: #3b82f6;
   --dialog-backdrop-color: rgba(0, 0, 0, 0.6);
 }
 
