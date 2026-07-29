@@ -16,7 +16,6 @@ const baseButtonStyles = css`
   justify-content: center;
   text-decoration: none;
   padding: 10px 20px;
-  border-radius: 4px;
   font-family: inherit;
   font-size: 18px;
   font-weight: 600;
