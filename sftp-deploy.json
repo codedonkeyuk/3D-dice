@@ -1,5 +1,4 @@
 {
-  "keychainService": "codedonkey-sftp-deploy",
   "localSource": "./dist",
   "remoteDestination": "/dice"
 }
