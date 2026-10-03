@@ -18,9 +18,10 @@ const StyledLink = styled.a`
 const Footer: React.FC = () => {
   return (
     <Copyright>
-      © 2026 codedonkey.uk. All rights reserved.
-      {" "}|{" "}
-      <StyledLink href="https://codedonkey.uk/privacy-notice">Privacy Notice</StyledLink>
+      © 2026 codedonkey.uk. All rights reserved. |{" "}
+      <StyledLink href="https://codedonkey.uk/privacy-notice">
+        Privacy Notice
+      </StyledLink>
     </Copyright>
   );
 };
