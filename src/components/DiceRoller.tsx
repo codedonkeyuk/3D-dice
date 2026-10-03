@@ -1,4 +1,5 @@
 import DiceCanvas from "./DiceCanvas";
+import Copyright from "./Copyright";
 import SettingsButton from "./SettingsButton";
 
 const DiceRoller: React.FC = () => {
@@ -6,6 +7,7 @@ const DiceRoller: React.FC = () => {
     <>
       <DiceCanvas />
       <SettingsButton />
+      <Copyright />
     </>
   );
 };

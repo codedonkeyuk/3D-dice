@@ -153,18 +153,3 @@ a.warning-link:focus-visible {
   outline: var(--accessibility-bdr);
   outline-offset: 2px;
 }
-
-.footer {
-  position: fixed;
-  bottom: 0px;
-  left: 0px;
-  width: 100%;
-  text-align: center;
-  color: var(--btn-primary-text);
-  padding: 10px 0;
-  font-size: small;
-}
-
-.footer a {
-  color: var(--btn-primary-text);
-}
